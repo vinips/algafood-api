@@ -58,7 +58,7 @@ public class InclusaoPermissaoMain {
 		Permissao r4 = new Permissao();
 		r4.setId(1L);
 		
-		permissaoRepository.remover(r4);
+		permissaoRepository.remover(r4.getId());
 		
 	}
 

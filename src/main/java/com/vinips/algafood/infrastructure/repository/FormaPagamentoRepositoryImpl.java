@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.vinips.algafood.domain.model.FormaPagamento;
@@ -35,8 +36,13 @@ public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository{
 	
 	@Override
 	@Transactional
-	public void remover(FormaPagamento formaPagamento) {
-		formaPagamento = this.buscar(formaPagamento.getId());
+	public void remover(Long id) {
+		FormaPagamento formaPagamento = this.buscar(id);
+		
+		if(formaPagamento == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove(formaPagamento);
 	}
 	

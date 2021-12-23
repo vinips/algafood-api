@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.vinips.algafood.domain.model.Permissao;
@@ -35,8 +36,13 @@ public class PermissaoRepositoryImpl implements PermissaoRepository{
 	
 	@Override
 	@Transactional
-	public void remover(Permissao permissao) {
-		permissao = this.buscar(permissao.getId());
+	public void remover(Long id) {
+		Permissao permissao = this.buscar(id);
+		
+		if(permissao == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove(permissao);
 	}
 	

@@ -55,7 +55,7 @@ public class InclusaoFormaPagamentoMain {
 		FormaPagamento r4 = new FormaPagamento();
 		r4.setId(1L);
 		
-		formaPagamentoRepository.remover(r4);
+		formaPagamentoRepository.remover(r4.getId());
 		
 	}
 

@@ -55,7 +55,7 @@ public class InclusaoEstadoMain {
 		Estado r4 = new Estado();
 		r4.setId(1L);
 		
-		estadoRepository.remover(r4);
+		estadoRepository.remover(r4.getId());
 		
 	}
 

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.vinips.algafood.domain.model.Estado;
@@ -35,8 +36,13 @@ public class EstadoRepositoryImpl implements EstadoRepository{
 	
 	@Override
 	@Transactional
-	public void remover(Estado estado) {
-		estado = this.buscar(estado.getId());
+	public void remover(Long estadoId) {
+		Estado estado = this.buscar(estadoId);
+		
+		if(estado == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove(estado);
 	}
 	

@@ -55,7 +55,7 @@ public class InclusaoRestauranteMain {
 		Restaurante r4 = new Restaurante();
 		r4.setId(1L);
 		
-		restauranteRepository.remover(r4);
+		restauranteRepository.remover(r4.getId());
 		
 	}
 
