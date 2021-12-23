@@ -14,7 +14,6 @@ import com.vinips.algafood.domain.repository.EstadoRepository;
 @RequestMapping("/estados")
 public class EstadoController {
 	
-	
 	@Autowired
 	private EstadoRepository estadoRepository;
 	
@@ -23,5 +22,4 @@ public class EstadoController {
 		return this.estadoRepository.listar();
 	}
 	
-
 }

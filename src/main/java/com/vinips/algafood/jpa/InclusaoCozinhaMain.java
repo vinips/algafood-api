@@ -53,7 +53,7 @@ public class InclusaoCozinhaMain {
 		Cozinha c4 = new Cozinha();
 		c4.setId(1L);
 		
-		cozinhaRepository.remover(c4);
+		cozinhaRepository.remover(c4.getId());
 		
 	}
 
