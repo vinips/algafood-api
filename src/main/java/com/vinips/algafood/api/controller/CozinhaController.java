@@ -1,6 +1,7 @@
 package com.vinips.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CozinhaController {
 	@GetMapping
 	public ResponseEntity<List<Cozinha>> listar() {
 		
-		List<Cozinha> cozinhas = this.cozinhaRepository.listar();
+		List<Cozinha> cozinhas = this.cozinhaRepository.findAll();
 		
 		if(cozinhas != null && !cozinhas.isEmpty()) {
 			return ResponseEntity.ok(cozinhas);
@@ -46,10 +47,12 @@ public class CozinhaController {
 
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
-		if (cozinha != null) {
-			return ResponseEntity.ok(cozinha);
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
+		
+		if (cozinha.isPresent()) {
+			return ResponseEntity.ok(cozinha.get());
 		}
+		
 		return ResponseEntity.notFound().build();
 	}
 	
@@ -62,14 +65,15 @@ public class CozinhaController {
 	@PutMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId,
 			@RequestBody Cozinha cozinha) {
-		Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
+		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
+
 		
 		//Copia uma entidade para outra
-		if (cozinhaAtual != null) {
-			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-			cozinhaAtual = cadastroCozinha.salvar(cozinhaAtual);
+		if (cozinhaAtual.isPresent()) {
+			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+			Cozinha cozinhaSalva = cadastroCozinha.salvar(cozinhaAtual.get());
 			
-			return ResponseEntity.ok(cozinhaAtual);
+			return ResponseEntity.ok(cozinhaSalva);
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -89,6 +93,16 @@ public class CozinhaController {
 			
 		} 
 		
+	}
+	
+	@GetMapping("/por-nome")
+	public List<Cozinha> cozinhasPorNome(String nome) {
+		return cozinhaRepository.findListaByNome(nome);
+	}
+	
+	@GetMapping("/unica-por-nome")
+	public Cozinha cozinhaPorNome(String nome) {
+		return cozinhaRepository.findUnicaByNome(nome);
 	}
 	
 

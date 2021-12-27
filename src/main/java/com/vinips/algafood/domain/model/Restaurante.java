@@ -12,17 +12,17 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Restaurante {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false)
 	private String nome;
-	
+
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
-	
+
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Cozinha cozinha;
@@ -50,7 +50,7 @@ public class Restaurante {
 	public void setTaxaFrete(BigDecimal taxaFrete) {
 		this.taxaFrete = taxaFrete;
 	}
-	
+
 	public Cozinha getCozinha() {
 		return cozinha;
 	}
@@ -84,7 +84,9 @@ public class Restaurante {
 		return true;
 	}
 
-	
-	
+	public String toString() {
+		return "Restaurante = [Id = " + this.id + "], [Nome = " + this.nome + "], [TaxaFrete = " + this.taxaFrete
+				+ "], [Cozinha = " + this.cozinha + "]";
+	}
 
 }
