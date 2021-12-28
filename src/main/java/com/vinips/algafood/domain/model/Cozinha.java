@@ -1,10 +1,17 @@
 package com.vinips.algafood.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Cozinha {
@@ -15,6 +22,11 @@ public class Cozinha {
 
 	@Column(nullable = false)
 	private String nome;
+	
+	@JsonIgnore
+	//Não necessariamente precisa ter, pq aqui estou fazendo Bi-dimensional apenas para fins de estudos.
+	@OneToMany(mappedBy = "cozinha")
+	private List<Restaurante> restaurantes = new ArrayList<>();	
 
 	public Long getId() {
 		return id;
@@ -31,7 +43,15 @@ public class Cozinha {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public List<Restaurante> getRestaurantes() {
+		return restaurantes;
+	}
 
+	public void setRestaurantes(List<Restaurante> restaurantes) {
+		this.restaurantes = restaurantes;
+	}
+		
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -49,19 +69,14 @@ public class Cozinha {
 		if (getClass() != obj.getClass())
 			return false;
 		Cozinha other = (Cozinha) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		return Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
+				&& Objects.equals(restaurantes, other.restaurantes);
 	}
-	
+
+	@Override
 	public String toString() {
 		return "Cozinha = [Id = " + this.id +  "], [Nome = " + this.nome + "]";
 	}
-	
-	
 	
 	
 }
