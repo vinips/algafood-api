@@ -97,12 +97,17 @@ public class CozinhaController {
 	
 	@GetMapping("/por-nome")
 	public List<Cozinha> cozinhasPorNome(String nome) {
-		return cozinhaRepository.findListaByNome(nome);
+		return cozinhaRepository.findListaByNomeContaining(nome);
 	}
 	
 	@GetMapping("/unica-por-nome")
 	public Cozinha cozinhaPorNome(String nome) {
 		return cozinhaRepository.findUnicaByNome(nome);
+	}
+	
+	@GetMapping("/existe-por-nome")
+	public boolean cozinhaExistsByNome(String nome) {
+		return cozinhaRepository.existsByNomeContains(nome);
 	}
 	
 
