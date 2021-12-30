@@ -1,27 +1,3 @@
--- COZINHA
-insert into cozinha (id, nome) values (1, 'Tailandesa');
-insert into cozinha (id, nome) values (2, 'Indiana');
-insert into cozinha (id, nome) values (3, 'Mexicana');
-insert into cozinha (id, nome) values (4, 'Francesa');
-insert into cozinha (id, nome) values (5, 'Japonesa');
-insert into cozinha (id, nome) values (6, 'Koreana');
-insert into cozinha (id, nome) values (7, 'Polonesa');
-insert into cozinha (id, nome) values (8, 'Brasileira');
-insert into cozinha (id, nome) values (9, 'Italiana');
-
--- RESTAURANTE
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (1, 'Hangu Italiano', 15.99, 9);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (2, 'Sabor da Bahia', 9.70, 8);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (3, 'Tuk Tuk do Mohamed', 8.30, 2);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (4, 'LeBonTon', 11.90, 4);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (5, 'Hamei', 18.99, 5);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (6, 'Hong Ju', 14.44, 6);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (7, 'Churras Gaúchesco', 0, 8);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (8, 'Benvenuto', 7.33, 9);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (9, 'Guacamole', 13.23, 3);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (10, 'Hi Thai', 0, 1);
-insert into restaurante (id, nome, taxa_frete, cozinha_id) values (11, 'Bangkok Thai', 18.01, 1);
-
 -- ESTADO
 insert into estado (id, nome) values (1, 'Santa Catarina');
 insert into estado (id, nome) values (2, 'Rio de Janeiro');
@@ -37,6 +13,30 @@ insert into cidade (id, nome, estado_id) values (3, 'Campinas', 3);
 insert into cidade (id, nome, estado_id) values (4, 'Curitiba', 4);
 insert into cidade (id, nome, estado_id) values (5, 'Pelotas', 5);
 insert into cidade (id, nome, estado_id) values (6, 'Salvador', 6);
+
+-- COZINHA
+insert into cozinha (id, nome) values (1, 'Tailandesa');
+insert into cozinha (id, nome) values (2, 'Indiana');
+insert into cozinha (id, nome) values (3, 'Mexicana');
+insert into cozinha (id, nome) values (4, 'Francesa');
+insert into cozinha (id, nome) values (5, 'Japonesa');
+insert into cozinha (id, nome) values (6, 'Koreana');
+insert into cozinha (id, nome) values (7, 'Polonesa');
+insert into cozinha (id, nome) values (8, 'Brasileira');
+insert into cozinha (id, nome) values (9, 'Italiana');
+
+-- RESTAURANTE
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id) values (1, 'Hangu Italiano', 15.99, 9, '88136-311', 'Rua das bananeiras', '199', 'casa', 'Loteamento Jurema', 1);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (2, 'Sabor da Bahia', 9.70, 8);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (3, 'Tuk Tuk do Mohamed', 8.30, 2);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (4, 'LeBonTon', 11.90, 4);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (5, 'Hamei', 18.99, 5);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (6, 'Hong Ju', 14.44, 6);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (7, 'Churras Gaúchesco', 0, 8);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (8, 'Benvenuto', 7.33, 9);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (9, 'Guacamole', 13.23, 3);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (10, 'Hi Thai', 0, 1);
+insert into restaurante (id, nome, taxa_frete, cozinha_id) values (11, 'Bangkok Thai', 18.01, 1);
 
 -- PERMISSAO
 insert into permissao (id, nome, descricao) values (1, 'Salvar', 'Permite Salvar');

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,10 @@ public class Restaurante {
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
+	
+	@JsonIgnore
+	@Embedded
+	private Endereco endereco;
 
 	@JsonIgnore
 	@ManyToMany
@@ -101,6 +106,14 @@ public class Restaurante {
 	public String toString() {
 		return "Restaurante = [Id = " + this.id + "], [Nome = " + this.nome + "], [TaxaFrete = " + this.taxaFrete
 				+ "], [Cozinha = " + this.cozinha + "]";
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	
