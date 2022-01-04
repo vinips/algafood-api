@@ -75,8 +75,7 @@ public class Cozinha {
 
 	@Override
 	public String toString() {
-		return "Cozinha = [Id = " + this.id +  "], [Nome = " + this.nome + "]";
+		return "Cozinha [id=" + id + ", nome=" + nome + ", restaurantes=" + restaurantes + "]";
 	}
-	
 	
 }
