@@ -40,9 +40,8 @@ public class RestauranteController {
 
 	@GetMapping
 	public ResponseEntity<List<Restaurante>> listar() {
-
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
-
+		
 		if (restaurantes != null && !restaurantes.isEmpty()) {
 			return ResponseEntity.ok(restaurantes);
 		}

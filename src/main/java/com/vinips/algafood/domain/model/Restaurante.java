@@ -9,6 +9,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Restaurante {
@@ -36,7 +38,11 @@ public class Restaurante {
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
-	@ManyToOne
+	//Caso esteja com JsonIgnore, o ideal é colocar o Fetch para Lazy pois assim ele faz um número menor de SQL.
+	//JsonIgnore ignora o atributo inteiro, JsonIgnoreProperties ignora apenas as propriedades especificadas desse atributo
+	//@JsonIgnore
+	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
@@ -54,7 +60,7 @@ public class Restaurante {
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurante_forma_pagamento", 
 		joinColumns = @JoinColumn(name = "restaurante_id"), 
@@ -159,7 +165,9 @@ public class Restaurante {
 	public String toString() {
 		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + ", cozinha=" + cozinha
 				+ ", endereco=" + endereco + ", dataCadastro=" + dataCadastro + ", dataAtualizacao=" + dataAtualizacao
-				+ ", formasPagamento=" + formasPagamento + ", produtos=" + produtos + "]";
+				+ ", formasPagamento=" + formasPagamento + "]";
 	}
+
+	
 
 }

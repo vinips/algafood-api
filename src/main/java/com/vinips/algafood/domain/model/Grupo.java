@@ -9,24 +9,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Cozinha {
-	
+public class Grupo {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@Column(nullable = false)
 	private String nome;
 	
 	@JsonIgnore
-	//Não necessariamente precisa ter, pq aqui estou fazendo Bi-dimensional apenas para fins de estudos.
-	@OneToMany(mappedBy = "cozinha")
-	private List<Restaurante> restaurantes = new ArrayList<>();	
+	@ManyToMany
+	@JoinTable(name = "grupo_permissao", 
+		joinColumns = @JoinColumn(name = "grupo_id"), 
+		inverseJoinColumns = @JoinColumn(name = "permissao_id"))
+	private List<Permissao> permissoes = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -43,21 +47,18 @@ public class Cozinha {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public List<Restaurante> getRestaurantes() {
-		return restaurantes;
+
+	public List<Permissao> getPermissoes() {
+		return permissoes;
 	}
 
-	public void setRestaurantes(List<Restaurante> restaurantes) {
-		this.restaurantes = restaurantes;
+	public void setPermissoes(List<Permissao> permissoes) {
+		this.permissoes = permissoes;
 	}
-		
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -68,14 +69,13 @@ public class Cozinha {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cozinha other = (Cozinha) obj;
-		return Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
-				&& Objects.equals(restaurantes, other.restaurantes);
+		Grupo other = (Grupo) obj;
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
-		return "Cozinha [id=" + id + ", nome=" + nome + "]";
+		return "Grupo [id=" + id + ", nome=" + nome + ", permissoes=" + permissoes + "]";
 	}
 	
 }
