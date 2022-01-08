@@ -1,3 +1,34 @@
+-- Não é uma Migração, é um arquivo SQL que roda automaticamente no callback do Flyway depois de rodar todas as migrações.
+-- Precisa ter esse nome. Nesse arquivo é importante colocar a keyword IGNORE para não dar erro se tentar inserir caso já tenha.
+-- Exemplo: insert IGNORE into cozinha (id, nome) values (1, 'Tailandesa');
+
+set foreign_key_checks = 0;
+
+delete from cidade;
+delete from cozinha;
+delete from estado;
+delete from forma_pagamento;
+delete from grupo;
+delete from grupo_permissao;
+delete from permissao;
+delete from produto;
+delete from restaurante;
+delete from restaurante_forma_pagamento;
+delete from usuario;
+delete from usuario_grupo;
+
+set foreign_key_checks = 1;
+
+alter table cidade auto_increment = 1;
+alter table cozinha auto_increment = 1;
+alter table estado auto_increment = 1;
+alter table forma_pagamento auto_increment = 1;
+alter table grupo auto_increment = 1;
+alter table permissao auto_increment = 1;
+alter table produto auto_increment = 1;
+alter table restaurante auto_increment = 1;
+alter table usuario auto_increment = 1;
+
 -- PERMISSAO
 insert into permissao (id, nome, descricao) values (1, 'Salvar', 'Permite Salvar');
 insert into permissao (id, nome, descricao) values (2, 'Editar', 'Permite Editar');
@@ -103,3 +134,6 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (10, 5);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (11, 3);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (11, 1);
+
+
+

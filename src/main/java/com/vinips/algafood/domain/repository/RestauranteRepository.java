@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.vinips.algafood.domain.model.Restaurante;
@@ -14,8 +13,8 @@ import com.vinips.algafood.domain.model.Restaurante;
 public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
 		JpaSpecificationExecutor<Restaurante> {
 	
-	@Query("SELECT DISTINCT r FROM Restaurante r JOIN r.cozinha LEFT JOIN FETCH r.formasPagamento")
-	List<Restaurante> findAll();
+	//@Query("SELECT DISTINCT r FROM Restaurante r JOIN r.cozinha LEFT JOIN FETCH r.formasPagamento")
+	//List<Restaurante> findAll();
 
 	// Usamos o FindBy para procurar, podemos usar SteamBy, getBy, etc. Between é
 	// palavra chave.

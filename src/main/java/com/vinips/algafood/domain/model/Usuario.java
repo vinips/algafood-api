@@ -44,7 +44,7 @@ public class Usuario {
 	@JoinTable(name = "usuario_grupo", 
 		joinColumns = @JoinColumn(name = "usuario_id"), 
 		inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	private List<Usuario> grupos = new ArrayList<>();
+	private List<Grupo> grupos = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -86,11 +86,11 @@ public class Usuario {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public List<Usuario> getGrupos() {
+	public List<Grupo> getGrupos() {
 		return grupos;
 	}
 
-	public void setGrupos(List<Usuario> grupos) {
+	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
 	}
 
