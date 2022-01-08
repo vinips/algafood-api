@@ -22,7 +22,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Restaurante {
@@ -39,8 +38,9 @@ public class Restaurante {
 
 	//Caso esteja com JsonIgnore, o ideal é colocar o Fetch para Lazy pois assim ele faz um número menor de SQL.
 	//JsonIgnore ignora o atributo inteiro, JsonIgnoreProperties ignora apenas as propriedades especificadas desse atributo
+	//"hibernateLazyInitializer" é o atributo que precisa ter quando o ManyToOne é setado como Lazy.
 	//@JsonIgnore
-	@JsonIgnoreProperties("hibernateLazyInitializer")
+	//@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
@@ -51,12 +51,12 @@ public class Restaurante {
 	
 	@JsonIgnore
 	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
+	@Column(nullable = false, columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private LocalDateTime dataCadastro;
 	
 	@JsonIgnore
 	@UpdateTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
+	@Column(nullable = false, columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private LocalDateTime dataAtualizacao;
 
 	@JsonIgnore
