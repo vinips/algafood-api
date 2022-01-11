@@ -1,7 +1,6 @@
 package com.vinips.algafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +46,16 @@ public class EstadoController {
 	}
 	
 	@GetMapping("/{estadoId}")
-	public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-		Optional<Estado> estado = estadoRepository.findById(estadoId);
+	public Estado buscar(@PathVariable Long estadoId) {
+		//Jeito Simplificado
+		return cadastroEstado.buscarOuFalhar(estadoId);
 
-		if (estado.isPresent()) {
-			return ResponseEntity.ok(estado.get());
-		}
-
-		return ResponseEntity.notFound().build();
+		// Jeito Antigo
+//		if (estado.isPresent()) {
+//			return ResponseEntity.ok(estado.get());
+//		}
+//
+//		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
@@ -64,17 +65,23 @@ public class EstadoController {
 	}
 
 	@PutMapping("/{estadoId}")
-	public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
+	public Estado atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
 
-		Optional<Estado> estadoAtual = estadoRepository.findById(estadoId);
+		// Jeito simplificado
+		Estado estadoAtual = cadastroEstado.buscarOuFalhar(estadoId);
 		
-		if(estadoAtual.isPresent()) {
-			BeanUtils.copyProperties(estado, estadoAtual.get(), "id");
-			Estado estadoSalvo = cadastroEstado.salvar(estadoAtual.get());
-			return ResponseEntity.ok(estadoSalvo);
-		}
+		BeanUtils.copyProperties(estado, estadoAtual, "id");
 		
-		return ResponseEntity.notFound().build();
+		return cadastroEstado.salvar(estadoAtual);
+		
+		// Jeito Antigo
+//		if(estadoAtual.isPresent()) {
+//			BeanUtils.copyProperties(estado, estadoAtual.get(), "id");
+//			Estado estadoSalvo = cadastroEstado.salvar(estadoAtual.get());
+//			return ResponseEntity.ok(estadoSalvo);
+//		}
+//		
+//		return ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping("/{estadoId}")

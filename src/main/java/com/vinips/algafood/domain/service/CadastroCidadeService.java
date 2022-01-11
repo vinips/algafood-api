@@ -10,34 +10,43 @@ import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.model.Cidade;
 import com.vinips.algafood.domain.model.Estado;
 import com.vinips.algafood.domain.repository.CidadeRepository;
-import com.vinips.algafood.domain.repository.EstadoRepository;
 
 @Service
 public class CadastroCidadeService {
+	
+	private static final String MSG_CIDADE_EM_USO = "Cidade de código %d não pode ser removida pois está em uso";
+
+	private static final String MSG_CIDADE_NAO_ENCONTRADA = "Cidade de código %d não existe";
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
 
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private CadastroEstadoService cadastroEstado;
 
 	public Cidade salvar(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
-		Estado estado = estadoRepository.findById(estadoId).orElseThrow(
-				() -> new EntidadeNaoEncontradaException(String.format("Estado de código %d não existe", estadoId)));
+		Estado estado = cadastroEstado.buscarOuFalhar(estadoId);
 
 		cidade.setEstado(estado);
 		return cidadeRepository.save(cidade);
+	}
+	
+	//Aqui ele vai retornar uma Cidade
+	//Caso não encontre a cidade, vai lançar uma Exception.
+	public Cidade buscarOuFalhar(Long cidadeId) {
+		return cidadeRepository.findById(cidadeId).orElseThrow(
+				() -> new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
 	}
 
 	public void excluir(Long cidadeId) {
 		try {
 			cidadeRepository.deleteById(cidadeId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Cidade de código %d não existe", cidadeId));
+			throw new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Cidade de código %d não pode ser removida pois está em uso", cidadeId));
+					String.format(MSG_CIDADE_EM_USO, cidadeId));
 		}
 
 	}
