@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
-import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.model.Cidade;
 import com.vinips.algafood.domain.repository.CidadeRepository;
 import com.vinips.algafood.domain.service.CadastroCidadeService;
