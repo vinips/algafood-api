@@ -6,7 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
-import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.vinips.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.vinips.algafood.domain.model.Cozinha;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
@@ -15,8 +15,6 @@ import com.vinips.algafood.domain.repository.RestauranteRepository;
 public class CadastroRestauranteService {
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de código %d não pode ser removida pois está em uso";
-
-	private static final String MSG_RESTAURANTE_NAO_ENCONTRAD0 = "Restaurante de código %d não existe";
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
@@ -36,15 +34,14 @@ public class CadastroRestauranteService {
 	//Caso não encontre a restaurante, vai lançar uma Exception.
 	public Restaurante buscarOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId).orElseThrow(
-				() -> new EntidadeNaoEncontradaException(String.format(MSG_RESTAURANTE_NAO_ENCONTRAD0, restauranteId)));
+				() -> new RestauranteNaoEncontradoException(restauranteId));
 	}
 
 	public void excluir(Long restauranteId) {
 		try {
 			restauranteRepository.deleteById(restauranteId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(
-					String.format(MSG_RESTAURANTE_NAO_ENCONTRAD0, restauranteId));
+			throw new RestauranteNaoEncontradoException(restauranteId);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
 					String.format(MSG_RESTAURANTE_EM_USO, restauranteId));
