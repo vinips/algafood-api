@@ -2,7 +2,8 @@ package com.vinips.algafood.api.exceptionhandler;
 
 public enum ProblemType {
 	
-	PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro Inválido"),
+	ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
+	PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensível."),
 	RECURSO_NAO_ENCONTRADO("/recurso-nao-encontrado", "Recurso não encontrado"),
 	ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso."),

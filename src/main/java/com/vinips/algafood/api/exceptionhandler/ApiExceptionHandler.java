@@ -1,5 +1,6 @@
 package com.vinips.algafood.api.exceptionhandler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,24 @@ import com.vinips.algafood.domain.exception.NegocioException;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+	private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
+			+ "Tente novamente e se o problema persistir, entre em contato com o administrador do sistema";
+
+	// Bem genérica, para pegar o que as outras específicas não pegam
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> handleUncaught(Exception ex, WebRequest request) {
+
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+		Problem problem = createProblemBuilder(status, ProblemType.ERRO_DE_SISTEMA, MSG_ERRO_GENERICA_USUARIO_FINAL,
+				MSG_ERRO_GENERICA_USUARIO_FINAL);
+
+		// Temporário
+		ex.printStackTrace();
+
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
+
 	// Sobrescrevendo método que lança a exceção do formato invalido dos dados do
 	// Json. ex: o campo é int e manda string.
 	@Override
@@ -47,11 +66,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
 
-		Problem problem = createProblemBuilder(status, ProblemType.MENSAGEM_INCOMPREENSIVEL, detail);
+		Problem problem = createProblemBuilder(status, ProblemType.MENSAGEM_INCOMPREENSIVEL, detail,
+				MSG_ERRO_GENERICA_USUARIO_FINAL);
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 
+	// Pega o erro de quanto você passa o valor do tipo errado na propriedade
 	private ResponseEntity<Object> handleInvalidFormat(InvalidFormatException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
@@ -61,11 +82,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				"A propriedade '%s' recebeu o valor '%s' que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
 				path, ex.getValue(), ex.getTargetType().getSimpleName());
 
-		Problem problem = createProblemBuilder(status, ProblemType.MENSAGEM_INCOMPREENSIVEL, detail);
+		Problem problem = createProblemBuilder(status, ProblemType.MENSAGEM_INCOMPREENSIVEL, detail,
+				MSG_ERRO_GENERICA_USUARIO_FINAL);
 
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 
+	// Pega o erro de quanto passa uma propriedade inexistente ou ignorada naquela
+	// entidade.
 	private ResponseEntity<Object> handlePropertyBinding(PropertyBindingException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
@@ -81,7 +105,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 					path);
 		}
 
-		Problem problem = createProblemBuilder(status, ProblemType.MENSAGEM_INCOMPREENSIVEL, detail);
+		Problem problem = createProblemBuilder(status, ProblemType.MENSAGEM_INCOMPREENSIVEL, detail,
+				MSG_ERRO_GENERICA_USUARIO_FINAL);
 
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
@@ -98,6 +123,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return super.handleTypeMismatch(ex, headers, status, request);
 	}
 
+	// Pega o erro de quanto você passa o caminho certo porém com valor do tipo
+	// errado no caminho.
+	// Ex: "restaurantes/juawdad" em vez de "restaurantes/1".
 	private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
@@ -105,18 +133,22 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				"O parâmetro da URL '%s' recebeu o valor '%s' que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
 				ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-		Problem problem = createProblemBuilder(status, ProblemType.PARAMETRO_INVALIDO, detail);
+		Problem problem = createProblemBuilder(status, ProblemType.PARAMETRO_INVALIDO, detail,
+				MSG_ERRO_GENERICA_USUARIO_FINAL);
 
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 
+	// Pega o erro de quanto você acessa a URL errada. em vez de "cozinha" digita
+	// "cosinha" por exemplo.
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
 		String detail = String.format("O recurso '%s', que você tentou acessar, é inexistente", ex.getRequestURL());
 
-		Problem problem = createProblemBuilder(status, ProblemType.RECURSO_NAO_ENCONTRADO, detail);
+		Problem problem = createProblemBuilder(status, ProblemType.RECURSO_NAO_ENCONTRADO, detail,
+				MSG_ERRO_GENERICA_USUARIO_FINAL);
 
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
@@ -128,7 +160,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		HttpStatus status = HttpStatus.NOT_FOUND;
 
-		Problem problem = createProblemBuilder(status, ProblemType.RECURSO_NAO_ENCONTRADO, ex.getMessage());
+		Problem problem = createProblemBuilder(status, ProblemType.RECURSO_NAO_ENCONTRADO, ex.getMessage(),
+				ex.getMessage());
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
@@ -138,7 +171,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		HttpStatus status = HttpStatus.CONFLICT;
 
-		Problem problem = createProblemBuilder(status, ProblemType.ENTIDADE_EM_USO, ex.getMessage());
+		Problem problem = createProblemBuilder(status, ProblemType.ENTIDADE_EM_USO, ex.getMessage(), ex.getMessage());
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
@@ -147,7 +180,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleNegocio(NegocioException ex, WebRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 
-		Problem problem = createProblemBuilder(status, ProblemType.ERRO_NEGOCIO, ex.getMessage());
+		Problem problem = createProblemBuilder(status, ProblemType.ERRO_NEGOCIO, ex.getMessage(), ex.getMessage());
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
@@ -159,9 +192,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 
 		if (body == null) {
-			body = new Problem(status.value(), null, status.getReasonPhrase(), null);
+			body = new Problem(status.value(), null, status.getReasonPhrase(), null, MSG_ERRO_GENERICA_USUARIO_FINAL,
+					LocalDateTime.now());
 		} else if (body instanceof String) {
-			body = new Problem(status.value(), null, status.getReasonPhrase(), ex.getMessage());
+			body = new Problem(status.value(), null, status.getReasonPhrase(), ex.getMessage(),
+					MSG_ERRO_GENERICA_USUARIO_FINAL, LocalDateTime.now());
 		}
 
 		if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
@@ -170,8 +205,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(body, headers, status);
 	}
 
-	private Problem createProblemBuilder(HttpStatus status, ProblemType problemType, String detail) {
-		return new Problem(status.value(), problemType.getUri(), problemType.getTitulo(), detail);
+	private Problem createProblemBuilder(HttpStatus status, ProblemType problemType, String detail,
+			String userMessage) {
+		return new Problem(status.value(), problemType.getUri(), problemType.getTitulo(), detail, userMessage,
+				LocalDateTime.now());
 	}
 
 	private String joinPath(List<Reference> ex) {
