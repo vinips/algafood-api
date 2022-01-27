@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vinips.algafood.Groups;
 import com.vinips.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.model.Restaurante;
@@ -48,7 +50,7 @@ public class RestauranteController {
 	@GetMapping
 	public ResponseEntity<List<Restaurante>> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
-		
+
 		if (restaurantes != null && !restaurantes.isEmpty()) {
 			return ResponseEntity.ok(restaurantes);
 		}
@@ -59,8 +61,8 @@ public class RestauranteController {
 
 	@GetMapping("/{restauranteId}")
 	public Restaurante buscar(@PathVariable Long restauranteId) {
-		
-		//Jeito simplificado
+
+		// Jeito simplificado
 		return cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 //		if (restaurante.isPresent()) {
@@ -72,7 +74,7 @@ public class RestauranteController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+	public Restaurante adicionar(@RequestBody @Validated(Groups.CadastroRestaurante.class) Restaurante restaurante) {
 		try {
 			return cadastroRestaurante.salvar(restaurante);
 		} catch (CozinhaNaoEncontradaException e) {
@@ -85,15 +87,15 @@ public class RestauranteController {
 		try {
 			// Jeito simplificado
 			Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
-			
-			BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco",
-					"dataCadastro", "produtos");
-			
+
+			BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
+					"produtos");
+
 			return cadastroRestaurante.salvar(restauranteAtual);
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
-			
+
 		// Jeito antigo
 //		if (restauranteAtual.isPresent()) {
 //			BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id", "formasPagamento", "endereco",
@@ -117,8 +119,8 @@ public class RestauranteController {
 	}
 
 	@PatchMapping("/{restauranteId}")
-	public Restaurante atualizarParcial(@PathVariable Long restauranteId,
-			@RequestBody Map<String, Object> campos, HttpServletRequest request) {
+	public Restaurante atualizarParcial(@PathVariable Long restauranteId, @RequestBody Map<String, Object> campos,
+			HttpServletRequest request) {
 
 		Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
@@ -128,46 +130,51 @@ public class RestauranteController {
 	}
 
 	private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino, HttpServletRequest request) {
-		//Usado para enviar como 3º argumento no construtor do HttpMessageNotReadableException
-		ServletServerHttpRequest serverHttpRequest =  new ServletServerHttpRequest(request);
-		
+		// Usado para enviar como 3º argumento no construtor do
+		// HttpMessageNotReadableException
+		ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
+
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-	
-			//No Application.properties setamos para o programa falhar quando recebermos atributos pelo json que setamos
-			//para serem ignorados, como o @JsonIgnore na entidade. Normalmente não precisamos setar na mão para ele falhar
-			//como fizemos aqui na linha de baixo, porém estamos usando ObjectMapper aqui e se não fizermos ele ignora e não acusa falha.
+
+			// No Application.properties setamos para o programa falhar quando recebermos
+			// atributos pelo json que setamos
+			// para serem ignorados, como o @JsonIgnore na entidade. Normalmente não
+			// precisamos setar na mão para ele falhar
+			// como fizemos aqui na linha de baixo, porém estamos usando ObjectMapper aqui e
+			// se não fizermos ele ignora e não acusa falha.
 			objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-			
-			//Não é necessário, diferente do Ignored, o ObjectMapper consegue falhar com propriedades desconhecidas.
-			//Estamos colocando apenas por segurança, palavras do próprio instrutor do curso, Thiago.
+
+			// Não é necessário, diferente do Ignored, o ObjectMapper consegue falhar com
+			// propriedades desconhecidas.
+			// Estamos colocando apenas por segurança, palavras do próprio instrutor do
+			// curso, Thiago.
 			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-	
-	
+
 			// Pega os dados de Origem e cria uma instancia de Restaurante com esses dados.
 			Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
-	
+
 			dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
 				// Pega o campo passado e ve se ele bate com algum atributo de Restaurante, se
 				// sim cria o Campo.
 				Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
 				// Necessário para habilitar os campos privados do encapsulamento.
 				field.setAccessible(true);
-	
+
 				// Converte o valor passado para o seu tipo certo, por Exemplo se passou inteiro
 				// e espera BigDecimal, converte o inteiro em BigDecimal
 				Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
-	
+
 				ReflectionUtils.setField(field, restauranteDestino, novoValor);
-	
+
 				// System.out.println(nomePropriedade + " = " + valorPropriedade + " = " +
 				// novoValor);
 			});
 		} catch (IllegalArgumentException e) {
-			
-			//ExceptionUtils é da dependency org.apache.commons no POM
-			Throwable rootCause  = ExceptionUtils.getRootCause(e);
-			
+
+			// ExceptionUtils é da dependency org.apache.commons no POM
+			Throwable rootCause = ExceptionUtils.getRootCause(e);
+
 			throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
 		}
 	}

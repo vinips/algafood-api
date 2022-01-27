@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -153,6 +155,29 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 
+	// Pega o erro que lança quando você a validação do Bean não é cumprida.
+	// Ex: O restaurante tem o Bean Validation no nome para NotNull e você não passa
+	// o nome no Json.
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+		String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+
+		// BindingResult armazena as violações de constraints de validação.
+		BindingResult bindingResult = ex.getBindingResult();
+
+		//Utilizando stream, pega os FieldErrors e transforma em Field(minha classe).
+		List<Field> problemFields = bindingResult.getFieldErrors().stream()
+				.map(fieldError -> new Field(fieldError.getField(), fieldError.getDefaultMessage()))
+				.collect(Collectors.toList());
+
+		Problem problem = createProblemBuilder(status, ProblemType.DADOS_INVALIDOS, detail, detail);
+		problem.setFields(problemFields);
+
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+
 	// @ExceptionHandler é utilizado para podermos alterar livremente as informações
 	// passadas pelo Response Entity quando da erro.
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
@@ -192,11 +217,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 
 		if (body == null) {
-			body = new Problem(status.value(), null, status.getReasonPhrase(), null, MSG_ERRO_GENERICA_USUARIO_FINAL,
-					LocalDateTime.now());
+			body = new Problem(status.value(), LocalDateTime.now(), null, status.getReasonPhrase(), null,
+					MSG_ERRO_GENERICA_USUARIO_FINAL, null);
 		} else if (body instanceof String) {
-			body = new Problem(status.value(), null, status.getReasonPhrase(), ex.getMessage(),
-					MSG_ERRO_GENERICA_USUARIO_FINAL, LocalDateTime.now());
+			body = new Problem(status.value(), LocalDateTime.now(), null, status.getReasonPhrase(), ex.getMessage(),
+					MSG_ERRO_GENERICA_USUARIO_FINAL, null);
 		}
 
 		if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
@@ -207,8 +232,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private Problem createProblemBuilder(HttpStatus status, ProblemType problemType, String detail,
 			String userMessage) {
-		return new Problem(status.value(), problemType.getUri(), problemType.getTitulo(), detail, userMessage,
-				LocalDateTime.now());
+		return new Problem(status.value(), LocalDateTime.now(), problemType.getUri(), problemType.getTitulo(), detail,
+				userMessage, null);
 	}
 
 	private String joinPath(List<Reference> ex) {

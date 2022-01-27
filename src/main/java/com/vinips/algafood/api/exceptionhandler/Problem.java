@@ -1,6 +1,7 @@
 package com.vinips.algafood.api.exceptionhandler;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -10,22 +11,22 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Problem {
 
 	private Integer status;
+	private LocalDateTime timestamp;
 	private String type;
 	private String title;
 	private String detail;
-
-	//Propriedades da extensão do problema.
 	private String userMessage;
-	private LocalDateTime timestamp;
+	private List<Field> fields;
 
-	public Problem(Integer status, String type, String title, String detail, String userMessage,
-			LocalDateTime timestamp) {
+	public Problem(Integer status, LocalDateTime timestamp, String type, String title, String detail,
+			String userMessage, List<Field> fields) {
 		this.status = status;
+		this.timestamp = timestamp;
 		this.type = type;
 		this.title = title;
 		this.detail = detail;
 		this.userMessage = userMessage;
-		this.timestamp = timestamp;
+		this.setFields(fields);
 	}
 
 	public Integer getStatus() {
@@ -34,6 +35,14 @@ public class Problem {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public LocalDateTime getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(LocalDateTime timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getType() {
@@ -68,12 +77,12 @@ public class Problem {
 		this.userMessage = userMessage;
 	}
 
-	public LocalDateTime getTimestamp() {
-		return timestamp;
+	public List<Field> getFields() {
+		return fields;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
+	public void setFields(List<Field> fields) {
+		this.fields = fields;
 	}
-	
+
 }

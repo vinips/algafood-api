@@ -17,11 +17,17 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vinips.algafood.Groups;
 
 @Entity
 public class Restaurante {
@@ -30,9 +36,17 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	//NotBlank inclui o NotNull e o NotEmpty também.
+	//@NotNull
+	//@NotEmpty
+	//se usar os groups, tem que usar o @Validated no Controller, em vez do @Valid
+	@NotBlank(groups = Groups.CadastroRestaurante.class)
 	@Column(nullable = false)
 	private String nome;
 
+	//DecimalMin ou @PositiveOrZero são praticamente a mesma coisa.
+	//@DecimalMin("0")
+	@PositiveOrZero(groups = Groups.CadastroRestaurante.class)
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
@@ -41,6 +55,9 @@ public class Restaurante {
 	//"hibernateLazyInitializer" é o atributo que precisa ter quando o ManyToOne é setado como Lazy.
 	//@JsonIgnore
 	//@JsonIgnoreProperties("hibernateLazyInitializer")
+	//o Valid Específica que eu quero que o Bean Validation Valid em cascata, ou seja o cozinha.id tmbm
+	@Valid
+	@NotNull(groups = Groups.CadastroRestaurante.class)
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
