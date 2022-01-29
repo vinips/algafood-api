@@ -62,13 +62,13 @@ public class CozinhaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
+	public Cozinha adicionar(@Valid @RequestBody Cozinha cozinha) {
 		return cadastroCozinha.salvar(cozinha);
 	}
 
 	@PutMapping("/{cozinhaId}")
 	@ResponseStatus(HttpStatus.OK)
-	public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
+	public Cozinha atualizar(@PathVariable Long cozinhaId, @Valid @RequestBody Cozinha cozinha) {
 
 		// Jeito simplificado
 		Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);

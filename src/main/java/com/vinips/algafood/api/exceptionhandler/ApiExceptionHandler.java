@@ -155,7 +155,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 
-	// Pega o erro que lança quando você a validação do Bean não é cumprida.
+	// Pega o erro que lança quando a validação do Bean não é cumprida.
 	// Ex: O restaurante tem o Bean Validation no nome para NotNull e você não passa
 	// o nome no Json.
 	@Override

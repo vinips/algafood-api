@@ -21,10 +21,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vinips.algafood.Groups;
@@ -40,13 +41,13 @@ public class Restaurante {
 	//@NotNull
 	//@NotEmpty
 	//se usar os groups, tem que usar o @Validated no Controller, em vez do @Valid
-	@NotBlank(groups = Groups.CadastroRestaurante.class)
+	@NotBlank//(groups = Groups.CadastroRestaurante.class)
 	@Column(nullable = false)
 	private String nome;
 
 	//DecimalMin ou @PositiveOrZero são praticamente a mesma coisa.
 	//@DecimalMin("0")
-	@PositiveOrZero(groups = Groups.CadastroRestaurante.class)
+	@PositiveOrZero
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
@@ -56,8 +57,10 @@ public class Restaurante {
 	//@JsonIgnore
 	//@JsonIgnoreProperties("hibernateLazyInitializer")
 	//o Valid Específica que eu quero que o Bean Validation Valid em cascata, ou seja o cozinha.id tmbm
+	// @ConvertGroup converte do Default para o Alvo que você quer. Precisa usar o @Valid no controller
 	@Valid
-	@NotNull(groups = Groups.CadastroRestaurante.class)
+	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	@NotNull
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
