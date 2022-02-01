@@ -1,4 +1,4 @@
-package com.vinips.algafood;
+package com.vinips.algafood.core.validation;
 
 public interface Groups {
 

@@ -28,7 +28,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vinips.algafood.Groups;
+import com.vinips.algafood.core.validation.Groups;
 
 @Entity
 public class Restaurante {
@@ -48,6 +48,7 @@ public class Restaurante {
 	//DecimalMin ou @PositiveOrZero são praticamente a mesma coisa.
 	//@DecimalMin("0")
 	@PositiveOrZero
+	@NotNull
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 

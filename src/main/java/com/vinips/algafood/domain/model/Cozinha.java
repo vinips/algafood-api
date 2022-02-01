@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vinips.algafood.Groups;
+import com.vinips.algafood.core.validation.Groups;
 
 @Entity
 public class Cozinha {
