@@ -29,7 +29,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vinips.algafood.core.validation.Groups;
+import com.vinips.algafood.core.validation.Multiplo;
+import com.vinips.algafood.core.validation.ValorZeroIncluiDescricao;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Entity
 public class Restaurante {
 
@@ -48,6 +51,7 @@ public class Restaurante {
 	//DecimalMin ou @PositiveOrZero são praticamente a mesma coisa.
 	//@DecimalMin("0")
 	@PositiveOrZero
+	@Multiplo(numero = 5)
 	@NotNull
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;

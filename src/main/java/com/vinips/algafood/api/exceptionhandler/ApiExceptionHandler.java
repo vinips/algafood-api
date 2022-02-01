@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,13 +33,14 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
+import com.vinips.algafood.domain.exception.ValidacaoException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
 			+ "Tente novamente e se o problema persistir, entre em contato com o administrador do sistema";
-	
+
 	@Autowired
 	private MessageSource messageSource;
 
@@ -167,24 +169,41 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
 
+	// Serve para validar os campos quando usamos o protocolo patch.
+	@ExceptionHandler(ValidacaoException.class)
+	public ResponseEntity<?> handleValidacao(ValidacaoException ex, WebRequest request) {
+		return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
+	private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 
 		// BindingResult armazena as violações de constraints de validação.
-		BindingResult bindingResult = ex.getBindingResult();
 
-		//Utilizando stream, pega os FieldErrors e transforma em Field(minha classe).
-		List<Field> problemFields = bindingResult.getFieldErrors().stream()
-				.map(fieldError -> {
-					String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
-					return new Field(fieldError.getField(), message);
-				})
-				.collect(Collectors.toList());
+		// Utilizando stream, pega os FieldErrors e transforma em Field(minha classe).
+		// Se for um Field, usamos o FieldError, se for uma classe usamos o ObjectError
+		List<Field> problemFields = bindingResult.getAllErrors().stream().map(objectError -> {
+			// Interface messageSource serve para usarmos mensagens padronizadas no
+			// messages.properties
+			String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+			String name = objectError.getObjectName();
+
+			if (objectError instanceof FieldError) {
+				name = ((FieldError) objectError).getField();
+			}
+
+			return new Field(name, message);
+		}).collect(Collectors.toList());
 
 		Problem problem = createProblemBuilder(status, ProblemType.DADOS_INVALIDOS, detail, detail);
 		problem.setFields(problemFields);
 
-		return handleExceptionInternal(ex, problem, headers, status, request);
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 
 	// @ExceptionHandler é utilizado para podermos alterar livremente as informações
