@@ -1,5 +1,6 @@
 package com.vinips.algafood;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +12,10 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
-//Esse webEnvironment serve para o TomCat ser levantado e definimos a porta na variavel port
+//Esse webEnvironment serve para o TomCat ser levantado e definimos a porta na variável port
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CadastroCozinhaIT {
-	
+								
 	@LocalServerPort
 	private int port;
 
@@ -28,6 +29,21 @@ public class CadastroCozinhaIT {
 			.get()
 		.then()
 			.statusCode(HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void testarConsultaCozinhaRetorna9Cozinhas() {
+		//RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+		
+		RestAssured.given()
+			.basePath("/cozinhas")
+			.port(port)
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.body("", Matchers.hasSize(9));
+			//.body("nome", Matchers.hasItems("Italiana", "Francesa"));
 	}
 
 	
