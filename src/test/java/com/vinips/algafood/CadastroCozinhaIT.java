@@ -1,6 +1,7 @@
 package com.vinips.algafood;
 
-import org.flywaydb.core.Flyway;
+import static org.hamcrest.CoreMatchers.equalTo;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.vinips.algafood.domain.model.Cozinha;
+import com.vinips.algafood.domain.repository.CozinhaRepository;
+import com.vinips.algafood.util.DatabaseCleaner;
+import com.vinips.algafood.util.ResourceUtils;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
@@ -22,11 +28,23 @@ import io.restassured.http.ContentType;
 @TestPropertySource("/application-test.properties")
 public class CadastroCozinhaIT {
 
+	private static final int COZINHA_ID_INEXISTENTE = 10000;
+	
+	private int quantidadeCozinhasCadastradas;
+	private String jsonNovaCozinhaTest;
+	private Cozinha cozinhaAmericana;
+	
 	@LocalServerPort
 	private int port;
-
+	
+//	@Autowired
+//	private Flyway flyway;
+	
 	@Autowired
-	private Flyway flyway;
+	private DatabaseCleaner dbCleaner;
+	
+	@Autowired
+	private CozinhaRepository cozinhaRepository;
 
 	// Essa anotação Before faz com que esse método seja executado sempre antes de
 	// cada método anotado com @Test rodar
@@ -35,29 +53,86 @@ public class CadastroCozinhaIT {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
+		
+		jsonNovaCozinhaTest = ResourceUtils.getContentFromResource("/json/correto/novaCozinhaTest.json");
 
 		// Serve para dar um callback do flyway e antes de cada método @Test executar,
 		// vai chamar o arquivo afterMigrate.sql e resetando o banco para o estado
 		// original. Só funciona se o application.properties que a classe test ta usando
 		// estiver com o callback configurado.
-		flyway.migrate();
+		//flyway.migrate();
+		
+		dbCleaner.clearTables();
+
+		this.prepararDados();
 	}
 
 	@Test
 	public void deveRetornarStatus200_QuandoConsultarCozinhas() {
-		RestAssured.given().accept(ContentType.JSON).when().get().then().statusCode(HttpStatus.OK.value());
+		RestAssured.given()
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
-	public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
-		RestAssured.given().accept(ContentType.JSON).when().get().then().body("", Matchers.hasSize(9));
+	public void deveConterMesmaQuantidadeCozinhasCadastradas_QuandoConsultarCozinhas() {
+		RestAssured.given()
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.body("", Matchers.hasSize(quantidadeCozinhasCadastradas));
 	}
 
 	@Test
-	public void testRetornarStatus201_QuandoCadastrarCozinha() {
-		RestAssured.given().body("{ \"nome\": \"Chinesa\" }").contentType(ContentType.JSON).accept(ContentType.JSON)
-				.when().post().then().statusCode(HttpStatus.CREATED.value());
-
+	public void deveRetornarStatus201_QuandoCadastrarCozinha() {
+		RestAssured.given()
+			.body(jsonNovaCozinhaTest)
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then().
+			statusCode(HttpStatus.CREATED.value());
+	}
+	
+	@Test
+	public void deveRetornarRespostasEStatusCorretos_QuandoConsultarCozinhaExistente() {
+		RestAssured.given()
+		.pathParam("cozinhaId", cozinhaAmericana.getId())
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("nome", equalTo(cozinhaAmericana.getNome()));
+	}
+	
+	@Test
+	public void deveRetornarStatus404_QuandoConsultarCozinhaInexistente() {
+		RestAssured.given()
+		.pathParam("cozinhaId", COZINHA_ID_INEXISTENTE)
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.NOT_FOUND.value());
+	}
+	
+	private void prepararDados() {
+		Cozinha cozinha1 = new Cozinha();
+		cozinha1.setNome("Tailandesa");
+		cozinhaRepository.save(cozinha1);
+		
+		cozinhaAmericana = new Cozinha();
+		cozinhaAmericana.setNome("Americana");
+		cozinhaRepository.save(cozinhaAmericana);
+		
+		quantidadeCozinhasCadastradas = (int) cozinhaRepository.count();
+		
 	}
 
 	// TESTES DE INTEGRAÇÃO
