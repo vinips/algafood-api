@@ -41,21 +41,17 @@ public class Pedido {
 	@Column(nullable = false, columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private LocalDateTime dataCriacao;
 	
-	@JsonIgnore
 	@Column(columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private LocalDateTime dataConfirmacao;
 	
-	@JsonIgnore
 	@Column(columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private LocalDateTime dataCancelamento;
 	
-	@JsonIgnore
 	@Column(columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private LocalDateTime dataEntrega;
 	
 	private StatusPedido status;
 	
-	@JsonIgnore
 	@Embedded
 	private Endereco enderecoEntrega;
 	
@@ -71,7 +67,6 @@ public class Pedido {
 	@JoinColumn(name = "forma_pagamento_id", nullable = false)
 	private FormaPagamento formaPagamento;
 	
-	@JsonIgnore
 	//Não necessariamente precisa ter, pq aqui estou fazendo Bi-dimensional apenas para fins de estudos.
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itens = new ArrayList<>();

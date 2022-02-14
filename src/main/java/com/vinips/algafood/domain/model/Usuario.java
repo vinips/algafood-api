@@ -16,8 +16,6 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Usuario {
 	
@@ -34,12 +32,10 @@ public class Usuario {
 	@Column(nullable = false)
 	private String senha;
 	
-	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 	
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", 
 		joinColumns = @JoinColumn(name = "usuario_id"), 
