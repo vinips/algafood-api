@@ -1,6 +1,6 @@
 package com.vinips.algafood.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,14 +11,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Problem {
 
 	private Integer status;
-	private LocalDateTime timestamp;
+	private OffsetDateTime timestamp;
 	private String type;
 	private String title;
 	private String detail;
 	private String userMessage;
 	private List<Field> fields;
 
-	public Problem(Integer status, LocalDateTime timestamp, String type, String title, String detail,
+	public Problem(Integer status, OffsetDateTime timestamp, String type, String title, String detail,
 			String userMessage, List<Field> fields) {
 		this.status = status;
 		this.timestamp = timestamp;
@@ -37,11 +37,11 @@ public class Problem {
 		this.status = status;
 	}
 
-	public LocalDateTime getTimestamp() {
+	public OffsetDateTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
+	public void setTimestamp(OffsetDateTime timestamp) {
 		this.timestamp = timestamp;
 	}
 

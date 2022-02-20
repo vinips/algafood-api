@@ -1,6 +1,6 @@
 package com.vinips.algafood.api.model.mixin;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,16 +12,16 @@ public abstract class PedidoMixin {
 	// Explicação no RestauranteMixin
 
 	@JsonIgnore
-	private LocalDateTime dataCriacao;
+	private OffsetDateTime dataCriacao;
 	
 	@JsonIgnore
-	private LocalDateTime dataConfirmacao;
+	private OffsetDateTime dataConfirmacao;
 	
 	@JsonIgnore
-	private LocalDateTime dataCancelamento;
+	private OffsetDateTime dataCancelamento;
 	
 	@JsonIgnore
-	private LocalDateTime dataEntrega;
+	private OffsetDateTime dataEntrega;
 	
 	@JsonIgnore
 	private Endereco enderecoEntrega;

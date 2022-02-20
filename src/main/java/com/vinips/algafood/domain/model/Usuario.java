@@ -1,6 +1,6 @@
 package com.vinips.algafood.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class Usuario {
 	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime dataCadastro;
+	private OffsetDateTime dataCadastro;
 	
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", 
@@ -74,11 +74,11 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public LocalDateTime getDataCadastro() {
+	public OffsetDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
+	public void setDataCadastro(OffsetDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

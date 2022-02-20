@@ -1,6 +1,6 @@
 package com.vinips.algafood.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -245,10 +245,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 
 		if (body == null) {
-			body = new Problem(status.value(), LocalDateTime.now(), null, status.getReasonPhrase(), null,
+			body = new Problem(status.value(), OffsetDateTime.now(), null, status.getReasonPhrase(), null,
 					MSG_ERRO_GENERICA_USUARIO_FINAL, null);
 		} else if (body instanceof String) {
-			body = new Problem(status.value(), LocalDateTime.now(), null, status.getReasonPhrase(), ex.getMessage(),
+			body = new Problem(status.value(), OffsetDateTime.now(), null, status.getReasonPhrase(), ex.getMessage(),
 					MSG_ERRO_GENERICA_USUARIO_FINAL, null);
 		}
 
@@ -260,7 +260,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private Problem createProblemBuilder(HttpStatus status, ProblemType problemType, String detail,
 			String userMessage) {
-		return new Problem(status.value(), LocalDateTime.now(), problemType.getUri(), problemType.getTitulo(), detail,
+		return new Problem(status.value(), OffsetDateTime.now(), problemType.getUri(), problemType.getTitulo(), detail,
 				userMessage, null);
 	}
 
