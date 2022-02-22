@@ -1,7 +1,6 @@
 package com.vinips.algafood.api.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinips.algafood.api.model.dto.CozinhaDTO;
+import com.vinips.algafood.api.model.assembler.RestauranteDTOAssembler;
+import com.vinips.algafood.api.model.disassembler.RestauranteInputDisassembler;
 import com.vinips.algafood.api.model.dto.RestauranteDTO;
+import com.vinips.algafood.api.model.input.RestauranteInput;
 import com.vinips.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.model.Restaurante;
@@ -37,12 +38,18 @@ public class RestauranteController {
 	@Autowired
 	private CadastroRestauranteService cadastroRestaurante;
 	
+	@Autowired
+	private RestauranteDTOAssembler restauranteAssembler;
+	
+	@Autowired
+	private RestauranteInputDisassembler restauranteDisassembler;
+	
 	@GetMapping
 	public ResponseEntity<List<RestauranteDTO>> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
 
 		if (restaurantes != null && !restaurantes.isEmpty()) {
-			return ResponseEntity.ok(toCollectionDTO(restaurantes));
+			return ResponseEntity.ok(restauranteAssembler.toCollectionDTO(restaurantes));
 		}
 
 		return ResponseEntity.noContent().build();
@@ -53,7 +60,7 @@ public class RestauranteController {
 	public RestauranteDTO buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 		
-		return toDTO(restaurante);
+		return restauranteAssembler.toDTO(restaurante);
 
 //		if (restaurante.isPresent()) {
 //			return ResponseEntity.ok(restaurante.get());
@@ -64,24 +71,28 @@ public class RestauranteController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestauranteDTO adicionar(@Valid @RequestBody Restaurante restaurante) {
+	public RestauranteDTO adicionar(@Valid @RequestBody RestauranteInput restauranteInput) {
 		try {
-			return toDTO(cadastroRestaurante.salvar(restaurante));
+			Restaurante restaurante = restauranteDisassembler.toDomainModel(restauranteInput);
+			
+			return restauranteAssembler.toDTO(cadastroRestaurante.salvar(restaurante));
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
 
 	@PutMapping("/{restauranteId}")
-	public RestauranteDTO atualizar(@PathVariable Long restauranteId, @Valid @RequestBody Restaurante restaurante) {
+	public RestauranteDTO atualizar(@PathVariable Long restauranteId, @Valid @RequestBody RestauranteInput restauranteInput) {
 		try {
 			// Jeito simplificado
+			Restaurante restaurante = restauranteDisassembler.toDomainModel(restauranteInput);
+			
 			Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 			BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro",
 					"produtos");
 
-			return toDTO(cadastroRestaurante.salvar(restauranteAtual));
+			return restauranteAssembler.toDTO(cadastroRestaurante.salvar(restauranteAtual));
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
@@ -106,23 +117,6 @@ public class RestauranteController {
 	public void remover(@PathVariable Long restauranteId) {
 		cadastroRestaurante.excluir(restauranteId);
 
-	}
-	
-	private RestauranteDTO toDTO(Restaurante restaurante) {
-		CozinhaDTO cozinhaDTO = new CozinhaDTO();
-		cozinhaDTO.setId(restaurante.getCozinha().getId());
-		cozinhaDTO.setNome(restaurante.getCozinha().getNome());
-
-		RestauranteDTO restauranteDTO = new RestauranteDTO();
-		restauranteDTO.setId(restaurante.getId());
-		restauranteDTO.setNome(restaurante.getNome());
-		restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
-		restauranteDTO.setCozinha(cozinhaDTO);
-		return restauranteDTO;
-	}
-	
-	private List<RestauranteDTO> toCollectionDTO(List<Restaurante> restauranteList) {
-		return restauranteList.stream().map(restaurante -> toDTO(restaurante)).collect(Collectors.toList());
 	}
 	
 	/*

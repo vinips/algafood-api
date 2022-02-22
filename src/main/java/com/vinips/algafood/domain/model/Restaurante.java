@@ -64,6 +64,7 @@ public class Restaurante {
 	//@JsonIgnoreProperties("hibernateLazyInitializer")
 	//o Valid Específica que eu quero que o Bean Validation Valid em cascata, ou seja o cozinha.id tmbm
 	// @ConvertGroup converte do Default para o Alvo que você quer. Precisa usar o @Valid no controller
+	//Se estivermos usando um DTO da vida na hora de receber via http, não precisamos do ConvertGroup, colocamos direto o NotNull no atributo do DTO
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@NotNull

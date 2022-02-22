@@ -98,6 +98,13 @@
 			<artifactId>groovy-json</artifactId>
 			<version>2.5.13</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		
+		<!-- Biblioteca que serve para mapear objetos e converter um tipo para outro. Ex: DTO para Entity e vice-versa  -->
+		<dependency>
+		  <groupId>org.modelmapper</groupId>
+		  <artifactId>modelmapper</artifactId>
+		  <version>2.3.0</version>
+		</dependency>
 
 		<!-- A partir do Spring 2.3.0 o Bean Validation não é adicionado automaticamente 
 			com o pacote spring-boot-starter-web Por isso é necessário adicionar a dependência 

@@ -40,5 +40,7 @@ public class RestauranteDTO {
 	public void setCozinha(CozinhaDTO cozinha) {
 		this.cozinha = cozinha;
 	}
+
+
 	
 }
