@@ -10,21 +10,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import com.vinips.algafood.core.validation.Groups;
 
 @Entity
 public class Cozinha {
 	
-	@NotNull(groups = Groups.CozinhaId.class)
+	//@NotNull(groups = Groups.CozinhaId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	//O que não é especificado com grupo no groups, é considerado do grupo Default e usa o @Valid no Controller.
-	@NotBlank
+	//@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	

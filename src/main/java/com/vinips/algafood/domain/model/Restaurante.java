@@ -17,17 +17,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.vinips.algafood.core.validation.Groups;
 import com.vinips.algafood.core.validation.ValorZeroIncluiDescricao;
 
 @ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
@@ -45,15 +38,17 @@ public class Restaurante {
 	//@NotNull
 	//@NotEmpty
 	//se usar os groups, tem que usar o @Validated no Controller, em vez do @Valid
-	@NotBlank//(groups = Groups.CadastroRestaurante.class)
+	//Aqui ta comentado pois estou usando DTO e Input para a parte de recebimento e envio de dados pela API
+	//@NotBlank//(groups = Groups.CadastroRestaurante.class) 
 	@Column(nullable = false)
 	private String nome;
 
 	//DecimalMin ou @PositiveOrZero são praticamente a mesma coisa.
 	//@DecimalMin("0")
 	//@Multiplo(numero = 5) Essa annotation foi criada por mim, apenas para fins de estudo
-	@NotNull
-	@PositiveOrZero
+	//Aqui ta comentado pois estou usando DTO e Input para a parte de recebimento e envio de dados pela API
+	//@NotNull
+	//@PositiveOrZero
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
@@ -64,10 +59,11 @@ public class Restaurante {
 	//@JsonIgnoreProperties("hibernateLazyInitializer")
 	//o Valid Específica que eu quero que o Bean Validation Valid em cascata, ou seja o cozinha.id tmbm
 	// @ConvertGroup converte do Default para o Alvo que você quer. Precisa usar o @Valid no controller
-	//Se estivermos usando um DTO da vida na hora de receber via http, não precisamos do ConvertGroup, colocamos direto o NotNull no atributo do DTO
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
-	@NotNull
+	//Se estivermos usando um DTO da vida na hora de receber via http, não precisamos do ConvertGroup, colocamos direto o NotNull no atributo do DTO. No caso usamos o RestauranteInput no projeto
+	//Aqui ta comentado pois estou usando DTO e Input para a parte de recebimento e envio de dados pela API
+	//@Valid
+	//@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	//@NotNull
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
