@@ -21,9 +21,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.vinips.algafood.core.validation.ValorZeroIncluiDescricao;
-
-@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
+//Para fins de estudo
+//@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Entity
 public class Restaurante {
 	
@@ -70,6 +69,8 @@ public class Restaurante {
 	
 	@Embedded
 	private Endereco endereco;
+	
+	private boolean ativo = Boolean.TRUE;
 	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
@@ -160,6 +161,14 @@ public class Restaurante {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+	
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 
 	@Override
 	public int hashCode() {
@@ -181,10 +190,17 @@ public class Restaurante {
 	@Override
 	public String toString() {
 		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + ", cozinha=" + cozinha
-				+ ", endereco=" + endereco + ", dataCadastro=" + dataCadastro + ", dataAtualizacao=" + dataAtualizacao
-				+ ", formasPagamento=" + formasPagamento + "]";
+				+ ", endereco=" + endereco + ", ativo=" + ativo + ", dataCadastro=" + dataCadastro
+				+ ", dataAtualizacao=" + dataAtualizacao + ", formasPagamento=" + formasPagamento + ", produtos="
+				+ produtos + "]";
 	}
-
 	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
+	}
 
 }

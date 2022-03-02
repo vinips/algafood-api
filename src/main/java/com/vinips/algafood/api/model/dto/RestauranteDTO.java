@@ -8,6 +8,7 @@ public class RestauranteDTO {
 	private String nome;
 	private BigDecimal taxaFrete;
 	private CozinhaDTO cozinha;
+	private boolean ativo;
 
 	public Long getId() {
 		return id;
@@ -39,6 +40,14 @@ public class RestauranteDTO {
 
 	public void setCozinha(CozinhaDTO cozinha) {
 		this.cozinha = cozinha;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 

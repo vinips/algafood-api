@@ -63,18 +63,18 @@ insert into cozinha (id, nome) values (8, 'Brasileira');
 insert into cozinha (id, nome) values (9, 'Italiana');
 
 -- RESTAURANTE
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id) values (1, 'Hangu Italiano', 15.99, 9, utc_timestamp, utc_timestamp, '88136-311', 'Rua das bananeiras', '199', 'casa', 'Loteamento Jurema', 1);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (2, 'Sabor da Bahia', 9.70, 8, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (3, 'Tuk Tuk do Mohamed', 8.30, 2, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (4, 'LeBonTon', 11.90, 4, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (5, 'Hamei', 18.99, 5, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (6, 'Hong Ju', 14.44, 6, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (7, 'Churras Gaúchesco', 0, 8, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (8, 'Benvenuto', 7.33, 9, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (9, 'Guacamole', 13.23, 3, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (10, 'Hi Thai', 0, 1, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (11, 'Bangkok Thai', 18.01, 1, utc_timestamp, utc_timestamp);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values (12, 'Polska', 13.99, 7, utc_timestamp, utc_timestamp);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cidade_id) values (1, 'Hangu Italiano', 15.99, 9, utc_timestamp, utc_timestamp, true, '88136-311', 'Rua das bananeiras', '199', 'casa', 'Loteamento Jurema', 1);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (2, 'Sabor da Bahia', 9.70, 8, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (3, 'Tuk Tuk do Mohamed', 8.30, 2, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (4, 'LeBonTon', 11.90, 4, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (5, 'Hamei', 18.99, 5, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (6, 'Hong Ju', 14.44, 6, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (7, 'Churras Gaúchesco', 0, 8, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (8, 'Benvenuto', 7.33, 9, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (9, 'Guacamole', 13.23, 3, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (10, 'Hi Thai', 0, 1, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (11, 'Bangkok Thai', 18.01, 1, utc_timestamp, utc_timestamp, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo) values (12, 'Polska', 13.99, 7, utc_timestamp, utc_timestamp, true);
 
 -- PRODUTO
 insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (1, 'Bobó de Camarão', 'Delicioso Bobó de camarão na chapa', 27.99, true, 2);

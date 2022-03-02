@@ -13,7 +13,7 @@ import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
 
 @Service
-public class CadastroRestauranteService {
+public class CadastroFormaPagamentoService {
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de código %d não pode ser removida pois está em uso";
 
