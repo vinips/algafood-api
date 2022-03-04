@@ -9,6 +9,7 @@ public class RestauranteDTO {
 	private BigDecimal taxaFrete;
 	private CozinhaDTO cozinha;
 	private boolean ativo;
+	private EnderecoDTO endereco;
 
 	public Long getId() {
 		return id;
@@ -48,6 +49,14 @@ public class RestauranteDTO {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public EnderecoDTO getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(EnderecoDTO endereco) {
+		this.endereco = endereco;
 	}
 
 

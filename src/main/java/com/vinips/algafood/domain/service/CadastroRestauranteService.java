@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
 import com.vinips.algafood.domain.exception.RestauranteNaoEncontradoException;
+import com.vinips.algafood.domain.model.Cidade;
 import com.vinips.algafood.domain.model.Cozinha;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
@@ -22,14 +23,22 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
+	
+	@Autowired
+	private CadastroCidadeService cadastroCidade;
 
 	//Boa prática anotar os métodos que fazem manipulação de dados com o @Transactional para não ocorrer erros
 	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
+		Long cidadeId = restaurante.getEndereco().getCidade().getId();
+		
 		Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
-
+		Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
+		
 		restaurante.setCozinha(cozinha);
+		restaurante.getEndereco().setCidade(cidade);
+
 		return restauranteRepository.save(restaurante);
 	}
 	

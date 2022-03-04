@@ -21,6 +21,7 @@ import com.vinips.algafood.api.model.assembler.RestauranteDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.RestauranteInputDisassembler;
 import com.vinips.algafood.api.model.dto.RestauranteDTO;
 import com.vinips.algafood.api.model.input.RestauranteInput;
+import com.vinips.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.model.Restaurante;
@@ -75,9 +76,9 @@ public class RestauranteController {
 			Restaurante restaurante = restauranteDisassembler.toDomainModel(restauranteInput);
 			
 			return restauranteAssembler.toDTO(cadastroRestaurante.salvar(restaurante));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
-		}
+		} 
 	}
 
 	@PutMapping("/{restauranteId}")
@@ -93,9 +94,10 @@ public class RestauranteController {
 //					"produtos");
 
 			return restauranteAssembler.toDTO(cadastroRestaurante.salvar(restauranteAtual));
-		} catch (CozinhaNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
-		}
+		} 
+		
 
 		// Jeito antigo
 //		if (restauranteAtual.isPresent()) {
