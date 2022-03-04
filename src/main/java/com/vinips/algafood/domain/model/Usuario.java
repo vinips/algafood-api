@@ -112,5 +112,9 @@ public class Usuario {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", dataCadastro="
 				+ dataCadastro + ", grupos=" + grupos + "]";
 	}
+	
+	public boolean compararSenha(String senha) {
+	    return getSenha().equals(senha);
+	}
 
 }
