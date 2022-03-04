@@ -14,6 +14,7 @@ CREATE TABLE grupo_permissao (
     grupo_id BIGINT NOT NULL,
     permissao_id BIGINT NOT NULL
 )  ENGINE=INNODB CHARSET=UTF8;
+
 CREATE TABLE permissao (
     id BIGINT NOT NULL AUTO_INCREMENT,
     descricao VARCHAR(80) NOT NULL,
@@ -68,7 +69,7 @@ CREATE TABLE usuario_grupo (
 
 alter table grupo_permissao add constraint fk_grupo_permissao_permissao foreign key (permissao_id) references permissao (id);
 
-alter table grupo_permissao add constraint fk_permissao_grupo_grupo foreign key (grupo_id) references grupo (id);
+alter table grupo_permissao add constraint fk_grupo_permissao_grupo foreign key (grupo_id) references grupo (id);
 
 alter table produto add constraint fk_produto_restaurante foreign key (restaurante_id) references restaurante (id);
 
@@ -78,8 +79,8 @@ alter table restaurante add constraint fk_restaurante_cidade foreign key (endere
 
 alter table restaurante_forma_pagamento add constraint fk_restaurante_forma_pagamento_forma_pagamento foreign key (forma_pagamento_id) references forma_pagamento (id);
 
-alter table restaurante_forma_pagamento add constraint fk_forma_pagamento_restaurante_restaurante foreign key (restaurante_id) references restaurante (id);
+alter table restaurante_forma_pagamento add constraint fk_restaurante_forma_pagamento_restaurante foreign key (restaurante_id) references restaurante (id);
 
 alter table usuario_grupo add constraint fk_usuario_grupo_grupo foreign key (grupo_id) references grupo (id);
 
-alter table usuario_grupo add constraint fk_grupo_usuario_usuario foreign key (usuario_id) references usuario (id);
+alter table usuario_grupo add constraint fk_usuario_grupo_usuario foreign key (usuario_id) references usuario (id);

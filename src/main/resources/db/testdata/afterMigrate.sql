@@ -35,6 +35,15 @@ insert into permissao (id, nome, descricao) values (2, 'Editar', 'Permite Editar
 insert into permissao (id, nome, descricao) values (3, 'Visualizar', 'Permite Visualizar');
 insert into permissao (id, nome, descricao) values (4, 'Todos', 'Permite Todas as opções');
 
+-- GRUPO
+insert into grupo (id, nome) values (1, 'ADM');
+insert into grupo (id, nome) values (2, 'Gerente');
+insert into grupo (id, nome) values (3, 'Vendedor');
+insert into grupo (id, nome) values (4, 'Secretário');
+insert into grupo (id, nome) values (5, 'Cadastrador');
+insert into grupo (id, nome) values (6, 'Entregador');
+insert into grupo (id, nome) values (7, 'Faxineiro');
+
 -- ESTADO
 insert into estado (id, nome) values (1, 'Santa Catarina');
 insert into estado (id, nome) values (2, 'Rio de Janeiro');
@@ -134,6 +143,3 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (10, 5);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (11, 3);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (11, 1);
-
-
-

@@ -36,7 +36,7 @@ public class CadastroFormaPagamentoService {
 	public void excluir(Long formaPagamentoId) {
 		try {
 			formaPagamentoRepository.deleteById(formaPagamentoId);
-			
+
 			//Estamos forçando o JPA a fazer o flush da transação para que se de erro, ele caia na nossa Exception.
 			//Caso contrário ele vai dar o flush só quando a transação fechar, que nesse caso é no fim do nosso método excluir.
 			formaPagamentoRepository.flush();
