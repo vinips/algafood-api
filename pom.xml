@@ -103,7 +103,7 @@
 		<dependency>
 		  <groupId>org.modelmapper</groupId>
 		  <artifactId>modelmapper</artifactId>
-		  <version>2.3.0</version>
+		  <version>2.4.2</version>
 		</dependency>
 
 		<!-- A partir do Spring 2.3.0 o Bean Validation não é adicionado automaticamente 

@@ -32,6 +32,20 @@ public class Endereco {
 	@JoinColumn(name="endereco_cidade_id")
 	private Cidade cidade;
 	
+	public Endereco() {
+		super();
+	}
+	
+	public Endereco(String cep, String logradouro, String numero, String complemento, String bairro, Cidade cidade) {
+		super();
+		this.cep = cep;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.cidade = cidade;
+	}
+
 	public String getCep() {
 		return cep;
 	}

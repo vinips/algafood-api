@@ -14,6 +14,7 @@ public class ModelMapperConfig {
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 		
+		//Associa que o Estado  do Endereço vai ser uma String com apenas o nome e não um objeto completo
 		var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(Endereco.class, EnderecoDTO.class);
 		
 		enderecoToEnderecoModelTypeMap.<String>addMapping(

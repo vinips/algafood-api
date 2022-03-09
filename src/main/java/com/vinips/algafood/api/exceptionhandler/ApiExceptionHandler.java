@@ -263,7 +263,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return new Problem(status.value(), OffsetDateTime.now(), problemType.getUri(), problemType.getTitulo(), detail,
 				userMessage, null);
 	}
-
+	
+	//Faz um stream em cima da lista pra pegar o nome do campo passado erroneamente;
 	private String joinPath(List<Reference> ex) {
 		return ex.stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
 	}
