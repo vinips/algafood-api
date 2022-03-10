@@ -74,6 +74,8 @@ public class Restaurante {
 	
 	private boolean ativo = Boolean.TRUE;
 	
+	private boolean aberto = Boolean.FALSE;
+	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private OffsetDateTime dataCadastro;
@@ -171,6 +173,23 @@ public class Restaurante {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+	
+	public boolean adicionarFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().add(formaPagamento);
+	}
+	
+	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().remove(formaPagamento);
+	}
+
+	public boolean isAberto() {
+		return aberto;
+	}
+
+	public void setAberto(boolean aberto) {
+		this.aberto = aberto;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -192,9 +211,9 @@ public class Restaurante {
 	@Override
 	public String toString() {
 		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + ", cozinha=" + cozinha
-				+ ", endereco=" + endereco + ", ativo=" + ativo + ", dataCadastro=" + dataCadastro
-				+ ", dataAtualizacao=" + dataAtualizacao + ", formasPagamento=" + formasPagamento + ", produtos="
-				+ produtos + "]";
+				+ ", endereco=" + endereco + ", ativo=" + ativo + ", aberto=" + aberto + ", dataCadastro="
+				+ dataCadastro + ", dataAtualizacao=" + dataAtualizacao + ", formasPagamento=" + formasPagamento
+				+ ", produtos=" + produtos + "]";
 	}
 	
 	public void ativar() {
@@ -205,14 +224,13 @@ public class Restaurante {
 		setAtivo(false);
 	}
 	
-	public boolean adicionarFormaPagamento(FormaPagamento formaPagamento) {
-		return getFormasPagamento().add(formaPagamento);
+	public void abrir() {
+		setAberto(true);
 	}
 	
-	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
-		return getFormasPagamento().remove(formaPagamento);
+	public void fechar() {
+		setAberto(false);
 	}
-	
-	
+
 
 }

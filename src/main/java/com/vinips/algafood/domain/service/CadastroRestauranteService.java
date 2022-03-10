@@ -82,12 +82,35 @@ public class CadastroRestauranteService {
 		//o Transactional chegar no final e dar o merge automático.
 	}
 	
-
 	@Transactional
 	public void inativar(Long restauranteId) {
 		Restaurante restaurante = buscarOuFalhar(restauranteId);
 		
 		restaurante.inativar();
+		
+		//Não precisamos chamar o salvar nesse caso pois essa instância de restaurante que
+		//o buscarOuFalhar nos devolveu esta sendo gerenciado pelo contexto de persistência do JPA.
+		//Então qualquer modificação nele vai ser persistido no banco de dados quando 
+		//o Transactional chegar no final e dar o merge automático.
+	}
+	
+	@Transactional
+	public void abrir(Long restauranteId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		
+		restaurante.abrir();
+		
+		//Não precisamos chamar o salvar nesse caso pois essa instância de restaurante que
+		//o buscarOuFalhar nos devolveu esta sendo gerenciado pelo contexto de persistência do JPA.
+		//Então qualquer modificação nele vai ser persistido no banco de dados quando 
+		//o Transactional chegar no final e dar o merge automático.
+	}
+	
+	@Transactional
+	public void fechar(Long restauranteId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		
+		restaurante.fechar();
 		
 		//Não precisamos chamar o salvar nesse caso pois essa instância de restaurante que
 		//o buscarOuFalhar nos devolveu esta sendo gerenciado pelo contexto de persistência do JPA.
