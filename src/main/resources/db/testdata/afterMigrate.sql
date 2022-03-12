@@ -44,6 +44,13 @@ insert into grupo (id, nome) values (5, 'Cadastrador');
 insert into grupo (id, nome) values (6, 'Entregador');
 insert into grupo (id, nome) values (7, 'Faxineiro');
 
+-- USUARIO
+insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Adm', 'adm@gmail.com', '1234', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Jorge', 'jorge@yahoo.com.br', '12345', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'Amanda', 'amanda@bol.com.br', '12323', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Ricardo', 'ricardo@hotmail.com', '11233', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'vendas', 'vendas@algafood.com', '33442', utc_timestamp);
+
 -- ESTADO
 insert into estado (id, nome) values (1, 'Santa Catarina');
 insert into estado (id, nome) values (2, 'Rio de Janeiro');
@@ -144,17 +151,16 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (11, 3);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (11, 1);
 
--- USUARIO
-insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Adm', 'adm@gmail.com', '1234', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Jorge', 'jorge@yahoo.com.br', '12345', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'Amanda', 'amanda@bol.com.br', '12323', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Ricardo', 'ricardo@hotmail.com', '11233', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'vendas', 'vendas@algafood.com', '33442', utc_timestamp);
-
 -- GRUPO_PERMISSAO
-
 insert into grupo_permissao (grupo_id, permissao_id) values (1, 1);
 insert into grupo_permissao (grupo_id, permissao_id) values (1, 2);
 insert into grupo_permissao (grupo_id, permissao_id) values (1, 3);
 insert into grupo_permissao (grupo_id, permissao_id) values (2, 2);
 insert into grupo_permissao (grupo_id, permissao_id) values (3, 4);
+
+-- USUARIO_GRUPO
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1);
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 2);
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 3);
+insert into usuario_grupo (usuario_id, grupo_id) values (2, 2);
+insert into usuario_grupo (usuario_id, grupo_id) values (3, 3);

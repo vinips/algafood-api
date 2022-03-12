@@ -12,6 +12,7 @@ import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.exception.SenhaIncorretaException;
 import com.vinips.algafood.domain.exception.UsuarioNaoEncontradoException;
+import com.vinips.algafood.domain.model.Grupo;
 import com.vinips.algafood.domain.model.Usuario;
 import com.vinips.algafood.domain.repository.UsuarioRepository;
 
@@ -26,6 +27,9 @@ public class CadastroUsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private CadastroGrupoService cadastroGrupo;
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
@@ -70,7 +74,22 @@ public class CadastroUsuarioService {
 		}
 		
 		usuarioAtual.setSenha(novaSenha);
-		
+	}
+	
+	@Transactional
+	public void associarGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscarOuFalhar(usuarioId);
+		Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+
+		usuario.adicionarGrupo(grupo);
+	}
+
+	@Transactional
+	public void desassociarGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscarOuFalhar(usuarioId);
+		Grupo grupo = cadastroGrupo.buscarOuFalhar(grupoId);
+
+		usuario.removerGrupo(grupo);
 	}
 
 }

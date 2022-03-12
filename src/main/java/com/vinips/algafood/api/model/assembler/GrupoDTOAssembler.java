@@ -1,5 +1,6 @@
 package com.vinips.algafood.api.model.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class GrupoDTOAssembler {
 		return modelMapper.map(grupo, GrupoDTO.class);
 	}
 	
-	public List<GrupoDTO> toCollectionDTO(List<Grupo> grupoList) {
+	public List<GrupoDTO> toCollectionDTO(Collection<Grupo> grupoList) {
 		return grupoList.stream().map(grupo -> toDTO(grupo)).collect(Collectors.toList());
 	}
 	
