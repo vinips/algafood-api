@@ -150,3 +150,11 @@ insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Jorge', 
 insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'Amanda', 'amanda@bol.com.br', '12323', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Ricardo', 'ricardo@hotmail.com', '11233', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'vendas', 'vendas@algafood.com', '33442', utc_timestamp);
+
+-- GRUPO_PERMISSAO
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 2);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 3);
+insert into grupo_permissao (grupo_id, permissao_id) values (2, 2);
+insert into grupo_permissao (grupo_id, permissao_id) values (3, 4);

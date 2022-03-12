@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
 import com.vinips.algafood.domain.exception.GrupoNaoEncontradoException;
 import com.vinips.algafood.domain.model.Grupo;
+import com.vinips.algafood.domain.model.Permissao;
 import com.vinips.algafood.domain.repository.GrupoRepository;
 
 @Service
@@ -19,6 +20,9 @@ public class CadastroGrupoService {
 	@Autowired
 	private GrupoRepository grupoRepository;
 
+	@Autowired
+	private CadastroPermissaoService cadastroPermissao;
+
 	// Boa prática anotar os métodos que fazem manipulação de dados com o
 	// @Transactional para não ocorrer erros
 	@Transactional
@@ -26,11 +30,10 @@ public class CadastroGrupoService {
 		return grupoRepository.save(grupo);
 	}
 
-	// Aqui ele vai retornar uma Forma de Pagamento
-	// Caso não encontre a Forma de Pagamento, vai lançar uma Exception.
+	// Aqui ele vai retornar uma Permissao
+	// Caso não encontre a Permissao, vai lançar uma Exception.
 	public Grupo buscarOuFalhar(Long grupoId) {
-		return grupoRepository.findById(grupoId)
-				.orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
+		return grupoRepository.findById(grupoId).orElseThrow(() -> new GrupoNaoEncontradoException(grupoId));
 	}
 
 	@Transactional
@@ -49,6 +52,22 @@ public class CadastroGrupoService {
 			throw new EntidadeEmUsoException(String.format(MSG_GRUPO_EM_USO, grupoId));
 		}
 
+	}
+
+	@Transactional
+	public void associarPermissao(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscarOuFalhar(grupoId);
+		Permissao permissao = cadastroPermissao.buscarOuFalhar(permissaoId);
+
+		grupo.adicionarPermissao(permissao);
+	}
+
+	@Transactional
+	public void desassociarPermissao(Long grupoId, Long permissaoId) {
+		Grupo grupo = buscarOuFalhar(grupoId);
+		Permissao permissao = cadastroPermissao.buscarOuFalhar(permissaoId);
+
+		grupo.removerPermissao(permissao);
 	}
 
 }

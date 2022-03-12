@@ -174,14 +174,6 @@ public class Restaurante {
 		this.ativo = ativo;
 	}
 	
-	public boolean adicionarFormaPagamento(FormaPagamento formaPagamento) {
-		return getFormasPagamento().add(formaPagamento);
-	}
-	
-	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
-		return getFormasPagamento().remove(formaPagamento);
-	}
-
 	public boolean isAberto() {
 		return aberto;
 	}
@@ -214,6 +206,14 @@ public class Restaurante {
 				+ ", endereco=" + endereco + ", ativo=" + ativo + ", aberto=" + aberto + ", dataCadastro="
 				+ dataCadastro + ", dataAtualizacao=" + dataAtualizacao + ", formasPagamento=" + formasPagamento
 				+ ", produtos=" + produtos + "]";
+	}
+	
+	public boolean adicionarFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().add(formaPagamento);
+	}
+	
+	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().remove(formaPagamento);
 	}
 	
 	public void ativar() {
