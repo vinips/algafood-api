@@ -164,3 +164,8 @@ insert into usuario_grupo (usuario_id, grupo_id) values (1, 2);
 insert into usuario_grupo (usuario_id, grupo_id) values (1, 3);
 insert into usuario_grupo (usuario_id, grupo_id) values (2, 2);
 insert into usuario_grupo (usuario_id, grupo_id) values (3, 3);
+
+-- RESTAURANTE_USUARIO_RESPONSAVEL
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 1);
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 2);
+insert into restaurante_usuario_responsavel (restaurante_id, usuario_id) values (1, 3);

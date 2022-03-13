@@ -13,43 +13,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinips.algafood.api.model.assembler.FormaPagamentoDTOAssembler;
-import com.vinips.algafood.api.model.dto.FormaPagamentoDTO;
+import com.vinips.algafood.api.model.assembler.UsuarioDTOAssembler;
+import com.vinips.algafood.api.model.dto.UsuarioDTO;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/formas-pagamento")
-public class RestauranteFormaPagamentoController {
+@RequestMapping("/restaurantes/{restauranteId}/responsaveis")
+public class RestauranteUsuarioResponsavelController {
 
 	@Autowired
 	private CadastroRestauranteService cadastroRestaurante;
 
 	@Autowired
-	private FormaPagamentoDTOAssembler formaPagamentoAssembler;
+	private UsuarioDTOAssembler usuarioAssembler;
 
 	@GetMapping
-	public ResponseEntity<List<FormaPagamentoDTO>> listar(@PathVariable Long restauranteId) {
+	public ResponseEntity<List<UsuarioDTO>> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-		if (restaurante.getFormasPagamento() != null && !restaurante.getFormasPagamento().isEmpty()) {
-			return ResponseEntity.ok(formaPagamentoAssembler.toCollectionDTO(restaurante.getFormasPagamento()));
+		if (restaurante.getResponsaveis() != null && !restaurante.getResponsaveis().isEmpty()) {
+			return ResponseEntity.ok(usuarioAssembler.toCollectionDTO(restaurante.getResponsaveis()));
 		}
 
 		return ResponseEntity.noContent().build();
 
 	}
 
-	@PutMapping("/{formaPagamentoId}")
+	@PutMapping("/{usuarioId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-		cadastroRestaurante.associarFormaPagamento(restauranteId, formaPagamentoId);
+	public void associar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+		cadastroRestaurante.associarUsuarioResponsavel(restauranteId, usuarioId);
 	}
 	
-	@DeleteMapping("/{formaPagamentoId}")
+	@DeleteMapping("/{usuarioId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-		cadastroRestaurante.desassociarFormaPagamento(restauranteId, formaPagamentoId);
+	public void desassociar(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+		cadastroRestaurante.desassociarUsuarioResponsavel(restauranteId, usuarioId);
 	}
 
 }

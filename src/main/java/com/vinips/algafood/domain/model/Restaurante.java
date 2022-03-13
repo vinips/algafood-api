@@ -90,6 +90,12 @@ public class Restaurante {
 		inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private Set<FormaPagamento> formasPagamento = new HashSet<>();
 	
+	@ManyToMany
+	@JoinTable(name = "restaurante_usuario_responsavel", 
+		joinColumns = @JoinColumn(name = "restaurante_id"), 
+		inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+	private Set<Usuario> responsaveis = new HashSet<>();
+	
 	//Não necessariamente precisa ter, pq aqui estou fazendo Bi-dimensional apenas para fins de estudos.
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();	
@@ -182,6 +188,14 @@ public class Restaurante {
 		this.aberto = aberto;
 	}
 	
+	public Set<Usuario> getResponsaveis() {
+		return responsaveis;
+	}
+
+	public void setResponsaveis(Set<Usuario> responsaveis) {
+		this.responsaveis = responsaveis;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -199,15 +213,15 @@ public class Restaurante {
 		Restaurante other = (Restaurante) obj;
 		return Objects.equals(id, other.id);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + ", cozinha=" + cozinha
 				+ ", endereco=" + endereco + ", ativo=" + ativo + ", aberto=" + aberto + ", dataCadastro="
 				+ dataCadastro + ", dataAtualizacao=" + dataAtualizacao + ", formasPagamento=" + formasPagamento
-				+ ", produtos=" + produtos + "]";
+				+ ", responsaveis=" + responsaveis + ", produtos=" + produtos + "]";
 	}
-	
+
 	public boolean adicionarFormaPagamento(FormaPagamento formaPagamento) {
 		return getFormasPagamento().add(formaPagamento);
 	}
@@ -231,6 +245,13 @@ public class Restaurante {
 	public void fechar() {
 		setAberto(false);
 	}
-
+	
+	public boolean adicionarUsuarioResponsavel(Usuario usuario) {
+		return getResponsaveis().add(usuario);
+	}
+	
+	public boolean removerUsuarioResponsavel(Usuario usuario) {
+		return getResponsaveis().remove(usuario);
+	}
 
 }

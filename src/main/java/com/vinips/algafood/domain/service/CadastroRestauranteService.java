@@ -12,6 +12,7 @@ import com.vinips.algafood.domain.model.Cidade;
 import com.vinips.algafood.domain.model.Cozinha;
 import com.vinips.algafood.domain.model.FormaPagamento;
 import com.vinips.algafood.domain.model.Restaurante;
+import com.vinips.algafood.domain.model.Usuario;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
 
 @Service
@@ -27,6 +28,9 @@ public class CadastroRestauranteService {
 	
 	@Autowired
 	private CadastroCidadeService cadastroCidade;
+	
+	@Autowired
+	private CadastroUsuarioService cadastroUsuario;
 	
 	@Autowired
 	private CadastroFormaPagamentoService cadastroFormaPagamento;
@@ -132,6 +136,22 @@ public class CadastroRestauranteService {
 		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
 		
 		restaurante.removerFormaPagamento(formaPagamento);
+	}
+	
+	@Transactional
+	public void associarUsuarioResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+		
+		restaurante.adicionarUsuarioResponsavel(usuario);
+	}
+	
+	@Transactional
+	public void desassociarUsuarioResponsavel(Long restauranteId, Long usuarioId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+		
+		restaurante.removerUsuarioResponsavel(usuario);
 	}
 
 }
