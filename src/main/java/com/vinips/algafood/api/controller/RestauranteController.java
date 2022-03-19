@@ -24,6 +24,7 @@ import com.vinips.algafood.api.model.input.RestauranteInput;
 import com.vinips.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
+import com.vinips.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
 import com.vinips.algafood.domain.service.CadastroRestauranteService;
@@ -118,18 +119,38 @@ public class RestauranteController {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long restauranteId) {
 		cadastroRestaurante.excluir(restauranteId);
-
 	}
 	
 	@PutMapping("/{restauranteId}/ativo")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void ativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.ativar(restauranteId);
 	}
 	
+	@PutMapping("/ativacoes")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestaurante.ativar(restauranteIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getLocalizedMessage(), e);
+		}
+	}
+
 	@DeleteMapping("/{restauranteId}/ativo")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void inativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.inativar(restauranteId);
+	}
+	
+	@DeleteMapping("/ativacoes")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
+		try {
+			cadastroRestaurante.inativar(restauranteIds);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getLocalizedMessage(), e);
+		}
 	}
 	
 	@PutMapping("/{restauranteId}/abertura")

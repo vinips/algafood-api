@@ -1,5 +1,7 @@
 package com.vinips.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,6 +16,7 @@ import com.vinips.algafood.domain.model.FormaPagamento;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.model.Usuario;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
+
 
 @Service
 public class CadastroRestauranteService {
@@ -87,6 +90,11 @@ public class CadastroRestauranteService {
 	}
 	
 	@Transactional
+	public void ativar(List<Long> restauranteIds) {
+		restauranteIds.forEach(this::ativar);
+	}
+	
+	@Transactional
 	public void inativar(Long restauranteId) {
 		Restaurante restaurante = buscarOuFalhar(restauranteId);
 		
@@ -96,6 +104,11 @@ public class CadastroRestauranteService {
 		//o buscarOuFalhar nos devolveu esta sendo gerenciado pelo contexto de persistência do JPA.
 		//Então qualquer modificação nele vai ser persistido no banco de dados quando 
 		//o Transactional chegar no final e dar o merge automático.
+	}
+	
+	@Transactional
+	public void inativar(List<Long> restauranteIds) {
+		restauranteIds.forEach(this::inativar);
 	}
 	
 	@Transactional
@@ -153,5 +166,5 @@ public class CadastroRestauranteService {
 		
 		restaurante.removerUsuarioResponsavel(usuario);
 	}
-
+	
 }
