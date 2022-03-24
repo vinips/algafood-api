@@ -22,6 +22,8 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.vinips.algafood.domain.exception.NegocioException;
+
 @Entity
 public class Pedido {
 	
@@ -142,8 +144,12 @@ public class Pedido {
 		return status;
 	}
 
-	public void setStatus(StatusPedido status) {
-		this.status = status;
+	private void setStatus(StatusPedido novoStatus) {
+		if(getStatus().naoPodeAlterarPara(novoStatus)) {
+			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de '%s' para '%s'",
+					getId(), getStatus().getDescricao(), novoStatus.getDescricao()));
+		}
+		this.status = novoStatus;
 	}
 
 	public Endereco getEnderecoEntrega() {
@@ -221,6 +227,21 @@ public class Pedido {
 	        .reduce(BigDecimal.ZERO, BigDecimal::add);
 	    
 	    this.valorTotal = this.subtotal.add(this.taxaFrete);
+	}
+	
+	public void confirmar() {
+		setStatus(StatusPedido.CONFIRMADO);
+		setDataConfirmacao(OffsetDateTime.now());
+	}
+	
+	public void entregar() {
+		setStatus(StatusPedido.ENTREGUE);
+		setDataEntrega(OffsetDateTime.now());
+	}
+	
+	public void cancelar() {
+		setStatus(StatusPedido.CANCELADO);
+		setDataCancelamento(OffsetDateTime.now());
 	}
 
 }
