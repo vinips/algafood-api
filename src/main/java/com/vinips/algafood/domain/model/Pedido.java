@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,6 +32,8 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private String codigo;
 	
 	@Column(nullable = false)
 	private BigDecimal subtotal;
@@ -82,6 +86,14 @@ public class Pedido {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public BigDecimal getSubtotal() {
@@ -146,8 +158,8 @@ public class Pedido {
 
 	private void setStatus(StatusPedido novoStatus) {
 		if(getStatus().naoPodeAlterarPara(novoStatus)) {
-			throw new NegocioException(String.format("Status do pedido %d não pode ser alterado de '%s' para '%s'",
-					getId(), getStatus().getDescricao(), novoStatus.getDescricao()));
+			throw new NegocioException(String.format("Status do pedido '%s' não pode ser alterado de '%s' para '%s'",
+					getCodigo(), getStatus().getDescricao(), novoStatus.getDescricao()));
 		}
 		this.status = novoStatus;
 	}
@@ -191,7 +203,7 @@ public class Pedido {
 	public void setItens(List<ItemPedido> itens) {
 		this.itens = itens;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -211,14 +223,19 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + id + ", subtotal=" + subtotal + ", taxaFrete=" + taxaFrete + ", valorTotal=" + valorTotal
-				+ ", dataCriacao=" + dataCriacao + ", dataConfirmacao=" + dataConfirmacao + ", dataCancelamento="
-				+ dataCancelamento + ", dataEntrega=" + dataEntrega + ", status=" + status + ", enderecoEntrega="
-				+ enderecoEntrega + ", cliente=" + cliente + ", restaurante=" + restaurante + ", formaPagamento="
-				+ formaPagamento + "]";
-	}	
+		return "Pedido [id=" + id + ", codigo=" + codigo + ", subtotal=" + subtotal + ", taxaFrete=" + taxaFrete
+				+ ", valorTotal=" + valorTotal + ", dataCriacao=" + dataCriacao + ", dataConfirmacao=" + dataConfirmacao
+				+ ", dataCancelamento=" + dataCancelamento + ", dataEntrega=" + dataEntrega + ", status=" + status
+				+ ", enderecoEntrega=" + enderecoEntrega + ", cliente=" + cliente + ", restaurante=" + restaurante
+				+ ", formaPagamento=" + formaPagamento + ", itens=" + itens + "]";
+	}
 	
-	
+	//Antes de Persistir a entidade no banco, o Hibernate roda esse código automaticamente
+	@PrePersist
+	private void gerarCodigo() {
+		setCodigo(UUID.randomUUID().toString());
+	}
+
 	public void calcularValorTotal() {
 		getItens().forEach(ItemPedido::calcularPrecoTotal);
 		

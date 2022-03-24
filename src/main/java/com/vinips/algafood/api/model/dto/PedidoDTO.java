@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PedidoDTO {
 	
-	private Long id;
+	private String codigo;
 	private BigDecimal subtotal;
 	private BigDecimal taxaFrete;
 	private BigDecimal valorTotal;
@@ -21,12 +21,12 @@ public class PedidoDTO {
 	private EnderecoDTO enderecoEntrega;
 	private List<ItemPedidoDTO> itens;
 
-	public Long getId() {
-		return id;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public BigDecimal getSubtotal() {
