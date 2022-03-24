@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pedido {
@@ -38,7 +38,6 @@ public class Pedido {
 	@Column(nullable = false)
 	private BigDecimal valorTotal;
 	
-	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")//datetime é para não criar a precisão de milisegundos
 	private OffsetDateTime dataCriacao;
@@ -66,12 +65,13 @@ public class Pedido {
 	@JoinColumn(name = "restaurante_id", nullable = false)
 	private Restaurante restaurante;
 	
-	@ManyToOne 
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "forma_pagamento_id", nullable = false)
 	private FormaPagamento formaPagamento;
 	
 	//Não necessariamente precisa ter, pq aqui estou fazendo Bi-dimensional apenas para fins de estudos.
-	@OneToMany(mappedBy = "pedido")
+	// CascadeType.ALL é para quando salvarmos um pedido, salvarmos em cascata os itens também.
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ItemPedido> itens = new ArrayList<>();
 
 	public Long getId() {
@@ -214,6 +214,8 @@ public class Pedido {
 	
 	
 	public void calcularValorTotal() {
+		getItens().forEach(ItemPedido::calcularPrecoTotal);
+		
 	    this.subtotal = getItens().stream()
 	        .map(item -> item.getPrecoTotal())
 	        .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -221,13 +223,4 @@ public class Pedido {
 	    this.valorTotal = this.subtotal.add(this.taxaFrete);
 	}
 
-	public void definirFrete() {
-	    setTaxaFrete(getRestaurante().getTaxaFrete());
-	}
-
-	public void atribuirPedidoAosItens() {
-	    getItens().forEach(item -> item.setPedido(this));
-	}
-	
-	
 }
