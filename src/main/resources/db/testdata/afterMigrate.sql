@@ -98,7 +98,7 @@ INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_a
 INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto) VALUES (12, 'Polska', 13.99, 7, utc_timestamp, utc_timestamp, true, false);
 
 -- PRODUTO
-INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (1, 'Bobó de Camarão', 'Delicioso Bobó de camarão na chapa', 27.99, true, 2);
+INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (1, 'Bobó de Camarão', 'Delicioso Bobó de camarão na chapa', 27.99, false, 2);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (2, 'Linguiça no Forno', 'Linguiça italiana no forno de madeira', 30.99, true, 2);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (3, 'Vatapá', 'Vatapá ao molho branco', 14.99, true, 2);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (4, 'Camarão no Dendê', 'Cozinho de camarão com delicioso molho de dendê', 40.65, true, 7);

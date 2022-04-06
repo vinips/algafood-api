@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.vinips.algafood.api.model.assembler.RestauranteDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.RestauranteInputDisassembler;
 import com.vinips.algafood.api.model.dto.RestauranteDTO;
 import com.vinips.algafood.api.model.input.RestauranteInput;
+import com.vinips.algafood.api.model.view.RestauranteView;
 import com.vinips.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
@@ -45,18 +46,21 @@ public class RestauranteController {
 	@Autowired
 	private RestauranteInputDisassembler restauranteDisassembler;
 	
+	//O JsonView serve para enviar pro json apenas o que estiver anotado com ele com aquela propriedade. Aula 13.1
+	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
-	public ResponseEntity<List<RestauranteDTO>> listar() {
+	public List<RestauranteDTO> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
 
-		if (restaurantes != null && !restaurantes.isEmpty()) {
-			return ResponseEntity.ok(restauranteAssembler.toCollectionDTO(restaurantes));
-		}
-
-		return ResponseEntity.noContent().build();
-
+		return restauranteAssembler.toCollectionDTO(restaurantes);
 	}
-
+	
+	@JsonView(RestauranteView.ApenasNome.class)
+	@GetMapping(params = "projecao=apenas-nome")
+	public List<RestauranteDTO> listarApenasNome() {
+		return listar();
+	}
+	
 	@GetMapping("/{restauranteId}")
 	public RestauranteDTO buscar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
@@ -167,6 +171,37 @@ public class RestauranteController {
 	
 	/*
 	//MÉTODOS A SEGUIR SÃO APENAS PARA FINS DE ESTUDO, NÃO UTILIZAMOS.
+	 * 
+//	@GetMapping
+//	public MappingJacksonValue listar(@RequestParam (required = false) String projecao) {
+//		List<Restaurante> restaurantes = restauranteRepository.findAll();
+//		List<RestauranteDTO> restaurantesDTO = restauranteAssembler.toCollectionDTO(restaurantes);
+//		
+//		//Essa classe "envelopa" o DTO e com isso conseguimos setar qual Serialization View queremos passar de acordo com o parametro recebido
+//		MappingJacksonValue restauranteWrapper = new MappingJacksonValue(restaurantesDTO);
+//		
+//		restauranteWrapper.setSerializationView(RestauranteView.Resumo.class);
+//		
+//		if("apenas-nome".equals(projecao)) {
+//			restauranteWrapper.setSerializationView(RestauranteView.ApenasNome.class);
+//		} else if ("completo".equals(projecao)) {
+//			restauranteWrapper.setSerializationView(null);
+//		}
+//		
+//		return restauranteWrapper;
+//	}
+ * 
+ 	@GetMapping
+	public ResponseEntity<List<RestauranteDTO>> listar() {
+		List<Restaurante> restaurantes = restauranteRepository.findAll();
+
+		if (restaurantes != null && !restaurantes.isEmpty()) {
+			return ResponseEntity.ok(restauranteAssembler.toCollectionDTO(restaurantes));
+		}
+
+		return ResponseEntity.noContent().build();
+
+	}
 	  
 	@Autowired
 	private SmartValidator validator;

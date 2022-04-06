@@ -1,8 +1,14 @@
 package com.vinips.algafood.api.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.vinips.algafood.api.model.view.RestauranteView;
+
 public class CozinhaDTO {
 
+	@JsonView(RestauranteView.Resumo.class)
 	private Long id;
+	
+	@JsonView(RestauranteView.Resumo.class)
 	private String nome;
 	
 	public Long getId() {

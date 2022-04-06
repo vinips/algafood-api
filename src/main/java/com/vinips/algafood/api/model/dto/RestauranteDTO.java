@@ -2,12 +2,24 @@ package com.vinips.algafood.api.model.dto;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.vinips.algafood.api.model.view.RestauranteView;
+
 public class RestauranteDTO {
 	
+	@JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNome.class })
 	private Long id;
+	
+	@JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNome.class })
 	private String nome;
+	
+	@JsonView(RestauranteView.Resumo.class)
 	private BigDecimal taxaFrete;
+	
+	@JsonView(RestauranteView.Resumo.class)
 	private CozinhaDTO cozinha;
+	
+	
 	private boolean ativo;
 	private boolean aberto;
 	private EnderecoDTO endereco;
