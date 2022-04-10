@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.ImmutableMap;
 import com.vinips.algafood.api.model.assembler.PedidoDTOAssembler;
 import com.vinips.algafood.api.model.assembler.PedidoResumoDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.PedidoInputDisassembler;
 import com.vinips.algafood.api.model.dto.PedidoDTO;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
 import com.vinips.algafood.api.model.input.PedidoInput;
+import com.vinips.algafood.core.data.PageableTranslator;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.model.Pedido;
@@ -54,6 +56,8 @@ public class PedidoController {
 	
 	@GetMapping
 	public Page<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable){
+		pageable = traduzirPageable(pageable);
+		
 		Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
 	
 		List<PedidoResumoDTO> pedidosResumoDTO = pedidoResumoAssembler.toCollectionDTO(pedidos.getContent());
@@ -100,6 +104,17 @@ public class PedidoController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cancelar(@PathVariable String codigoPedido) {
 		cadastroPedido.cancelar(codigoPedido);
+	}
+	
+	private Pageable traduzirPageable(Pageable pageable) {
+		var mapeamento = ImmutableMap.of(
+				"codigo", "codigo",
+				"restaurante.nome", "restaurante.nome",
+				"nomeCliente", "cliente.nome",
+				"valorTotal", "valorTotal"
+				);
+		
+		return PageableTranslator.translate(pageable, mapeamento); 
 	}
 
 }
