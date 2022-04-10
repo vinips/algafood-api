@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -177,6 +178,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleValidacao(ValidacaoException ex, WebRequest request) {
 		return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
+	
+	//Quando usamos o Filtro de requisição tipo o PedidoSpecs e passamos um valor inválido, é essa Exception que pega o erro.
+	public ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
+			WebRequest request) {
+		return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+
+	}
 
 	private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -205,7 +213,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
-
+	
 	// @ExceptionHandler é utilizado para podermos alterar livremente as informações
 	// passadas pelo Response Entity quando da erro.
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
