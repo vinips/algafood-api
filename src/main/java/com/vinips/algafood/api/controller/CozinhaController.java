@@ -5,8 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,15 +43,19 @@ public class CozinhaController {
 	@Autowired
 	private CozinhaInputDisassembler cozinhaDisassembler;
 
+	//Pageable é para a paginação.
+	//Usamos o parametro size e um valor int na requisição http para determinar quantos elementos por página.
+	//Usamos o parametro page e um valor int na requisição http para escolher qual página queremos.
+	//Usamos o parametro page e um valor String na requisição http para ordenar por coluna.
 	@GetMapping
-	public ResponseEntity<List<CozinhaDTO>> listar() {
-		List<Cozinha> cozinhas = this.cozinhaRepository.findAll();
+	public Page<CozinhaDTO> listar(Pageable pageable) {
+		Page<Cozinha> cozinhasPage = this.cozinhaRepository.findAll(pageable);
 
-		if (cozinhas != null && !cozinhas.isEmpty()) {
-			return ResponseEntity.ok(cozinhaAssembler.toCollectionDTO(cozinhas));
-		}
-
-		return ResponseEntity.noContent().build();
+		List<CozinhaDTO> cozinhasDTO = cozinhaAssembler.toCollectionDTO(cozinhasPage.getContent());
+		
+		Page<CozinhaDTO> cozinhasDTOPage = new PageImpl<>(cozinhasDTO, pageable, cozinhasPage.getTotalElements());
+		
+		return cozinhasDTOPage;
 	}
 
 	@GetMapping("/{cozinhaId}")
