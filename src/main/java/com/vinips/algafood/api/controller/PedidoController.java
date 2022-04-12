@@ -28,10 +28,10 @@ import com.vinips.algafood.api.model.input.PedidoInput;
 import com.vinips.algafood.core.data.PageableTranslator;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
+import com.vinips.algafood.domain.filter.PedidoFilter;
 import com.vinips.algafood.domain.model.Pedido;
 import com.vinips.algafood.domain.model.Usuario;
 import com.vinips.algafood.domain.repository.PedidoRepository;
-import com.vinips.algafood.domain.repository.filter.PedidoFilter;
 import com.vinips.algafood.domain.service.CadastroPedidoService;
 import com.vinips.algafood.infrastructure.repository.spec.PedidoSpecs;
 

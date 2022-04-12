@@ -1,4 +1,4 @@
-package com.vinips.algafood.domain.repository.filter;
+package com.vinips.algafood.domain.filter;
 
 import java.time.OffsetDateTime;
 
