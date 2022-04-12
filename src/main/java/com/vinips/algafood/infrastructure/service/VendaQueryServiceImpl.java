@@ -24,12 +24,23 @@ public class VendaQueryServiceImpl implements VendaQueryService {
 	private EntityManager entityManager;
 
 	@Override
-	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filter) {
+	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filter, String timeOffSet) {
 		var builder = entityManager.getCriteriaBuilder();
 		var query = builder.createQuery(VendaDiaria.class);
 		var root = query.from(Pedido.class);
 		
-		var functionDateDataCriacao = builder.function("date", Date.class, root.get("dataCriacao"));
+		//Essa função converte o offset da data de UTF (padrão) para o offSet que passarmos
+		var functionConvertTzDataCriacao = builder.function(
+				"convert_tz", 
+				Date.class, 
+				root.get("dataCriacao"),
+				builder.literal("+00:00"), 
+				builder.literal(timeOffSet));
+		
+		var functionDateDataCriacao = builder.function(
+				"date", 
+				Date.class, 
+				functionConvertTzDataCriacao);
 		
 		var selection = builder.construct(VendaDiaria.class, 
 				functionDateDataCriacao,
