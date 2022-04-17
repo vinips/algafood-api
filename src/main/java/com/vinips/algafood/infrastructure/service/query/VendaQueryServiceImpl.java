@@ -1,4 +1,4 @@
-package com.vinips.algafood.infrastructure.service;
+package com.vinips.algafood.infrastructure.service.query;
 
 import java.util.ArrayList;
 import java.util.Date;
