@@ -9,9 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import com.vinips.algafood.domain.model.Produto;
 import com.vinips.algafood.domain.model.Restaurante;
+import com.vinips.algafood.domain.service.ProdutoRepositoryQueries;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoRepositoryQueries {
 
 	Optional<Produto> findByIdAndRestauranteId(Long produtoId, Long restauranteId);
 	

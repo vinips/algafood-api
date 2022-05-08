@@ -1,8 +1,6 @@
 package com.vinips.algafood.api.controller;
 
-import java.nio.file.Path;
 import java.util.List;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -18,17 +16,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.vinips.algafood.api.model.assembler.FotoProdutoDTOAssembler;
 import com.vinips.algafood.api.model.assembler.ProdutoDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.ProdutoInputDisassembler;
+import com.vinips.algafood.api.model.dto.FotoProdutoDTO;
 import com.vinips.algafood.api.model.dto.ProdutoDTO;
 import com.vinips.algafood.api.model.input.FotoProdutoInput;
 import com.vinips.algafood.api.model.input.ProdutoInput;
+import com.vinips.algafood.domain.model.FotoProduto;
 import com.vinips.algafood.domain.model.Produto;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.ProdutoRepository;
 import com.vinips.algafood.domain.service.CadastroProdutoService;
 import com.vinips.algafood.domain.service.CadastroRestauranteService;
+import com.vinips.algafood.domain.service.CatalogoFotoProdutoService;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
@@ -48,6 +51,12 @@ public class RestauranteProdutoController {
 
 	@Autowired
 	private ProdutoInputDisassembler produtoDisssembler;
+	
+	@Autowired
+	private CatalogoFotoProdutoService catalogoFotoProduto;
+	
+	@Autowired
+	private FotoProdutoDTOAssembler fotoProdutoAssembler;
 
 	@GetMapping
 	public List<ProdutoDTO> listar(@PathVariable Long restauranteId,
@@ -98,25 +107,41 @@ public class RestauranteProdutoController {
 	}
 	
 	@PutMapping(value = "/{produtoId}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void atualizarFoto(@PathVariable Long restauranteId,
+	public FotoProdutoDTO atualizarFoto(@PathVariable Long restauranteId,
 			@PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) {
 		//Não usamos @RequestBody no FotoProdutoInput pois estamos enviando parametros de requisição e não um body. O Body da requisição nesse caso vem vazio.
 		//E Tão pouco precisamos usar o @RequestParam pois eles já estão encapsulados dentro do FotoProdutoInput e o spring realiza a conversão através de chave-valor. 
 		//Se não fosse um DTO e sim um único parametro, ai precisariamos do @RequestParam.
 		
-		var nomeArquivo = UUID.randomUUID().toString() + "_" + fotoProdutoInput.getArquivo().getOriginalFilename();
+		Produto produto = cadastroProduto.buscarOuFalhar(produtoId, restauranteId);
+		MultipartFile arquivo = fotoProdutoInput.getArquivo();
 		
-		var arquivoFoto = Path.of("E:/Development/images", nomeArquivo);
+		FotoProduto fotoProduto = new FotoProduto();
+		fotoProduto.setProduto(produto);
+		fotoProduto.setDescricao(fotoProdutoInput.getDescricao());
+		fotoProduto.setContentType(arquivo.getContentType());
+		fotoProduto.setTamanho(arquivo.getSize());
+		fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 		
-		System.out.println(fotoProdutoInput.getDescricao());
-		System.out.println(arquivoFoto);
-		System.out.println(fotoProdutoInput.getArquivo().getContentType());
+		FotoProduto fotoSalva = catalogoFotoProduto.salvar(fotoProduto);
 		
-		try {
-			fotoProdutoInput.getArquivo().transferTo(arquivoFoto);
-		} catch (Exception e) {
-			throw new RuntimeException();
-		}
+		return fotoProdutoAssembler.toDTO(fotoSalva);
+		
+		
+		
+//		var nomeArquivo = UUID.randomUUID().toString() + "_" + fotoProdutoInput.getArquivo().getOriginalFilename();
+//		
+//		var arquivoFoto = Path.of("E:/Development/images", nomeArquivo);
+//		
+//		System.out.println(fotoProdutoInput.getDescricao());
+//		System.out.println(arquivoFoto);
+//		System.out.println(fotoProdutoInput.getArquivo().getContentType());
+//		
+//		try {
+//			fotoProdutoInput.getArquivo().transferTo(arquivoFoto);
+//		} catch (Exception e) {
+//			throw new RuntimeException();
+//		}
 	}
 
 }
