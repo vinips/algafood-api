@@ -107,5 +107,15 @@ public class FotoProduto {
 				+ descricao + ", contentType=" + contentType + ", tamanho=" + tamanho + "]";
 	}
 	
+	public Long getRestauranteId() {
+		if (getProduto() != null) {
+			if (getProduto().getRestaurante() != null) {
+				return getProduto().getRestaurante().getId();
+			}
+		}
+		
+		return null;
+	}
+	
 
 }

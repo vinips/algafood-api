@@ -60,15 +60,17 @@ public class RestauranteProdutoController {
 
 	@GetMapping
 	public List<ProdutoDTO> listar(@PathVariable Long restauranteId,
-			@RequestParam(required = false) boolean incluirinativos) {
+			@RequestParam(required = false) boolean incluirInativos) {
 		Restaurante restaurante = verifyRestaurante(restauranteId);
 
-		List<Produto> produtos = restaurante.getProdutos();
+		List<Produto> produtos = null;
 		
-		if(!incluirinativos) {
+		if(incluirInativos) {
+			produtos = produtoRepository.findAllByRestaurante(restaurante);
+		} else {
 			produtos = produtoRepository.findAtivosByRestaurante(restaurante);
-		} 
-
+		}
+			
 		return produtoAssembler.toCollectionDTO(produtos);
 	}
 
@@ -126,8 +128,6 @@ public class RestauranteProdutoController {
 		FotoProduto fotoSalva = catalogoFotoProduto.salvar(fotoProduto);
 		
 		return fotoProdutoAssembler.toDTO(fotoSalva);
-		
-		
 		
 //		var nomeArquivo = UUID.randomUUID().toString() + "_" + fotoProdutoInput.getArquivo().getOriginalFilename();
 //		

@@ -2,9 +2,7 @@ package com.vinips.algafood.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -97,8 +94,8 @@ public class Restaurante {
 	private Set<Usuario> responsaveis = new HashSet<>();
 	
 	//Não necessariamente precisa ter, pq aqui estou fazendo Bi-dimensional apenas para fins de estudos.
-	@OneToMany(mappedBy = "restaurante")
-	private List<Produto> produtos = new ArrayList<>();	
+	//@OneToMany(mappedBy = "restaurante")
+	//private List<Produto> produtos = new ArrayList<>();	
 
 	public Long getId() {
 		return id;
@@ -164,14 +161,6 @@ public class Restaurante {
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
-
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
-	}
-	
 	public boolean isAtivo() {
 		return ativo;
 	}
@@ -196,7 +185,6 @@ public class Restaurante {
 		this.responsaveis = responsaveis;
 	}
 	
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -219,7 +207,7 @@ public class Restaurante {
 		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + ", cozinha=" + cozinha
 				+ ", endereco=" + endereco + ", ativo=" + ativo + ", aberto=" + aberto + ", dataCadastro="
 				+ dataCadastro + ", dataAtualizacao=" + dataAtualizacao + ", formasPagamento=" + formasPagamento
-				+ ", responsaveis=" + responsaveis + ", produtos=" + produtos + "]";
+				+ ", responsaveis=" + responsaveis + "]";
 	}
 
 	public boolean adicionarFormaPagamento(FormaPagamento formaPagamento) {
