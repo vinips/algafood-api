@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.vinips.algafood.domain.filter.VendaDiariaFilter;
 import com.vinips.algafood.domain.service.VendaQueryService;
 import com.vinips.algafood.domain.service.VendaReportService;
-import com.vinips.algafood.infrastructure.service.report.exception.ReportException;
+import com.vinips.algafood.infrastructure.exception.ReportException;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;

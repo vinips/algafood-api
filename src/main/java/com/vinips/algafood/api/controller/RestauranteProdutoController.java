@@ -1,5 +1,6 @@
 package com.vinips.algafood.api.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -110,7 +111,7 @@ public class RestauranteProdutoController {
 	
 	@PutMapping(value = "/{produtoId}/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDTO atualizarFoto(@PathVariable Long restauranteId,
-			@PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) {
+			@PathVariable Long produtoId, @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 		//Não usamos @RequestBody no FotoProdutoInput pois estamos enviando parametros de requisição e não um body. O Body da requisição nesse caso vem vazio.
 		//E Tão pouco precisamos usar o @RequestParam pois eles já estão encapsulados dentro do FotoProdutoInput e o spring realiza a conversão através de chave-valor. 
 		//Se não fosse um DTO e sim um único parametro, ai precisariamos do @RequestParam.
@@ -125,7 +126,7 @@ public class RestauranteProdutoController {
 		fotoProduto.setTamanho(arquivo.getSize());
 		fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 		
-		FotoProduto fotoSalva = catalogoFotoProduto.salvar(fotoProduto);
+		FotoProduto fotoSalva = catalogoFotoProduto.salvar(fotoProduto, arquivo.getInputStream());
 		
 		return fotoProdutoAssembler.toDTO(fotoSalva);
 		

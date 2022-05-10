@@ -1,4 +1,4 @@
-package com.vinips.algafood.infrastructure.service.report.exception;
+package com.vinips.algafood.infrastructure.exception;
 
 public class ReportException extends RuntimeException{
 
