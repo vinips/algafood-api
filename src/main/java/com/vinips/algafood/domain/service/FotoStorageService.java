@@ -4,10 +4,12 @@ import java.io.InputStream;
 import java.util.UUID;
 
 public interface FotoStorageService {
-
+	
 	void armazenar(NovaFoto novaFoto);
 	
 	void remover(String nomeArquivo);
+	
+	InputStream recuperar(String nomeArquivo);
 	
 	default void substituir(NovaFoto novaFoto, String nomeArquivoExistente) {
 		if(nomeArquivoExistente != null) {

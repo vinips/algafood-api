@@ -1,6 +1,7 @@
 package com.vinips.algafood.infrastructure.service.storage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -34,10 +35,22 @@ public class LocalFotoStorageService implements FotoStorageService {
 			Path arquivoPath = getArquivoPath(nomeArquivo);
 			
 			Files.deleteIfExists(arquivoPath);
-		}catch (IOException e) {
+		} catch (IOException e) {
 			throw new StorageException("Não foi possível excluir o arquivo", e);
 		}
 		
+	}
+	
+	@Override
+	public InputStream recuperar(String nomeArquivo) {
+		try {
+			Path arquivoPath = getArquivoPath(nomeArquivo);
+			
+			return Files.newInputStream(arquivoPath);
+		} catch (IOException e) {
+			throw new StorageException("Não foi possível recuperar o arquivo", e);
+		}
+
 	}
 	
 	//Retornando um Path completo com URL + nome do Arquivo
