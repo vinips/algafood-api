@@ -125,6 +125,13 @@
 		  <artifactId>jasperreports-functions</artifactId>
 		  <version>6.19.0</version>
 		</dependency>
+		
+		<!-- SDK java da Amazon S3, o storage remoto. Aula 14.21 -->
+		<dependency>
+		  <groupId>com.amazonaws</groupId>
+		  <artifactId>aws-java-sdk-s3</artifactId>
+		  <version>1.12.222</version>
+		</dependency>
 
 		<!-- A partir do Spring 2.3.0 o Bean Validation não é adicionado automaticamente 
 			com o pacote spring-boot-starter-web Por isso é necessário adicionar a dependência 

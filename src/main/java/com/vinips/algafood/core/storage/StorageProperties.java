@@ -3,6 +3,8 @@ package com.vinips.algafood.core.storage;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.regions.Regions;
+
 @Component
 @ConfigurationProperties("algafood.storage")
 public class StorageProperties {
@@ -33,7 +35,7 @@ public class StorageProperties {
 		
 		private String bucket;
 		
-		private String regiao;
+		private Regions regiao;
 		
 		private String diretorioFotos;
 
@@ -61,11 +63,11 @@ public class StorageProperties {
 			this.bucket = bucket;
 		}
 
-		public String getRegiao() {
+		public Regions getRegiao() {
 			return regiao;
 		}
 
-		public void setRegiao(String regiao) {
+		public void setRegiao(Regions regiao) {
 			this.regiao = regiao;
 		}
 

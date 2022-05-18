@@ -6,14 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import com.vinips.algafood.core.storage.StorageProperties;
 import com.vinips.algafood.domain.service.FotoStorageService;
 import com.vinips.algafood.infrastructure.exception.StorageException;
 
-@Service
+//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 	
 	//Minha classe de propriedades de storage que eu criei com as variaveis do application.properties
