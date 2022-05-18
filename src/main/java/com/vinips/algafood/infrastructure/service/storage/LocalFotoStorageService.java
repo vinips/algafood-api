@@ -11,7 +11,6 @@ import com.vinips.algafood.core.storage.StorageProperties;
 import com.vinips.algafood.domain.service.FotoStorageService;
 import com.vinips.algafood.infrastructure.exception.StorageException;
 
-//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 	
 	//Minha classe de propriedades de storage que eu criei com as variaveis do application.properties

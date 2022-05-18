@@ -11,7 +11,7 @@ public class StorageProperties {
 	
 	private Local local = new Local();
 	private S3 s3 = new S3();
-	
+	private TipoStorage tipo = TipoStorage.LOCAL;
 	
 	public class Local {
 		
@@ -80,6 +80,12 @@ public class StorageProperties {
 		}
 		
 	}
+	
+	public enum TipoStorage {
+		
+		LOCAL, S3
+		
+	}
 
 	public Local getLocal() {
 		return local;
@@ -95,6 +101,14 @@ public class StorageProperties {
 
 	public void setS3(S3 s3) {
 		this.s3 = s3;
+	}
+
+	public TipoStorage getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoStorage tipo) {
+		this.tipo = tipo;
 	}
 
 }

@@ -3,7 +3,6 @@ package com.vinips.algafood.infrastructure.service.storage;
 import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -14,7 +13,6 @@ import com.vinips.algafood.core.storage.StorageProperties;
 import com.vinips.algafood.domain.service.FotoStorageService;
 import com.vinips.algafood.infrastructure.exception.StorageException;
 
-@Service
 public class S3FotoStorageService implements FotoStorageService{
 
 	@Autowired
