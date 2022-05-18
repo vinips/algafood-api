@@ -5,18 +5,20 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
+import com.vinips.algafood.core.storage.StorageProperties;
 import com.vinips.algafood.domain.service.FotoStorageService;
 import com.vinips.algafood.infrastructure.exception.StorageException;
 
 @Service
 public class LocalFotoStorageService implements FotoStorageService {
 	
-	@Value("${algafood.storage.local.diretorio-fotos}")
-	private String diretorioFotos;
+	//Minha classe de propriedades de storage que eu criei com as variaveis do application.properties
+	@Autowired
+	private StorageProperties storageProperties;
 	
 	@Override
 	public void armazenar(NovaFoto novaFoto) {
@@ -55,7 +57,7 @@ public class LocalFotoStorageService implements FotoStorageService {
 	
 	//Retornando um Path completo com URL + nome do Arquivo
 	private Path getArquivoPath(String nomeArquivo) {
-		return Path.of(diretorioFotos, nomeArquivo);
+		return Path.of(storageProperties.getLocal().getDiretorioFotos(), nomeArquivo);
 	}
 	
 }
