@@ -9,7 +9,7 @@ public interface FotoStorageService {
 	
 	void remover(String nomeArquivo);
 	
-	InputStream recuperar(String nomeArquivo);
+	FotoRecuperada recuperar(String nomeArquivo);
 	
 	default void substituir(NovaFoto novaFoto, String nomeArquivoExistente) {
 		if(nomeArquivoExistente != null) {
@@ -58,6 +58,37 @@ public interface FotoStorageService {
 
 		public void setInputStream(InputStream inputStream) {
 			this.inputStream = inputStream;
+		}
+		
+	}
+	
+	class FotoRecuperada {
+		
+		private InputStream inputStream;
+		private String url;
+		
+		public InputStream getInputStream() {
+			return inputStream;
+		}
+		
+		public void setInputStream(InputStream inputStream) {
+			this.inputStream = inputStream;
+		}
+		
+		public String getUrl() {
+			return url;
+		}
+		
+		public void setUrl(String url) {
+			this.url = url;
+		}
+		
+		public boolean temURL() {
+			return url != null;
+		}
+		
+		public boolean temInputStream() {
+			return inputStream != null;
 		}
 		
 	}
