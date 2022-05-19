@@ -51,11 +51,11 @@ INSERT INTO grupo (id, nome) VALUES (6, 'Entregador');
 INSERT INTO grupo (id, nome) VALUES (7, 'Faxineiro');
 
 -- USUARIO
-INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (1, 'Adm', 'adm@gmail.com', '1234', utc_timestamp);
-INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (2, 'Jorge', 'jorge@yahoo.com.br', '12345', utc_timestamp);
-INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (3, 'Amanda', 'amanda@bol.com.br', '12323', utc_timestamp);
-INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (4, 'Ricardo', 'ricardo@hotmail.com', '11233', utc_timestamp);
-INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (5, 'vendas', 'vendas@algafood.com', '33442', utc_timestamp);
+INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (1, 'Adm', 'viniciusps_ph@hotmail.com', '1234', utc_timestamp);
+INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (2, 'Jorge', 'viniciusps_ph@hotmail.com', '12345', utc_timestamp);
+INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (3, 'Amanda', 'viniciusps_ph@hotmail.com', '12323', utc_timestamp);
+INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (4, 'Ricardo', 'viniciusps_ph@hotmail.com', '11233', utc_timestamp);
+INSERT INTO usuario (id, nome, email, senha, data_cadastro) VALUES (5, 'vendas', 'viniciusps_ph@hotmail.com', '33442', utc_timestamp);
 
 -- ESTADO
 INSERT INTO estado (id, nome) VALUES (1, 'Santa Catarina');

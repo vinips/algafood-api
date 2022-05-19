@@ -1,5 +1,7 @@
 package com.vinips.algafood.domain.service;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import com.vinips.algafood.domain.model.Produto;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.model.Usuario;
 import com.vinips.algafood.domain.repository.PedidoRepository;
+import com.vinips.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class CadastroPedidoService {
@@ -36,6 +39,9 @@ public class CadastroPedidoService {
 
 	@Autowired
 	private CadastroUsuarioService cadastroUsuario;
+	
+	@Autowired
+	private EnvioEmailService emailService;
 
 	// Boa prática anotar os métodos que fazem manipulação de dados com o
 	// @Transactional para não ocorrer erros
@@ -60,6 +66,16 @@ public class CadastroPedidoService {
 	public void confirmar(String codigoPedido) {
 		Pedido pedido = buscarOuFalhar(codigoPedido);
 		pedido.confirmar();
+		
+		var destinatarios = new HashSet<String>();
+		destinatarios.add(pedido.getCliente().getEmail());
+		var assunto = pedido.getRestaurante().getNome() + "- Pedido confirmado";
+		var corpo = "O Pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado!";
+		
+		Mensagem mensagem = new Mensagem(destinatarios, assunto, corpo);	
+		
+		emailService.enviar(mensagem);
+		
 	}
 	
 	@Transactional

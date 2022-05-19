@@ -11,6 +11,13 @@ public interface EnvioEmailService {
 		private Set<String> destinatarios;
 		private String assunto;
 		private String texto;
+		
+		public Mensagem(Set<String> destinatarios, String assunto, String texto) {
+			super();
+			this.destinatarios = destinatarios;
+			this.assunto = assunto;
+			this.texto = texto;
+		}
 
 		public Set<String> getDestinatarios() {
 			return destinatarios;

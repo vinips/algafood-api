@@ -5,11 +5,13 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
 import com.vinips.algafood.core.email.EmailProperties;
 import com.vinips.algafood.domain.service.EnvioEmailService;
 import com.vinips.algafood.infrastructure.exception.EmailException;
 
+@Service
 public class SmtpEnvioEmailService implements EnvioEmailService	{
 
 	@Autowired
@@ -30,8 +32,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService	{
 			//o true é que vamos enviar no padrão HTML e não no padrão texto
 			helper.setText(mensagem.getTexto(), true);
 			
-			
-			//mailSender.send(null);
+			mailSender.send(mimeMessage);
 		} catch (Exception e) {
 			throw new EmailException("Não foi possível enviar e-mail", e);
 		}
