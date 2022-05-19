@@ -21,6 +21,7 @@ import com.vinips.algafood.domain.repository.RestauranteRepository;
 import com.vinips.algafood.domain.repository.RestauranteRepositoryQueries;
 import com.vinips.algafood.infrastructure.repository.spec.RestauranteSpecs;
 
+//Precisa ter o Impl se não o Spring não reconhece
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
