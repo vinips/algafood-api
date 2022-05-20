@@ -138,6 +138,12 @@
 		  <artifactId>aws-java-sdk-s3</artifactId>
 		  <version>1.12.222</version>
 		</dependency>
+		
+		<!-- Biblioteca que processa templates e código java para gerar um html. Usamos para criar o corpo do e-mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
 
 		<!-- A partir do Spring 2.3.0 o Bean Validation não é adicionado automaticamente 
 			com o pacote spring-boot-starter-web Por isso é necessário adicionar a dependência 

@@ -1,6 +1,8 @@
 package com.vinips.algafood.domain.service;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,11 +71,15 @@ public class CadastroPedidoService {
 		
 		var destinatarios = new HashSet<String>();
 		destinatarios.add(pedido.getCliente().getEmail());
+		
 		var assunto = pedido.getRestaurante().getNome() + "- Pedido confirmado";
-		var corpo = "O Pedido de código <strong>" + pedido.getCodigo() + "</strong> foi confirmado!";
+		var corpo = "pedido-confirmado.html";
 		
-		Mensagem mensagem = new Mensagem(destinatarios, assunto, corpo);	
+		Map<String, Object> variaveis = new HashMap<>();
+		variaveis.put("pedido", pedido);
 		
+		Mensagem mensagem = new Mensagem(destinatarios, assunto, corpo, variaveis);	
+
 		emailService.enviar(mensagem);
 		
 	}

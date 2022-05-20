@@ -1,5 +1,6 @@
 package com.vinips.algafood.domain.service;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface EnvioEmailService {
@@ -11,12 +12,14 @@ public interface EnvioEmailService {
 		private Set<String> destinatarios;
 		private String assunto;
 		private String texto;
+		private Map<String, Object> variaveis;
 		
-		public Mensagem(Set<String> destinatarios, String assunto, String texto) {
+		public Mensagem(Set<String> destinatarios, String assunto, String texto, Map<String, Object> variaveis) {
 			super();
 			this.destinatarios = destinatarios;
 			this.assunto = assunto;
 			this.texto = texto;
+			this.variaveis = variaveis;
 		}
 
 		public Set<String> getDestinatarios() {
@@ -41,6 +44,14 @@ public interface EnvioEmailService {
 
 		public void setTexto(String texto) {
 			this.texto = texto;
+		}
+
+		public Map<String, Object> getVariaveis() {
+			return variaveis;
+		}
+
+		public void setVariaveis(Map<String, Object> variaveis) {
+			this.variaveis = variaveis;
 		}
 		
 	}
