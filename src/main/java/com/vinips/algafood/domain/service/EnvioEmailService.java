@@ -12,6 +12,8 @@ public interface EnvioEmailService {
 		private Set<String> destinatarios;
 		private String assunto;
 		private String texto;
+		
+		//Aqui são as variaveis que serão enviadas para o html e o freemarker vai setar os valores dependendo da variavel.
 		private Map<String, Object> variaveis;
 		
 		public Mensagem(Set<String> destinatarios, String assunto, String texto, Map<String, Object> variaveis) {

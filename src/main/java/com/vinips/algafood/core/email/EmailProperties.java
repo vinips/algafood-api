@@ -13,6 +13,12 @@ public class EmailProperties {
 
 	@NotBlank
 	private String remetente;
+	
+	private EmailImplType emailImplType = EmailImplType.FAKE;
+	
+	public enum EmailImplType {
+		REAL, FAKE;
+	}
 
 	public String getRemetente() {
 		return remetente;
@@ -20,6 +26,14 @@ public class EmailProperties {
 
 	public void setRemetente(String remetente) {
 		this.remetente = remetente;
+	}
+
+	public EmailImplType getEmailImplType() {
+		return emailImplType;
+	}
+
+	public void setEmailImplType(EmailImplType emailImplType) {
+		this.emailImplType = emailImplType;
 	}
 	
 }
