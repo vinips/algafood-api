@@ -14,10 +14,26 @@ public class EmailProperties {
 	@NotBlank
 	private String remetente;
 	
+	private Sandbox sandbox = new Sandbox();
+	
 	private EmailImplType emailImplType = EmailImplType.FAKE;
 	
+	public class Sandbox {
+		
+		private String destinatario;
+
+		public String getDestinatario() {
+			return destinatario;
+		}
+
+		public void setDestinatario(String destinatario) {
+			this.destinatario = destinatario;
+		}
+		
+	}
+	
 	public enum EmailImplType {
-		REAL, FAKE;
+		FAKE, SMTP, SANDBOX;
 	}
 
 	public String getRemetente() {
@@ -34,6 +50,14 @@ public class EmailProperties {
 
 	public void setEmailImplType(EmailImplType emailImplType) {
 		this.emailImplType = emailImplType;
+	}
+
+	public Sandbox getSandbox() {
+		return sandbox;
+	}
+
+	public void setSandbox(Sandbox sandbox) {
+		this.sandbox = sandbox;
 	}
 	
 }
