@@ -1,4 +1,4 @@
-package com.vinips.algafood.domain.model;
+	package com.vinips.algafood.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -23,11 +23,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
+import com.vinips.algafood.domain.event.PedidoCanceladoEvent;
+import com.vinips.algafood.domain.event.PedidoConfirmadoEvent;
 import com.vinips.algafood.domain.exception.NegocioException;
 
+//AbstractAggregateRoot é para podermos usar domain events e registrar eventos com ele.
 @Entity
-public class Pedido {
+public class Pedido extends AbstractAggregateRoot<Pedido>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -249,6 +253,12 @@ public class Pedido {
 	public void confirmar() {
 		setStatus(StatusPedido.CONFIRMADO);
 		setDataConfirmacao(OffsetDateTime.now());
+		
+		
+		//Aqui ainda não dispara o evento, apenas registra ele para que seja disparado quando
+		//a Entidade Pedido for salva no repositório;
+		registerEvent(new PedidoConfirmadoEvent(this));
+		
 	}
 	
 	public void entregar() {
@@ -259,6 +269,8 @@ public class Pedido {
 	public void cancelar() {
 		setStatus(StatusPedido.CANCELADO);
 		setDataCancelamento(OffsetDateTime.now());
+		
+		registerEvent(new PedidoCanceladoEvent(this));
 	}
 
 }

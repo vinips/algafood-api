@@ -1,9 +1,5 @@
 package com.vinips.algafood.domain.service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +13,6 @@ import com.vinips.algafood.domain.model.Produto;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.model.Usuario;
 import com.vinips.algafood.domain.repository.PedidoRepository;
-import com.vinips.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class CadastroPedidoService {
@@ -42,9 +37,6 @@ public class CadastroPedidoService {
 	@Autowired
 	private CadastroUsuarioService cadastroUsuario;
 	
-	@Autowired
-	private EnvioEmailService emailService;
-
 	// Boa prática anotar os métodos que fazem manipulação de dados com o
 	// @Transactional para não ocorrer erros
 	@Transactional
@@ -69,18 +61,26 @@ public class CadastroPedidoService {
 		Pedido pedido = buscarOuFalhar(codigoPedido);
 		pedido.confirmar();
 		
-		var destinatarios = new HashSet<String>();
-		destinatarios.add(pedido.getCliente().getEmail());
+		//Normalmente não precisamos do save, pois a entidade Pedido que recebemos do método buscarOuFalhar
+		//Já esta sendo gerenciada pelo JPA, por isso qualquer alteração na entidade será replicada no banco ao final da Transação.
+		//Porém quando usamos events, ele só dispara depois que dizemos explicitamente que precisamos do save.
+		pedidoRepository.save(pedido);
 		
-		var assunto = pedido.getRestaurante().getNome() + "- Pedido confirmado";
-		var corpo = "pedido-confirmado.html";
 		
-		Map<String, Object> variaveis = new HashMap<>();
-		variaveis.put("pedido", pedido);
-		
-		Mensagem mensagem = new Mensagem(destinatarios, assunto, corpo, variaveis);	
-
-		emailService.enviar(mensagem);
+		//Jeito antigo, antes era assim, mas depois implementamos o Domain Events.
+		//Foi transferido para a classe NotificacaoClientePedidoConfirmadoListener.
+//		var destinatarios = new HashSet<String>();
+//		destinatarios.add(pedido.getCliente().getEmail());
+//		
+//		var assunto = pedido.getRestaurante().getNome() + "- Pedido confirmado";
+//		var corpo = "pedido-confirmado.html";
+//		
+//		Map<String, Object> variaveis = new HashMap<>();
+//		variaveis.put("pedido", pedido);
+//		
+//		Mensagem mensagem = new Mensagem(destinatarios, assunto, corpo, variaveis);	
+//
+//		emailService.enviar(mensagem);
 		
 	}
 	
@@ -94,6 +94,8 @@ public class CadastroPedidoService {
 	public void cancelar(String codigoPedido) {
 		Pedido pedido = buscarOuFalhar(codigoPedido);
 		pedido.cancelar();
+		
+		pedidoRepository.save(pedido);
 	}
 
 	private void validarPedido(Pedido pedido) {
