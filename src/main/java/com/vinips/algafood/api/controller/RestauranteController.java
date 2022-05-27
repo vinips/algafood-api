@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
 import com.vinips.algafood.domain.service.CadastroRestauranteService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
@@ -47,12 +49,20 @@ public class RestauranteController {
 	private RestauranteInputDisassembler restauranteDisassembler;
 	
 	//O JsonView serve para enviar pro json apenas o que estiver anotado com ele com aquela propriedade. Aula 13.1
+	//Deixamos de usar o @JsonView quando passamos a usar DTO em vez de retornar a entidade em si.
 	@JsonView(RestauranteView.Resumo.class)
 	@GetMapping
 	public List<RestauranteDTO> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
 
 		return restauranteAssembler.toCollectionDTO(restaurantes);
+		
+		//Na aula 16.3 aprendemos a setar o CORS manualmente. 
+		//Na 16.4 colocamos o CORS para o controlador todo com a anotação @CrossOrigin
+//		return ResponseEntity
+//				.ok()
+//				.header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+//				.body(restauranteModel);
 	}
 	
 	@JsonView(RestauranteView.ApenasNome.class)
