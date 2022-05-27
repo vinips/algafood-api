@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +30,6 @@ import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
 import com.vinips.algafood.domain.service.CadastroRestauranteService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {

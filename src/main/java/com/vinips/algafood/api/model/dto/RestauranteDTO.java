@@ -19,7 +19,6 @@ public class RestauranteDTO {
 	@JsonView(RestauranteView.Resumo.class)
 	private CozinhaDTO cozinha;
 	
-	
 	private boolean ativo;
 	private boolean aberto;
 	private EnderecoDTO endereco;
@@ -79,7 +78,5 @@ public class RestauranteDTO {
 	public void setAberto(boolean aberto) {
 		this.aberto = aberto;
 	}
-
-
 	
 }
