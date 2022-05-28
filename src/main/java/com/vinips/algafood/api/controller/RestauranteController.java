@@ -234,6 +234,7 @@ public class RestauranteController {
 		ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
 
 		try {
+			//ObjectMapper é uma classe que usamos pra serealizar e deserealizar json em objetos java e vice versa;
 			ObjectMapper objectMapper = new ObjectMapper();
 
 			// No Application.properties setamos para o programa falhar quando recebermos
