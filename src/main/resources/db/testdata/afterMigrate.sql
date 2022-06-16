@@ -1,3 +1,4 @@
+
 -- Não é uma Migração, é um arquivo SQL que roda automaticamente no callback do Flyway depois de rodar todas as migrações.
 -- Precisa ter esse nome. Nesse arquivo é importante colocar a keyword IGNORE para não dar erro se tentar inserir caso já tenha.
 -- Exemplo: insert IGNORE into cozinha (id, nome) VALUES (1, 'Tailandesa');
@@ -123,12 +124,12 @@ INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (22, 'Curry Ameno', 'Curry ameno', 15.54, true, 3);
 
 -- FORMA PAGAMENTO
-INSERT INTO forma_pagamento (id, descricao) VALUES (1, 'Dinheiro');
-INSERT INTO forma_pagamento (id, descricao) VALUES (2, 'Cartão de Crédito');
-INSERT INTO forma_pagamento (id, descricao) VALUES (3, 'Cartão de Débito');
-INSERT INTO forma_pagamento (id, descricao) VALUES (4, 'Vale Alimentação');
-INSERT INTO forma_pagamento (id, descricao) VALUES (5, 'Vale Refeição');
-INSERT INTO forma_pagamento (id, descricao) VALUES (6, 'Pix');
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (1, 'Dinheiro', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (2, 'Cartão de Crédito', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (3, 'Cartão de Débito', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (4, 'Vale Alimentação', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (5, 'Vale Refeição', utc_timestamp);
+INSERT INTO forma_pagamento (id, descricao, data_atualizacao) VALUES (6, 'Pix', utc_timestamp);
 
 -- RESTAURANTE_FORMA_PAGAMENTO
 INSERT INTO restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) VALUES (1, 1);

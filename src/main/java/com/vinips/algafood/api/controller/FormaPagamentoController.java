@@ -1,10 +1,13 @@
 package com.vinips.algafood.api.controller;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import com.vinips.algafood.api.model.assembler.FormaPagamentoDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.FormaPagamentoInputDisassembler;
@@ -41,12 +46,33 @@ public class FormaPagamentoController {
 	@Autowired
 	private FormaPagamentoInputDisassembler formaPagamentoDisassembler;
 
+	//Esse código é um exemplo de como colocar cache com etag.
 	@GetMapping
-	public ResponseEntity<List<FormaPagamentoDTO>> listar() {
+	public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest request) {
+		//Desabilitamos o shallowEtag para implementar o DeepEtag.
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+		
+		String eTag = "0";
+		
+		OffsetDateTime dataUltimaAtualizacao = formaPagamentoRepository.getDataUltimaAtualizacao();
+		
+		if (dataUltimaAtualizacao != null ) {
+			eTag = String.valueOf(dataUltimaAtualizacao.toEpochSecond());
+		}
+		
+		if (request.checkNotModified(eTag)) {
+			return null;
+		}
+		
+		
 		List<FormaPagamento> formasPagamento = formaPagamentoRepository.findAll();
 
 		if (formasPagamento != null && !formasPagamento.isEmpty()) {
-			return ResponseEntity.ok(formaPagamentoAssembler.toCollectionDTO(formasPagamento));
+			return ResponseEntity.ok()
+					//Seta um cache de 10 segundos na requisição.
+					.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+					.eTag(eTag)
+					.body(formaPagamentoAssembler.toCollectionDTO(formasPagamento));
 		}
 
 		return ResponseEntity.noContent().build();
@@ -54,10 +80,16 @@ public class FormaPagamentoController {
 	}
 
 	@GetMapping("/{formaPagamentoId}")
-	public FormaPagamentoDTO buscar(@PathVariable Long formaPagamentoId) {
+	public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable Long formaPagamentoId) {
 		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+		
+		FormaPagamentoDTO formaPagamentoDTO = formaPagamentoAssembler.toDTO(formaPagamento);
+		
+		return ResponseEntity.ok()
+				//Seta um cache de 10 segundos na requisição.
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.body(formaPagamentoDTO);
 
-		return formaPagamentoAssembler.toDTO(formaPagamento);
 	}
 
 	@PostMapping
