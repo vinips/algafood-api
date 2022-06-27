@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("algafood.email")
 public class EmailProperties {
 
+	//Só funciona se a classe tiver anotada com @Validated
 	@NotBlank
 	private String remetente;
 	

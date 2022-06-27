@@ -144,6 +144,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
+		
+		<!-- Ajuda a fazer a documentação do projeto. Fica mais facil utilizando essa biblioteca pois ela devolve um Json com os endpoints do projeto -->
+		<!-- Se der erro no PluginRegistry, então provavelmente tem que alterar o spring-plugin.version para 2.0.0.RELEASE no EffectivePOM -->
+		<!-- o acesso ao Json criado é feito pela url http://localhost:8080/v3/api-docs -->
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-boot-starter</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+		
+		<!-- Biblioteca que transforma o Json gerado pelo SpringFox em uma pagina html, deixando uma melhor leitura do documento -->
+		<!-- o acesso é feito pela url http://localhost:8080/swagger-ui/index.html -->
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+		
 
 		<!-- A partir do Spring 2.3.0 o Bean Validation não é adicionado automaticamente 
 			com o pacote spring-boot-starter-web Por isso é necessário adicionar a dependência 
