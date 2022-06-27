@@ -27,6 +27,12 @@ import com.vinips.algafood.domain.model.Cidade;
 import com.vinips.algafood.domain.repository.CidadeRepository;
 import com.vinips.algafood.domain.service.CadastroCidadeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+//Marca esse controlador como um recurso do Swagger, que faz automaticamente a documentação da nossa API
+@Api(tags = "Cidades") //Essa tags é o mesmo que especificamos no apiDocket da classe SpringFoxConfig
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
@@ -43,6 +49,7 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeDisassembler;
 	
+	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public ResponseEntity<List<CidadeDTO>> listar(){
 		
@@ -56,8 +63,10 @@ public class CidadeController {
 		
 	}
 	
+	//Essa anotação faz com que em vez de aparecer o nome do método na documentação  feita pelo Swagger, apareça o que determinarmos nessa anotação.
+	@ApiOperation("Busca uma cidade por ID")
 	@GetMapping("/{cidadeId}")
-	public CidadeDTO buscar(@PathVariable Long cidadeId){
+	public CidadeDTO buscar(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId){
 		// Jeito Simplificado
 		return cidadeAssembler.toDTO(cadastroCidade.buscarOuFalhar(cidadeId));
 		
@@ -69,9 +78,10 @@ public class CidadeController {
 //		return ResponseEntity.notFound().build();
 	}
 	
+	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CidadeDTO adicionar(@Valid @RequestBody CidadeInput cidadeInput){
+	public CidadeDTO adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
 		 try {
 			 Cidade cidade = cidadeDisassembler.toDomainModel(cidadeInput);
 			 
@@ -81,9 +91,11 @@ public class CidadeController {
 		}
 	}
 	
+	@ApiOperation("Atualiza uma cidade por ID")
 	@PutMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.OK)
-	public CidadeDTO atualizar(@PathVariable Long cidadeId, @Valid @RequestBody CidadeInput cidadeInput){
+	public CidadeDTO atualizar(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId,
+			@Valid @RequestBody CidadeInput cidadeInput) {
 		try {
 			// Jeito simplificado
 			Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
@@ -111,9 +123,10 @@ public class CidadeController {
 		
 	}
 	
+	@ApiOperation("Exclui uma cidade por ID")
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long cidadeId){
+	public void remover(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId){
 		cadastroCidade.excluir(cidadeId);
 	}
 	
