@@ -16,6 +16,7 @@
 	<description>Api do delivery de comida, curso Especialista Spring Rest da AlgaWorks</description>
 	<properties>
 		<java.version>12</java.version>
+		<springfox-version>3.0.0</springfox-version>
 	</properties>
 	<dependencies>
 
@@ -151,7 +152,7 @@
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-boot-starter</artifactId>
-		    <version>3.0.0</version>
+		    <version>${springfox-version}</version>
 		</dependency>
 		
 		<!-- Biblioteca que transforma o Json gerado pelo SpringFox em uma pagina html, deixando uma melhor leitura do documento -->
@@ -159,8 +160,16 @@
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>3.0.0</version>
+		    <version>${springfox-version}</version>
 		</dependency>
+		
+		<!-- Com isso o Springfox consegue identificar os Beans Validators das classes e marcar eles automaticamente na documentação do Swagger -->
+		<!-- Utilizando o SpringFox 3.0.0 parece que já vem automaticamente configurado o Bean Validators para o Springfox. Deixei comentado -->
+		<!-- <dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-bean-validators</artifactId>
+		    <version>${springfox-version}</version>
+		</dependency> -->
 		
 
 		<!-- A partir do Spring 2.3.0 o Bean Validation não é adicionado automaticamente 
