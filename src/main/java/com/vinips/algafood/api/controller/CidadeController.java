@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinips.algafood.api.controller.openapi.CidadeControllerOpenApi;
 import com.vinips.algafood.api.model.assembler.CidadeDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.CidadeInputDisassembler;
 import com.vinips.algafood.api.model.dto.CidadeDTO;
@@ -27,15 +29,10 @@ import com.vinips.algafood.domain.model.Cidade;
 import com.vinips.algafood.domain.repository.CidadeRepository;
 import com.vinips.algafood.domain.service.CadastroCidadeService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
-//Marca esse controlador como um recurso do Swagger, que faz automaticamente a documentação da nossa API.  Módulo 18
-@Api(tags = "Cidades") //Essa tags é o mesmo que especificamos no apiDocket da classe SpringFoxConfig
 @RestController
-@RequestMapping("/cidades")
-public class CidadeController {
+@RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
+public class CidadeController implements CidadeControllerOpenApi{
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
@@ -49,7 +46,6 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeDisassembler;
 	
-	@ApiOperation("Lista as cidades")
 	@GetMapping
 	public ResponseEntity<List<CidadeDTO>> listar(){
 		
@@ -64,9 +60,8 @@ public class CidadeController {
 	}
 	
 	//Essa anotação faz com que em vez de aparecer o nome do método na documentação  feita pelo Swagger, apareça o que determinarmos nessa anotação.
-	@ApiOperation("Busca uma cidade por ID")
 	@GetMapping("/{cidadeId}")
-	public CidadeDTO buscar(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId){
+	public CidadeDTO buscar(@PathVariable Long cidadeId){
 		// Jeito Simplificado
 		return cidadeAssembler.toDTO(cadastroCidade.buscarOuFalhar(cidadeId));
 		
@@ -78,7 +73,6 @@ public class CidadeController {
 //		return ResponseEntity.notFound().build();
 	}
 	
-	@ApiOperation("Cadastra uma cidade")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeDTO adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
@@ -91,10 +85,9 @@ public class CidadeController {
 		}
 	}
 	
-	@ApiOperation("Atualiza uma cidade por ID")
 	@PutMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.OK)
-	public CidadeDTO atualizar(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId,
+	public CidadeDTO atualizar(@PathVariable Long cidadeId,
 			@Valid @RequestBody CidadeInput cidadeInput) {
 		try {
 			// Jeito simplificado
@@ -123,10 +116,9 @@ public class CidadeController {
 		
 	}
 	
-	@ApiOperation("Exclui uma cidade por ID")
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void remover(@ApiParam(value = "ID de uma cidade", example = "1") @PathVariable Long cidadeId){
+	public void remover(@PathVariable Long cidadeId){
 		cadastroCidade.excluir(cidadeId);
 	}
 	

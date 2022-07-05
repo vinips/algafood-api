@@ -1,8 +1,14 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class GrupoDTO {
 	
+	//Olhar CidadeDTO para mais explicações;
+	@ApiModelProperty(example = "1")
 	private Long id;
+	
+	@ApiModelProperty(example = "Gerência")
 	private String nome;
 
 	public Long getId() {

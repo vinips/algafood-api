@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vinips.algafood.api.exceptionhandler.Problem;
+import com.vinips.algafood.core.openapi.model.PageableModelOpenApi;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RepresentationBuilder;
@@ -55,8 +57,11 @@ public class SpringFoxConfig {
 				.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
 				//Com isso nós adicionamos um modelo extra que é o Problem para ser listado no SpringFox
 				.additionalModels(typeResolver.resolve(Problem.class))
+				//Para fins de documentação, nós fazemos a substituição da interface Pageable do org.springframework.data.domain pela nossa customizada. Aula 18.20
+				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.apiInfo(apiInfo())
-				.tags(new Tag("Cidades", "Gerencia as cidades"));
+				.tags(new Tag("Cidades", "Gerencia as cidades"), 
+						new Tag("Grupos", "Gerencia os grupos"));
 	}
 	
 	private List<Response> globalGetResponseMessages(){
