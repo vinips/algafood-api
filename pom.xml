@@ -163,6 +163,12 @@
 		    <version>${springfox-version}</version>
 		</dependency>
 		
+		<!-- Serve para que o SpringFox consiga Serializar o OffsetDatetime que usamos na classe Problem. Qualquer dúvida ver aula 18.14 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+				
 		<!-- Com isso o Springfox consegue identificar os Beans Validators das classes e marcar eles automaticamente na documentação do Swagger -->
 		<!-- Utilizando o SpringFox 3.0.0 parece que já vem automaticamente configurado o Bean Validators para o Springfox. Deixei comentado -->
 		<!-- <dependency>
