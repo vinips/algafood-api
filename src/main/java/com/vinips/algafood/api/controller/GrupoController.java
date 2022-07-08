@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinips.algafood.api.controller.openapi.GrupoControllerOpenApi;
 import com.vinips.algafood.api.model.assembler.GrupoDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.GrupoInputDisassembler;
 import com.vinips.algafood.api.model.dto.GrupoDTO;
 import com.vinips.algafood.api.model.input.GrupoInput;
+import com.vinips.algafood.api.openapi.controller.GrupoControllerOpenApi;
 import com.vinips.algafood.domain.model.Grupo;
 import com.vinips.algafood.domain.repository.GrupoRepository;
 import com.vinips.algafood.domain.service.CadastroGrupoService;

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +24,14 @@ import com.vinips.algafood.api.model.assembler.CozinhaDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.CozinhaInputDisassembler;
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
 import com.vinips.algafood.api.model.input.CozinhaInput;
+import com.vinips.algafood.api.openapi.controller.CozinhaControllerOpenApi;
 import com.vinips.algafood.domain.model.Cozinha;
 import com.vinips.algafood.domain.repository.CozinhaRepository;
 import com.vinips.algafood.domain.service.CadastroCozinhaService;
 
 @RestController
-@RequestMapping("/cozinhas")
-public class CozinhaController {
+@RequestMapping(path = "/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
+public class CozinhaController implements CozinhaControllerOpenApi{
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
@@ -117,19 +119,21 @@ public class CozinhaController {
 		cadastroCozinha.excluir(cozinhaId);
 	}
 
-	@GetMapping("/por-nome")
-	public List<Cozinha> cozinhasPorNome(String nome) {
-		return cozinhaRepository.findListaByNomeContaining(nome);
-	}
-
-	@GetMapping("/unica-por-nome")
-	public Cozinha cozinhaPorNome(String nome) {
-		return cozinhaRepository.findUnicaByNome(nome);
-	}
-
-	@GetMapping("/existe-por-nome")
-	public boolean cozinhaExistsByNome(String nome) {
-		return cozinhaRepository.existsByNomeContains(nome);
-	}
+	
+	//Legado
+//	@GetMapping("/por-nome")
+//	public List<Cozinha> cozinhasPorNome(String nome) {
+//		return cozinhaRepository.findListaByNomeContaining(nome);
+//	}
+//
+//	@GetMapping("/unica-por-nome")
+//	public Cozinha cozinhaPorNome(String nome) {
+//		return cozinhaRepository.findUnicaByNome(nome);
+//	}
+//
+//	@GetMapping("/existe-por-nome")
+//	public boolean cozinhaExistsByNome(String nome) {
+//		return cozinhaRepository.existsByNomeContains(nome);
+//	}
 
 }

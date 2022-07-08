@@ -1,4 +1,4 @@
-package com.vinips.algafood.core.openapi.model;
+package com.vinips.algafood.api.openapi.model;
 
 import java.util.List;
 

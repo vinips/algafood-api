@@ -1,4 +1,4 @@
-package com.vinips.algafood.api.controller.openapi;
+package com.vinips.algafood.api.openapi.controller;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public interface GrupoControllerOpenApi {
 		@ApiResponse(responseCode = "200", description = "Grupo atualizado"),
 		@ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public GrupoDTO atualizar(@ApiParam(value = "ID de uma cidade", example = "1") Long grupoId,
+	public GrupoDTO atualizar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId,
 			GrupoInput grupoInput);
 	
 	@ApiOperation("Exclui um Grupo por ID")

@@ -1,4 +1,4 @@
-package com.vinips.algafood.api.controller.openapi;
+package com.vinips.algafood.api.openapi.controller;
 
 import java.util.List;
 

@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,15 @@ import org.springframework.http.MediaType;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vinips.algafood.api.exceptionhandler.Problem;
-import com.vinips.algafood.core.openapi.model.PageableModelOpenApi;
+import com.vinips.algafood.api.model.dto.CozinhaDTO;
+import com.vinips.algafood.api.openapi.model.CozinhasDtoOpenApi;
+import com.vinips.algafood.api.openapi.model.PageableModelOpenApi;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RepresentationBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
@@ -59,8 +63,13 @@ public class SpringFoxConfig {
 				.additionalModels(typeResolver.resolve(Problem.class))
 				//Para fins de documentação, nós fazemos a substituição da interface Pageable do org.springframework.data.domain pela nossa customizada. Aula 18.20
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				//Aqui nós substituimos um Page<CozinhaDTO> por um CozinhasDtoOpenApi que dentro tem uma lista de CozinhaDTO e outros valores do Page (size, totalElements, totalPages, number). Aula 18.21
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(Page.class, CozinhaDTO.class), 
+						CozinhasDtoOpenApi.class))
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
+						new Tag("Cozinhas", "Gerencia as cozinhas"),
 						new Tag("Grupos", "Gerencia os grupos"));
 	}
 	

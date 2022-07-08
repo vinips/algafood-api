@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vinips.algafood.api.controller.openapi.CidadeControllerOpenApi;
 import com.vinips.algafood.api.model.assembler.CidadeDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.CidadeInputDisassembler;
 import com.vinips.algafood.api.model.dto.CidadeDTO;
 import com.vinips.algafood.api.model.input.CidadeInput;
+import com.vinips.algafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.vinips.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.model.Cidade;
