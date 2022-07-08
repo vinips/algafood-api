@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -59,6 +60,8 @@ public class SpringFoxConfig {
 				.globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
 				.globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
 				.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+				//Aqui eu ignoro os parametros que não quero que a documentação apresente, como por exemplo esse ServletWebRequest que usamos no método listar do FormaPagamentoController
+				.ignoredParameterTypes(ServletWebRequest.class)
 				//Com isso nós adicionamos um modelo extra que é o Problem para ser listado no SpringFox
 				.additionalModels(typeResolver.resolve(Problem.class))
 				//Para fins de documentação, nós fazemos a substituição da interface Pageable do org.springframework.data.domain pela nossa customizada. Aula 18.20
@@ -70,7 +73,8 @@ public class SpringFoxConfig {
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
-						new Tag("Grupos", "Gerencia os grupos"));
+						new Tag("Grupos", "Gerencia os grupos"),
+						new Tag("Formas de Pagamento", "Gerencia as formas de pagamento"));
 	}
 	
 	private List<Response> globalGetResponseMessages(){

@@ -3,11 +3,15 @@ package com.vinips.algafood.api.model.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.vinips.algafood.api.model.view.RestauranteView;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class CozinhaDTO {
 
+	@ApiModelProperty(example = "1")
 	@JsonView(RestauranteView.Resumo.class)
 	private Long id;
 	
+	@ApiModelProperty(example = "Japonesa")
 	@JsonView(RestauranteView.Resumo.class)
 	private String nome;
 	
