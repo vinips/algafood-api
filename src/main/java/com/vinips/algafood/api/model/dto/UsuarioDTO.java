@@ -1,9 +1,16 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class UsuarioDTO {
 	
+	@ApiModelProperty(example = "1")
 	private Long id;
+	
+	@ApiModelProperty(example = "José")
 	private String nome;
+	
+	@ApiModelProperty(example = "jose_borges@gmail.com")
 	private String email;
 
 	public Long getId() {

@@ -17,8 +17,10 @@ import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
-import com.vinips.algafood.api.openapi.model.CozinhasDtoOpenApi;
-import com.vinips.algafood.api.openapi.model.PageableModelOpenApi;
+import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
+import com.vinips.algafood.api.openapi.dto.CozinhasDTOOpenApi;
+import com.vinips.algafood.api.openapi.dto.PageableDTOOpenApi;
+import com.vinips.algafood.api.openapi.dto.PedidosResumoDTOOpenApi;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RepresentationBuilder;
@@ -65,16 +67,32 @@ public class SpringFoxConfig {
 				//Com isso nós adicionamos um modelo extra que é o Problem para ser listado no SpringFox
 				.additionalModels(typeResolver.resolve(Problem.class))
 				//Para fins de documentação, nós fazemos a substituição da interface Pageable do org.springframework.data.domain pela nossa customizada. Aula 18.20
-				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.directModelSubstitute(Pageable.class, PageableDTOOpenApi.class)
 				//Aqui nós substituimos um Page<CozinhaDTO> por um CozinhasDtoOpenApi que dentro tem uma lista de CozinhaDTO e outros valores do Page (size, totalElements, totalPages, number). Aula 18.21
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(Page.class, CozinhaDTO.class), 
-						CozinhasDtoOpenApi.class))
+						CozinhasDTOOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(Page.class, PedidoResumoDTO.class), 
+						PedidosResumoDTOOpenApi.class))
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
 						new Tag("Grupos", "Gerencia os grupos"),
-						new Tag("Formas de Pagamento", "Gerencia as formas de pagamento"));
+						new Tag("Formas de Pagamento", "Gerencia as formas de pagamento"),
+						new Tag("Pedidos", "Gerencia os Pedidos"));
+				//Usamos o Squiggly para adicionar campos de pesquisa nas requisições. No PedidoControler por exemplo temos o parametro "campos" que falamos os campos que queremos receber na pesquisa.
+				//Essa configuração faz com que isso seja mapeado pelo SpringFox. Sem essa configuração, ele não aparece na documentação. Aula 18.25
+				//Na aula 18.26 nós fazemos essa configuração apenas nos locais que iremos utilizar, pois se deixarmos aqui ele irá aparecer até mesmo para os endpoints que não usam Squiggly.
+//				.globalRequestParameters(Collections.singletonList(
+//			            new RequestParameterBuilder()
+//			                    .name("campos")
+//			                    .description("Nomes das propriedades para filtrar na resposta, separados por vírgula")
+//			                    .in(ParameterType.QUERY)
+//			                    .required(true)
+//			                    .query(q -> q.model(m -> m.scalarModel(ScalarType.STRING)))
+//			                    .build())
+//			    )
 	}
 	
 	private List<Response> globalGetResponseMessages(){

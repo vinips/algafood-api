@@ -3,14 +3,28 @@ package com.vinips.algafood.api.model.dto;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PedidoResumoDTO {
 	
+	@ApiModelProperty(example = "f55a5397-abba-11ec-9203-b42e99ed2795")
 	private String codigo;
+	
+	@ApiModelProperty(example = "12.00")
 	private BigDecimal subtotal;
+	
+	@ApiModelProperty(example = "2.90")
 	private BigDecimal taxaFrete;
+	
+	@ApiModelProperty(example = "14.90")
 	private BigDecimal valorTotal;
+	
+	@ApiModelProperty(example = "CRIADO")
 	private String status;
+	
+	@ApiModelProperty(example = "2022-07-15T04:38:55Z")
 	private OffsetDateTime dataCriacao;
+	
 	private RestauranteResumoDTO restaurante;
 	private UsuarioDTO cliente;
 

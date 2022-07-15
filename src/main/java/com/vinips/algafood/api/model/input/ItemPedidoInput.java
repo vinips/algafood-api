@@ -3,15 +3,20 @@ package com.vinips.algafood.api.model.input;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ItemPedidoInput {
-	
+
+	@ApiModelProperty(example = "1", required = true)
 	@NotNull
 	private Long produtoId;
 	
+	@ApiModelProperty(example = "1", value = "Quantidade daquele item (zero ou maior)", required = true)
 	@NotNull
 	@PositiveOrZero
 	private Long quantidade;
 	
+	@ApiModelProperty(example = "Sem cebola")
 	private String observacao;
 
 	public Long getProdutoId() {

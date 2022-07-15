@@ -1,8 +1,13 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class RestauranteResumoDTO {
 	
+	@ApiModelProperty(example = "1")
 	private Long id;
+	
+	@ApiModelProperty(example = "Sabor da Tainha")
 	private String nome;
 
 	public Long getId() {

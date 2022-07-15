@@ -1,9 +1,16 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class CidadeResumoDTO {
 	
+	@ApiModelProperty(example = "1")
 	private Long id;
+	
+	@ApiModelProperty(example = "Palhoça")
 	private String nome;
+	
+	@ApiModelProperty(example = "Santa Catarina")
 	private String estado;
 
 	public Long getId() {

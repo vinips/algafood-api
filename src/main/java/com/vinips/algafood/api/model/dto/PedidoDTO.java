@@ -4,21 +4,45 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PedidoDTO {
 	
+	@ApiModelProperty(example = "f55a5397-abba-11ec-9203-b42e99ed2795")
 	private String codigo;
+	
+	@ApiModelProperty(example = "12.00")
 	private BigDecimal subtotal;
+	
+	@ApiModelProperty(example = "2.90")
 	private BigDecimal taxaFrete;
+	
+	@ApiModelProperty(example = "14.90")
 	private BigDecimal valorTotal;
+	
+	@ApiModelProperty(example = "CRIADO")
 	private String status;
+	
+	@ApiModelProperty(example = "2022-07-15T04:38:55Z")
 	private OffsetDateTime dataCriacao;
+	
+	@ApiModelProperty(example = "2022-07-15T05:55:55Z")
 	private OffsetDateTime dataConfirmacao;
+	
+	@ApiModelProperty(example = "2022-07-15T05:59:55Z")
 	private OffsetDateTime dataEntrega;
+	
+	@ApiModelProperty(example = "2022-07-15T04:58:55Z")
 	private OffsetDateTime dataCancelamento;
+	
 	private RestauranteResumoDTO restaurante;
+	
 	private UsuarioDTO cliente;
+	
 	private FormaPagamentoDTO formaPagamento;
+	
 	private EnderecoDTO enderecoEntrega;
+	
 	private List<ItemPedidoDTO> itens;
 
 	public String getCodigo() {

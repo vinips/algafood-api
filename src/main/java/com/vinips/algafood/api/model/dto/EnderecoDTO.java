@@ -1,12 +1,24 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class EnderecoDTO {
 	
+	@ApiModelProperty(example = "88125-325")
 	private String cep;
+	
+	@ApiModelProperty(example = "Rua das Américas")
 	private String logradouro;
+	
+	@ApiModelProperty(example = "121")
 	private String numero;
+	
+	@ApiModelProperty(example = "Casa")
 	private String complemento;
+	
+	@ApiModelProperty(example = "Betaville")
 	private String bairro;
+	
 	private CidadeResumoDTO cidade;
 
 	public String getCep() {

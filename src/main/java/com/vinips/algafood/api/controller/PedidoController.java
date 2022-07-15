@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.vinips.algafood.api.model.disassembler.PedidoInputDisassembler;
 import com.vinips.algafood.api.model.dto.PedidoDTO;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
 import com.vinips.algafood.api.model.input.PedidoInput;
+import com.vinips.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.vinips.algafood.core.data.PageableTranslator;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
@@ -36,8 +38,8 @@ import com.vinips.algafood.domain.service.CadastroPedidoService;
 import com.vinips.algafood.infrastructure.repository.spec.PedidoSpecs;
 
 @RestController
-@RequestMapping("/pedidos")
-public class PedidoController {
+@RequestMapping(path = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PedidoController implements PedidoControllerOpenApi{
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;

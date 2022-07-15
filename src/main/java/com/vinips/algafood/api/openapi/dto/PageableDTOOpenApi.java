@@ -1,4 +1,4 @@
-package com.vinips.algafood.api.openapi.model;
+package com.vinips.algafood.api.openapi.dto;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("Pageable")
-public class PageableModelOpenApi {
+public class PageableDTOOpenApi {
 	
 	@ApiModelProperty(example = "0", value = "Número da página (começa em 0)")
 	private int page;

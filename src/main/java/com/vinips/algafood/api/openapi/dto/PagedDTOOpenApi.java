@@ -1,10 +1,10 @@
-package com.vinips.algafood.api.openapi;
+package com.vinips.algafood.api.openapi.dto;
 
 import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class PagedModelOpenApi<T> {
+public class PagedDTOOpenApi<T> {
 	
 private List<T> content;
 	
