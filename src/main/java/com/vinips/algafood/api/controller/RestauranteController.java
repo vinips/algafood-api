@@ -22,6 +22,7 @@ import com.vinips.algafood.api.model.disassembler.RestauranteInputDisassembler;
 import com.vinips.algafood.api.model.dto.RestauranteDTO;
 import com.vinips.algafood.api.model.input.RestauranteInput;
 import com.vinips.algafood.api.model.view.RestauranteView;
+import com.vinips.algafood.api.openapi.dto.RestauranteBasicoDTOOpenApi;
 import com.vinips.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
@@ -29,6 +30,10 @@ import com.vinips.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.vinips.algafood.domain.model.Restaurante;
 import com.vinips.algafood.domain.repository.RestauranteRepository;
 import com.vinips.algafood.domain.service.CadastroRestauranteService;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -49,6 +54,12 @@ public class RestauranteController {
 	//O JsonView serve para enviar pro json apenas o que estiver anotado com ele com aquela propriedade. Aula 13.1
 	//Deixamos de usar o @JsonView quando passamos a usar DTO em vez de retornar a entidade em si.
 	@JsonView(RestauranteView.Resumo.class)
+	//o response diz que na documentação o SpringFox deve usar na resposta a classe dita ali, e não o retorno declarado no método. Só fazemos assim pois estamos utilizando JsonView nesse método.
+	//Vou deixar a fim de documentação, porém o SpringFox 3.0 já faz certinho e não precisa desse response.
+	@ApiOperation(value = "Lista restaurantes", response = RestauranteBasicoDTOOpenApi.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(value = "Nome da projeção de Restaurantes", name = "projecao", allowableValues = "apenas-nome", paramType = "query", type = "string")
+	})
 	@GetMapping
 	public List<RestauranteDTO> listar() {
 		List<Restaurante> restaurantes = restauranteRepository.findAll();
@@ -63,6 +74,8 @@ public class RestauranteController {
 //				.body(restauranteModel);
 	}
 	
+	//Colocamos isso pois na documentação, o SpringFox trata o método listar e listarApenasNome como o mesmo por ser o mesmo endpoint, e com isso ele oculta 1 deles.
+	@ApiOperation(value = "Lista restaurantes", hidden = true)
 	@JsonView(RestauranteView.ApenasNome.class)
 	@GetMapping(params = "projecao=apenas-nome")
 	public List<RestauranteDTO> listarApenasNome() {
