@@ -103,7 +103,7 @@ INSERT INTO restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_a
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (1, 'Bobó de Camarão', 'Delicioso Bobó de camarão na chapa', 27.99, false, 2);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (2, 'Linguiça no Forno', 'Linguiça italiana no forno de madeira', 30.99, true, 2);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (3, 'Vatapá', 'Vatapá ao molho branco', 14.99, true, 2);
-INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (4, 'Camarão no Dendê', 'Cozinho de camarão com delicioso molho de dendê', 40.65, true, 7);
+INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (4, 'Camarão no Dendê', 'Cozido de camarão com delicioso molho de dendê', 40.65, true, 7);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (5, 'Harumaki', '10 unidades de Harumaki de salmão', 10.99, true, 5);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (6, 'Temaki', 'Temaki de salmão com cream cheese e cebolinha', 13.50 , true, 5);
 INSERT INTO produto (id, nome, descricao, preco, ativo, restaurante_id) VALUES (7, 'Kimchi', 'Bem picante', 10.99, true, 6);
