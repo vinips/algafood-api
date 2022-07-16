@@ -7,11 +7,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class RestauranteInput {
 	
+	@ApiModelProperty(example = "Sabores do Agreste", required = true)
 	@NotBlank
 	private String nome;
 	
+	@ApiModelProperty(example = "2.99", value = "Frete deve ser zero ou maior", required = true)
 	@NotNull
 	@PositiveOrZero
 	private BigDecimal taxaFrete;

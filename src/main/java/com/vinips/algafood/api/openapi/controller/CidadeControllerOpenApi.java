@@ -44,7 +44,7 @@ public interface CidadeControllerOpenApi {
 		@ApiResponse(responseCode = "200", description = "Cidade atualizada"),
 		@ApiResponse(responseCode = "404", description = "Cidade não encontrada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public CidadeDTO atualizar(@ApiParam(value = "ID de uma cidade", example = "1") Long cidadeId,
+	public CidadeDTO atualizar(@ApiParam(value = "ID de uma Cidade", example = "1") Long cidadeId,
 			CidadeInput cidadeInput);
 	
 	@ApiOperation("Exclui uma Cidade por ID")
