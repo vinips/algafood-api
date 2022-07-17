@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.vinips.algafood.api.model.assembler.FotoProdutoDTOAssembler;
 import com.vinips.algafood.api.model.dto.FotoProdutoDTO;
 import com.vinips.algafood.api.model.input.FotoProdutoInput;
+import com.vinips.algafood.api.openapi.controller.RestauranteFotoProdutoControllerOpenApi;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.model.FotoProduto;
 import com.vinips.algafood.domain.model.Produto;
@@ -34,8 +35,8 @@ import com.vinips.algafood.domain.service.FotoStorageService;
 import com.vinips.algafood.domain.service.FotoStorageService.FotoRecuperada;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteFotoProdutoController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/produtos/{produtoId}/foto", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteFotoProdutoController implements RestauranteFotoProdutoControllerOpenApi {
 
 	@Autowired
 	private CadastroProdutoService cadastroProduto;
@@ -85,14 +86,14 @@ public class RestauranteFotoProdutoController {
 //		}
 	}
 	
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping()
 	public FotoProdutoDTO buscarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
 		
 		return fotoProdutoAssembler.toDTO(fotoProduto);
 	}
 	
-	@GetMapping()
+	@GetMapping(produces = MediaType.ALL_VALUE)
 	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
 			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader)
 			throws HttpMediaTypeNotAcceptableException {

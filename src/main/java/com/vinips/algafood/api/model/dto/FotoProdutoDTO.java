@@ -1,10 +1,19 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class FotoProdutoDTO {
 
+	@ApiModelProperty(example = "temaki.png")
 	private String nomeArquivo;
+	
+	@ApiModelProperty(example = "temaki")
 	private String descricao;
+	
+	@ApiModelProperty(example = "image/png")
 	private String contentType;
+	
+	@ApiModelProperty(example = "100254")
 	private Long tamanho;
 
 	public String getNomeArquivo() {
