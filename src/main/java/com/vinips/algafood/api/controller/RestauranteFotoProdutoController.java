@@ -93,7 +93,7 @@ public class RestauranteFotoProdutoController implements RestauranteFotoProdutoC
 		return fotoProdutoAssembler.toDTO(fotoProduto);
 	}
 	
-	@GetMapping(produces = MediaType.ALL_VALUE)
+	@GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
 	public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
 			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader)
 			throws HttpMediaTypeNotAcceptableException {

@@ -15,7 +15,7 @@ public class FotoProdutoInput {
 	
 	@ApiModelProperty(value = "Arquivo da foto do produto (apenas JPG e PNG)", required = true)
 	@NotNull
-	@FileSize(max = "1000KB")
+	@FileSize(max = "2MB")
 	@FileContentType(allowed = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
 	private MultipartFile arquivo;
 	

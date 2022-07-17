@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.util.WebUtils;
@@ -36,6 +38,7 @@ import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
 import com.vinips.algafood.domain.exception.ValidacaoException;
+import com.vinips.algafood.infrastructure.exception.StorageException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -222,6 +225,36 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return ResponseEntity.status(status).headers(headers).build();
+	}
+	
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public ResponseEntity<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex, WebRequest request){
+		
+		HttpStatus status = HttpStatus.PAYLOAD_TOO_LARGE;
+		
+		String detailAndUserMessage = ex.getMessage();
+
+		if (ex.getRootCause() instanceof FileSizeLimitExceededException) {
+			var specEx = (FileSizeLimitExceededException) ex.getRootCause();
+			detailAndUserMessage = String.format("O Arquivo excedeu o tamanho máximo definido globalmente de %d bytes",
+					specEx.getPermittedSize());
+		}
+		
+		Problem problem = createProblemBuilder(status, ProblemType.MAX_FILE_SIZE_EXCEEDED, detailAndUserMessage, detailAndUserMessage);
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler(StorageException.class)
+	public ResponseEntity<?> handleStorageException(StorageException ex, WebRequest request){
+		
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		
+		String detailAndUserMessage = ex.getMessage();
+
+		Problem problem = createProblemBuilder(status, ProblemType.ERRO_DE_SISTEMA, detailAndUserMessage, detailAndUserMessage);
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 	
 	// @ExceptionHandler é utilizado para podermos alterar livremente as informações

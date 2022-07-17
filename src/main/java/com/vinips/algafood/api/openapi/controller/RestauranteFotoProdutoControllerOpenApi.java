@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.FotoProdutoDTO;
@@ -38,14 +39,18 @@ public interface RestauranteFotoProdutoControllerOpenApi {
 	
 	@ApiOperation(value = "Busca a Foto de um Produto vinculado a um Restaurante", produces = "application/json, image/jpeg, image/png")
 	@ApiResponses({
+		@ApiResponse(responseCode = "200",description = "OK", content = @Content(schema = @Schema(implementation = FotoProdutoDTO.class), mediaType = "application/json")),
+		@ApiResponse(responseCode = "200",description = "OK", content = @Content(mediaType = "image/png")),
+		@ApiResponse(responseCode = "200",description = "OK", content = @Content(mediaType = "image/jpeg")),
 		@ApiResponse(responseCode = "400", description = "ID do Restaurante/Produto inválido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "404", description = "Restaurante/Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public FotoProdutoDTO buscarFoto(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
-			@ApiParam(value = "ID de um Produto", example = "1") Long produtoId);
+	public ResponseEntity<?> servirFoto(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
+			@ApiParam(value = "ID de um Produto", example = "1") Long produtoId,
+			@ApiParam(hidden = true, required = false) String acceptHeader) throws HttpMediaTypeNotAcceptableException;
 	
 	@ApiOperation(value = "Busca a Foto de um Produto vinculado a um Restaurante", hidden = true)
-	public ResponseEntity<?> servirFoto(Long restauranteId, Long produtoId, String acceptHeader) throws HttpMediaTypeNotAcceptableException;
+	public FotoProdutoDTO buscarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId);
 	
 	@ApiOperation("Remove a Foto de um Produto vinculado a um Restaurante")
 	@ApiResponses({
