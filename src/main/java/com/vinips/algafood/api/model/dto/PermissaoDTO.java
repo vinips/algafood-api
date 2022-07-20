@@ -1,9 +1,16 @@
 package com.vinips.algafood.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PermissaoDTO {
 	
+	@ApiModelProperty(example = "1")
 	private Long id;
+	
+	@ApiModelProperty(example = "Visualizar")
 	private String nome;
+	
+	@ApiModelProperty(example = "Permite apenas visualizar")
 	private String descricao;
 
 	public Long getId() {
