@@ -5,15 +5,20 @@ import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class VendaDiariaFilter {
 	
+	@ApiModelProperty(example = "1", value = "ID do Restaurante para filtro da pesquisa")
 	private Long restauranteId;
 	
+	@ApiModelProperty(example = "2022-04-11T23:42:40Z", value = "Data inicial do pedido")
 	//Necessária essa anotation pro Spring conseguir converter String para OffsetDateTime
 	//Quando a API recebe a requisição do front com essa informação.
 	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private OffsetDateTime dataCriacaoInicio;
 	
+	@ApiModelProperty(example = "2022-04-11T23:42:40Z", value = "Data final do pedido")
 	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private OffsetDateTime dataCriacaoFim;
 

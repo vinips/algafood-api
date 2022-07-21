@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface EstadoControllerOpenApi {
 
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
-	@ApiOperation("Lista as Estados")
+	@ApiOperation("Lista os Estados")
 	public ResponseEntity<List<EstadoDTO>> listar();
 	
 	@ApiOperation("Busca um Estado por ID")
@@ -47,7 +47,7 @@ public interface EstadoControllerOpenApi {
 	public EstadoDTO atualizar(@ApiParam(value = "ID de um Estado", example = "1") Long estadoId,
 			EstadoInput estadoInput);
 	
-	@ApiOperation("Exclui umaEstado por ID")
+	@ApiOperation("Exclui uma Estado por ID")
 	@ApiResponses({
 		@ApiResponse(responseCode = "204", description = "Estado excluído"),
 		@ApiResponse(responseCode = "404", description = "Estado não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))

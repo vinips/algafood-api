@@ -3,11 +3,15 @@ package com.vinips.algafood.api.model.input;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class UsuarioSemSenhaInput {
 	
+	@ApiModelProperty(example = "Jonas", required = true)
 	@NotBlank
 	private String nome;
 	
+	@ApiModelProperty(example = "jonas@hotmail.com", required = true)
 	@NotBlank
 	@Email
 	private String email;

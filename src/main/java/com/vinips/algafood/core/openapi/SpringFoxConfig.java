@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.jfree.util.TableOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 //@Import(BeanValidatorPluginsConfiguration.class) Utilizar caso coloque o springfox-bean-validators
 public class SpringFoxConfig {
+	
+	//TODO https://springdoc.org/#migrating-from-springfox Link para migração do SpringFox para Springdoc, que é mais atualizado atualmente
 	
 	//Bean para fazer com que o SpringFox carregue o módulo de conversão de datas.
 	//Com esse bean gerenciado pelo Springboot, conseguimos Serializar a classe OffsetDateTime quando utilizamos SpringFox.
@@ -83,7 +86,9 @@ public class SpringFoxConfig {
 						new Tag("Pedidos", "Gerencia os pedidos"),
 						new Tag("Restaurantes", "Gerencia os restaurantes"),
 						new Tag("Estados", "Gerencia os estados"),
-						new Tag("Produtos", "Gerencia os produtos"));
+						new Tag("Produtos", "Gerencia os produtos"),
+						new Tag("Usuários", "Gerencia os usuarios"),
+						new Tag("Estatísticas", "Gerencia as estatísticas"));
 				//Usamos o Squiggly para adicionar campos de pesquisa nas requisições. No PedidoControler por exemplo temos o parametro "campos" que falamos os campos que queremos receber na pesquisa.
 				//Essa configuração faz com que isso seja mapeado pelo SpringFox. Sem essa configuração, ele não aparece na documentação. Aula 18.25
 				//Na aula 18.26 nós fazemos essa configuração apenas nos locais que iremos utilizar, pois se deixarmos aqui ele irá aparecer até mesmo para os endpoints que não usam Squiggly.
