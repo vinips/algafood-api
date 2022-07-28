@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinips.algafood.api.ResourceUriHelper;
 import com.vinips.algafood.api.model.assembler.CidadeDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.CidadeInputDisassembler;
 import com.vinips.algafood.api.model.dto.CidadeDTO;
@@ -61,7 +62,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 	
 	//Essa anotação faz com que em vez de aparecer o nome do método na documentação  feita pelo Swagger, apareça o que determinarmos nessa anotação.
 	@GetMapping("/{cidadeId}")
-	public CidadeDTO buscar(@PathVariable Long cidadeId){
+	public CidadeDTO buscar(@PathVariable Long cidadeId) {
 		// Jeito Simplificado
 		return cidadeAssembler.toDTO(cadastroCidade.buscarOuFalhar(cidadeId));
 		
@@ -77,9 +78,15 @@ public class CidadeController implements CidadeControllerOpenApi{
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeDTO adicionar(@Valid @RequestBody CidadeInput cidadeInput) {
 		 try {
+			 
 			 Cidade cidade = cidadeDisassembler.toDomainModel(cidadeInput);
 			 
-			 return cidadeAssembler.toDTO(cadastroCidade.salvar(cidade));
+			 
+			 CidadeDTO cidadeDTO = cidadeAssembler.toDTO(cadastroCidade.salvar(cidade));
+
+			 ResourceUriHelper.addUriInResponseHeader(cidadeDTO.getId());
+				
+			 return cidadeDTO;
 		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}

@@ -57,6 +57,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		
+		<!-- Dependência do Spring HATEOAS que mostra o caminho para os outros métodos no HEAD da resposta das requisições. Utilizado para usarmos o nível 3 do RMM (Aula 4.39 e 19.1) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>
 
 		<!-- JAR do mysql para conexão do DB -->
 		<dependency>
