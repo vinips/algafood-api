@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +65,18 @@ public class CidadeController implements CidadeControllerOpenApi{
 	@GetMapping("/{cidadeId}")
 	public CidadeDTO buscar(@PathVariable Long cidadeId) {
 		// Jeito Simplificado
-		return cidadeAssembler.toDTO(cadastroCidade.buscarOuFalhar(cidadeId));
+		
+		Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
+		
+		CidadeDTO cidadeDTO = cidadeAssembler.toDTO(cidade);
+		//cidadeDTO.add(new Link("http://localhost:8080/cidades/3", IanaLinkRelations.SELF));
+		//cidadeDTO.add(new Link("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+		cidadeDTO.add(new Link("http://localhost:8080/cidades/3"));
+		cidadeDTO.add(new Link("http://localhost:8080/cidades", "cidades"));
+		
+		cidadeDTO.getEstado().add(new Link("http://localhost:8080/estados/3"));
+		
+		return cidadeDTO;
 		
 		// Jeito Antigo
 //		if(cidade.isPresent()) {
@@ -80,7 +92,6 @@ public class CidadeController implements CidadeControllerOpenApi{
 		 try {
 			 
 			 Cidade cidade = cidadeDisassembler.toDomainModel(cidadeInput);
-			 
 			 
 			 CidadeDTO cidadeDTO = cidadeAssembler.toDTO(cadastroCidade.salvar(cidade));
 
