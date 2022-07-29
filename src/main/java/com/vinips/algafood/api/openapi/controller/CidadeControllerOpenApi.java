@@ -1,8 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.CollectionModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.CidadeDTO;
@@ -27,7 +25,7 @@ public interface CidadeControllerOpenApi {
 
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
 	@ApiOperation("Lista as Cidades")
-	public ResponseEntity<List<CidadeDTO>> listar();
+	public CollectionModel<CidadeDTO> listar();
 	
 	@ApiOperation("Busca uma Cidade por ID")
 	@ApiResponses({

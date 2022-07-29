@@ -5,10 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,19 +49,33 @@ public class CidadeController implements CidadeControllerOpenApi{
 	private CidadeInputDisassembler cidadeDisassembler;
 	
 	@GetMapping
-	public ResponseEntity<List<CidadeDTO>> listar(){
+	public CollectionModel<CidadeDTO> listar(){
 		
 		List<Cidade> cidades = cidadeRepository.findAll();
 		
-		if(cidades != null && !cidades.isEmpty()) {
-			return ResponseEntity.ok(cidadeAssembler.toCollectionDTO(cidades));
-		}
+		List<CidadeDTO> cidadesDTO = cidadeAssembler.toCollectionDTO(cidades);
 		
-		return ResponseEntity.noContent().build();
+		cidadesDTO.forEach(cidadeDTO -> {
+			
+			cidadeDTO.add(WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
+			
+			cidadeDTO.add(WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades"));
+			
+			cidadeDTO.getEstado().add(WebMvcLinkBuilder
+					.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(cidadeDTO.getEstado().getId()))
+							.withSelfRel());
+		});
+		
+		CollectionModel<CidadeDTO> cidadesCollectionDTO = new CollectionModel<>(cidadesDTO);
+	
+		cidadesCollectionDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+		
+		return cidadesCollectionDTO;
 		
 	}
 	
-	//Essa anotação faz com que em vez de aparecer o nome do método na documentação  feita pelo Swagger, apareça o que determinarmos nessa anotação.
 	@GetMapping("/{cidadeId}")
 	public CidadeDTO buscar(@PathVariable Long cidadeId) {
 		// Jeito Simplificado
@@ -69,12 +83,36 @@ public class CidadeController implements CidadeControllerOpenApi{
 		Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 		
 		CidadeDTO cidadeDTO = cidadeAssembler.toDTO(cidade);
-		//cidadeDTO.add(new Link("http://localhost:8080/cidades/3", IanaLinkRelations.SELF));
-		//cidadeDTO.add(new Link("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
-		cidadeDTO.add(new Link("http://localhost:8080/cidades/3"));
-		cidadeDTO.add(new Link("http://localhost:8080/cidades", "cidades"));
 		
-		cidadeDTO.getEstado().add(new Link("http://localhost:8080/estados/3"));
+		//Aqui fazemos os links do Hateoas
+		
+		//Link por Método
+		cidadeDTO.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
+
+		cidadeDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar())
+				.withRel("cidades"));
+		
+		cidadeDTO.getEstado().add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(cidadeDTO.getEstado().getId()))
+						.withSelfRel());
+		
+		//Link por Controlador
+//		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+//				.slash(cidadeDTO.getId()).withSelfRel());
+		
+//		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+//				.withRel("cidades"));
+		
+//		cidadeDTO.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+//		.slash(cidadeDTO.getEstado().getId()).withSelfRel());
+		
+		//Link Manual
+//		cidadeDTO.add(new Link("http://localhost:8080/cidades/3", IanaLinkRelations.SELF));
+//		cidadeDTO.add(new Link("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+//		cidadeDTO.add(new Link("http://localhost:8080/cidades/3"));
+//		cidadeDTO.add(new Link("http://localhost:8080/cidades", "cidades"));
+//		cidadeDTO.getEstado().add(new Link("http://localhost:8080/estados/3"));
 		
 		return cidadeDTO;
 		

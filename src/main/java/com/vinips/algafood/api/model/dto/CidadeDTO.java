@@ -1,9 +1,11 @@
 package com.vinips.algafood.api.model.dto;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import io.swagger.annotations.ApiModelProperty;
 
+@Relation(collectionRelation = "cidades")
 public class CidadeDTO extends RepresentationModel<CidadeDTO>{
 	
 	//Serve para alterar a propriedade que é mostrada na documentação que o Swagger gera automaticamente pra gente. Módulo 18
