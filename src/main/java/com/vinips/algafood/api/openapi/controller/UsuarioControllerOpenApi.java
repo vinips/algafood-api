@@ -1,8 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.CollectionModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.UsuarioDTO;
@@ -29,7 +27,7 @@ public interface UsuarioControllerOpenApi {
 
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
 	@ApiOperation("Lista os Usuários")
-	public ResponseEntity<List<UsuarioDTO>> listar();
+	public CollectionModel<UsuarioDTO> listar();
 	
 	@ApiOperation("Busca um Usuário por ID")
 	@ApiResponses({

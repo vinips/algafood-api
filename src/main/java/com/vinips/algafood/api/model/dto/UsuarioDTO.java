@@ -1,8 +1,13 @@
 package com.vinips.algafood.api.model.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class UsuarioDTO {
+//Nome que aparece no embedded do CollectionModel quando retornamos um Json
+@Relation(collectionRelation = "usuarios")
+public class UsuarioDTO extends RepresentationModel<UsuarioDTO> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;

@@ -5,9 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,21 +50,17 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	private UsuarioSemSenhaInputDisassembler usuarioSemSenhaDisassembler;
 
 	@GetMapping
-	public ResponseEntity<List<UsuarioDTO>> listar() {
+	public CollectionModel<UsuarioDTO> listar() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
 
-		if (usuarios != null && !usuarios.isEmpty()) {
-			return ResponseEntity.ok(usuarioAssembler.toCollectionDTO(usuarios));
-		}
-
-		return ResponseEntity.noContent().build();
+		return usuarioAssembler.toCollectionModel(usuarios);
 	}
 
 	@GetMapping("/{usuarioId}")
 	public UsuarioDTO buscar(@PathVariable Long usuarioId) {
 		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
 
-		return usuarioAssembler.toDTO(usuario);
+		return usuarioAssembler.toModel(usuario);
 	}
 
 	@PostMapping
@@ -72,7 +68,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	public UsuarioDTO adicionar(@Valid @RequestBody UsuarioInput usuarioInput) {
 		Usuario usuario = usuarioDisassembler.toDomainModel(usuarioInput);
 
-		return usuarioAssembler.toDTO(cadastroUsuario.salvar(usuario));
+		return usuarioAssembler.toModel(cadastroUsuario.salvar(usuario));
 	}
 
 	@PutMapping("/{usuarioId}")
@@ -82,7 +78,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 
 		usuarioSemSenhaDisassembler.copyToDomainObject(usuarioSemSenhaInput, usuarioAtual);
 
-		return usuarioAssembler.toDTO(cadastroUsuario.salvar(usuarioAtual));
+		return usuarioAssembler.toModel(cadastroUsuario.salvar(usuarioAtual));
 	}
 
 	@DeleteMapping("/{usuarioId}")

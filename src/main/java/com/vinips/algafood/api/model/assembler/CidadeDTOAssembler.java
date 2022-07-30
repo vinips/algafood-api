@@ -14,7 +14,6 @@ import com.vinips.algafood.domain.model.Cidade;
 
 @Component
 public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeDTO> {
-	
 
 	@Autowired
 	private ModelMapper modelMapper;

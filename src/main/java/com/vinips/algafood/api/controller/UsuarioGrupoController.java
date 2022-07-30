@@ -34,11 +34,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	public ResponseEntity<List<GrupoDTO>> listar(@PathVariable Long usuarioId) {
 		Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
 
-		if (usuario.getGrupos() != null && !usuario.getGrupos().isEmpty()) {
-			return ResponseEntity.ok(grupoAssembler.toCollectionDTO(usuario.getGrupos()));
-		}
-
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok(grupoAssembler.toCollectionDTO(usuario.getGrupos()));
 	}
 	
 	@PutMapping("/{grupoId}")
@@ -52,7 +48,5 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 	public void desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
 		cadastroUsuario.desassociarGrupo(usuarioId, grupoId);
 	}
-	
-
 
 }

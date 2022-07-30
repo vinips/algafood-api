@@ -5,6 +5,7 @@ import org.springframework.hateoas.server.core.Relation;
 
 import io.swagger.annotations.ApiModelProperty;
 
+//Nome que aparece no embedded do CollectionModel quando retornamos um Json
 @Relation(collectionRelation = "cidades")
 public class CidadeDTO extends RepresentationModel<CidadeDTO>{
 	

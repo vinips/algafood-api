@@ -1,11 +1,9 @@
 package com.vinips.algafood.api.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,15 +29,10 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 	private UsuarioDTOAssembler usuarioAssembler;
 
 	@GetMapping
-	public ResponseEntity<List<UsuarioDTO>> listar(@PathVariable Long restauranteId) {
+	public CollectionModel<UsuarioDTO> listar(@PathVariable Long restauranteId) {
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-		if (restaurante.getResponsaveis() != null && !restaurante.getResponsaveis().isEmpty()) {
-			return ResponseEntity.ok(usuarioAssembler.toCollectionDTO(restaurante.getResponsaveis()));
-		}
-
-		return ResponseEntity.noContent().build();
-
+		return usuarioAssembler.toCollectionModel(restaurante.getResponsaveis());
 	}
 
 	@PutMapping("/{usuarioId}")
