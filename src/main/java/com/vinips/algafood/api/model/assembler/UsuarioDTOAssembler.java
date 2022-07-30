@@ -32,7 +32,7 @@ public class UsuarioDTOAssembler extends RepresentationModelAssemblerSupport<Usu
 				.withRel("usuarios"));
 
 		usuarioDTO.add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class, usuarioDTO.getId()).listar(usuarioDTO.getId()))
+				WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listar(usuarioDTO.getId()))
 				.withRel("grupos-usuario"));
 		
 		return usuarioDTO;
