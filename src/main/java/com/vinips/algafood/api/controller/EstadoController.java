@@ -5,9 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,22 +44,17 @@ public class EstadoController implements EstadoControllerOpenApi {
 	private EstadoInputDisassembler estadoDisassembler;
 	
 	@GetMapping
-	public ResponseEntity<List<EstadoDTO>> listar() {
+	public CollectionModel<EstadoDTO> listar() {
 
 		List<Estado> estados = estadoRepository.findAll();
 
-		if (estados != null && !estados.isEmpty()) {
-			return ResponseEntity.ok(estadoAssembler.toCollectionDTO(estados));
-		}
-
-		return ResponseEntity.noContent().build();
-
+		return estadoAssembler.toCollectionModel(estados);
 	}
 	
 	@GetMapping("/{estadoId}")
 	public EstadoDTO buscar(@PathVariable Long estadoId) {
 		//Jeito Simplificado
-		return estadoAssembler.toDTO(cadastroEstado.buscarOuFalhar(estadoId));
+		return estadoAssembler.toModel(cadastroEstado.buscarOuFalhar(estadoId));
 
 		// Jeito Antigo
 //		if (estado.isPresent()) {
@@ -74,7 +69,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 	public EstadoDTO adicionar(@Valid @RequestBody EstadoInput estadoInput) {
 		Estado estado = estadoDisassembler.toDomainModel(estadoInput);
 		
-		return estadoAssembler.toDTO(cadastroEstado.salvar(estado));
+		return estadoAssembler.toModel(cadastroEstado.salvar(estado));
 	}
 
 	@PutMapping("/{estadoId}")
@@ -85,7 +80,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		
 		estadoDisassembler.copyToDomainObject(estadoInput, estadoAtual);
 		
-		return estadoAssembler.toDTO(cadastroEstado.salvar(estadoAtual));
+		return estadoAssembler.toModel(cadastroEstado.salvar(estadoAtual));
 		
 		// Jeito Antigo
 //		if(estadoAtual.isPresent()) {

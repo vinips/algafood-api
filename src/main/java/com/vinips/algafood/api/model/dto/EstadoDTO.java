@@ -1,9 +1,11 @@
 package com.vinips.algafood.api.model.dto;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import io.swagger.annotations.ApiModelProperty;
 
+@Relation(collectionRelation = "estados")
 public class EstadoDTO extends RepresentationModel<EstadoDTO>{
 
 	@ApiModelProperty(example = "1")
