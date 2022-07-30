@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,54 +47,36 @@ public class CidadeController implements CidadeControllerOpenApi{
 	@Autowired
 	private CidadeInputDisassembler cidadeDisassembler;
 	
+	//Aqui usamos CollectionModel pois dentro dele tem uma Lista de Representation Model(DTO) que é o que iremos usar para os links do HATEOAS também.
 	@GetMapping
 	public CollectionModel<CidadeDTO> listar(){
 		
 		List<Cidade> cidades = cidadeRepository.findAll();
 		
-		List<CidadeDTO> cidadesDTO = cidadeAssembler.toCollectionDTO(cidades);
+		return cidadeAssembler.toCollectionModel(cidades);
 		
-		cidadesDTO.forEach(cidadeDTO -> {
-			
-			cidadeDTO.add(WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
-			
-			cidadeDTO.add(WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar()).withRel("cidades"));
-			
-			cidadeDTO.getEstado().add(WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(cidadeDTO.getEstado().getId()))
-							.withSelfRel());
-		});
-		
-		CollectionModel<CidadeDTO> cidadesCollectionDTO = new CollectionModel<>(cidadesDTO);
-	
-		cidadesCollectionDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
-		
-		return cidadesCollectionDTO;
-		
+		//cidadesCollectionDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
 	}
 	
 	@GetMapping("/{cidadeId}")
 	public CidadeDTO buscar(@PathVariable Long cidadeId) {
 		// Jeito Simplificado
-		
 		Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 		
-		CidadeDTO cidadeDTO = cidadeAssembler.toDTO(cidade);
+		return cidadeAssembler.toModel(cidade);
 		
-		//Aqui fazemos os links do Hateoas
 		
-		//Link por Método
-		cidadeDTO.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
-
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar())
-				.withRel("cidades"));
-		
-		cidadeDTO.getEstado().add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(cidadeDTO.getEstado().getId()))
-						.withSelfRel());
+		//Link por Método (FOI TRANSFERIDO PRO ASSEMBLER
+//		cidadeDTO.add(WebMvcLinkBuilder
+//				.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
+//
+//		cidadeDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar())
+//				.withRel("cidades"));
+//
+//		cidadeDTO.getEstado()
+//				.add(WebMvcLinkBuilder.linkTo(
+//						WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(cidadeDTO.getEstado().getId()))
+//						.withSelfRel());
 		
 		//Link por Controlador
 //		cidadeDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
@@ -114,8 +95,6 @@ public class CidadeController implements CidadeControllerOpenApi{
 //		cidadeDTO.add(new Link("http://localhost:8080/cidades", "cidades"));
 //		cidadeDTO.getEstado().add(new Link("http://localhost:8080/estados/3"));
 		
-		return cidadeDTO;
-		
 		// Jeito Antigo
 //		if(cidade.isPresent()) {
 //			return ResponseEntity.ok(cidade.get());
@@ -131,7 +110,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 			 
 			 Cidade cidade = cidadeDisassembler.toDomainModel(cidadeInput);
 			 
-			 CidadeDTO cidadeDTO = cidadeAssembler.toDTO(cadastroCidade.salvar(cidade));
+			 CidadeDTO cidadeDTO = cidadeAssembler.toModel(cadastroCidade.salvar(cidade));
 
 			 ResourceUriHelper.addUriInResponseHeader(cidadeDTO.getId());
 				
@@ -151,7 +130,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 			
 			cidadeDisassembler.copyToDomainObject(cidadeInput, cidadeAtual);
 			
-			return cidadeAssembler.toDTO(cadastroCidade.salvar(cidadeAtual));
+			return cidadeAssembler.toModel(cadastroCidade.salvar(cidadeAtual));
 		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
