@@ -9,6 +9,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+//COM A AULA 19.15 E A INCLUSÃO DO HATEOAS NO PROJETO, PASSAMOS A UTILIZAR PagedModel EM VEZ DE Page. ENTÃO ESSA CLASSE SE TORNA INÚTIL
+
 //Essa classe serve para configurarmos exatamente o que queremos de resposta no Json quando usamos o Page para paginação.
 //Por padrão o Page retorna muitas informações duplicadas no Json, com essa classe aqui conseguimos selecionar o que retornar.
 @JsonComponent

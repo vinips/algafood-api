@@ -1,7 +1,7 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
@@ -26,7 +26,7 @@ public interface CozinhaControllerOpenApi {
 
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
 	@ApiOperation("Lista as Cozinhas")
-	public Page<CozinhaDTO> listar(Pageable pageable);
+	public PagedModel<CozinhaDTO> listar(Pageable pageable);
 	
 	@ApiOperation("Busca uma Cozinha por ID")
 	@ApiResponses({
