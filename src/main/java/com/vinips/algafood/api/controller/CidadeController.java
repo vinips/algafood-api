@@ -63,6 +63,7 @@ public class CidadeController implements CidadeControllerOpenApi{
 		// Jeito Simplificado
 		Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 		
+		System.out.println("oi");
 		return cidadeAssembler.toModel(cidade);
 		
 		
