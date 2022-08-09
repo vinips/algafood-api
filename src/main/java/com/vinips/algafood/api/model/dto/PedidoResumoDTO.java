@@ -3,9 +3,13 @@ package com.vinips.algafood.api.model.dto;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class PedidoResumoDTO {
+@Relation(collectionRelation = "pedidos")
+public class PedidoResumoDTO extends RepresentationModel<PedidoResumoDTO> {
 	
 	@ApiModelProperty(example = "f55a5397-abba-11ec-9203-b42e99ed2795")
 	private String codigo;

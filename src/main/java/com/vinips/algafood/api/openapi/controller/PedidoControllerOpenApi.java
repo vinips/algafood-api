@@ -1,7 +1,7 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.PedidoDTO;
@@ -33,7 +33,7 @@ public interface PedidoControllerOpenApi {
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula", name = "campos", paramType = "query", type = "string")
 	})
-	public Page<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable);
+	public PagedModel<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable);
 
 	
 	@ApiOperation("Busca um Pedido pelo código")

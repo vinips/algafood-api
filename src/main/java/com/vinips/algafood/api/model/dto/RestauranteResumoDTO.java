@@ -1,8 +1,10 @@
 package com.vinips.algafood.api.model.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class RestauranteResumoDTO {
+public class RestauranteResumoDTO extends RepresentationModel<RestauranteResumoDTO>{
 	
 	@ApiModelProperty(example = "1")
 	private Long id;
