@@ -1,8 +1,10 @@
 package com.vinips.algafood.api.model.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class EnderecoDTO {
+public class EnderecoDTO extends RepresentationModel<EnderecoDTO>{
 	
 	@ApiModelProperty(example = "88125-325")
 	private String cep;

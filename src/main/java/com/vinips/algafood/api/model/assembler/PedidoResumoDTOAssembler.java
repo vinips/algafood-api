@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.vinips.algafood.api.controller.PedidoController;
 import com.vinips.algafood.api.controller.RestauranteController;
+import com.vinips.algafood.api.controller.UsuarioController;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
 import com.vinips.algafood.domain.model.Pedido;
 
@@ -33,6 +34,10 @@ public class PedidoResumoDTOAssembler extends RepresentationModelAssemblerSuppor
 				WebMvcLinkBuilder.methodOn(RestauranteController.class).buscar(resumoDTO.getRestaurante().getId()))
 				.withSelfRel());
 		
+		resumoDTO.getCliente()
+				.add(WebMvcLinkBuilder.linkTo(
+						WebMvcLinkBuilder.methodOn(UsuarioController.class).buscar(resumoDTO.getCliente().getId()))
+						.withSelfRel());
 		
 		return resumoDTO;
 	}

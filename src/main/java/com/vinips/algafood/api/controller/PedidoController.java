@@ -76,8 +76,7 @@ public class PedidoController implements PedidoControllerOpenApi{
 	
 	@GetMapping("/{codigoPedido}")
 	public PedidoDTO buscar(@PathVariable String codigoPedido){
-		return pedidoAssembler.toDTO(cadastroPedido.buscarOuFalhar(codigoPedido));
-		
+		return pedidoAssembler.toModel(cadastroPedido.buscarOuFalhar(codigoPedido));
 	}
 	
 	@PostMapping
@@ -89,7 +88,7 @@ public class PedidoController implements PedidoControllerOpenApi{
 			 pedido.setCliente(new Usuario());
 			 pedido.getCliente().setId(1L);
 			 
-			 return pedidoAssembler.toDTO(cadastroPedido.salvar(pedido));
+			 return pedidoAssembler.toModel(cadastroPedido.salvar(pedido));
 		} catch (EntidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}

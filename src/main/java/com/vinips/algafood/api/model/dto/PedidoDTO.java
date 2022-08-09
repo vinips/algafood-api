@@ -4,9 +4,13 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class PedidoDTO {
+@Relation(collectionRelation = "pedidos")
+public class PedidoDTO extends RepresentationModel<PedidoDTO>{
 	
 	@ApiModelProperty(example = "f55a5397-abba-11ec-9203-b42e99ed2795")
 	private String codigo;

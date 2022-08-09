@@ -1,8 +1,12 @@
 package com.vinips.algafood.api.model.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class FormaPagamentoDTO {
+@Relation(collectionRelation = "formasPagamento")
+public class FormaPagamentoDTO extends RepresentationModel<FormaPagamentoDTO> {
 	
 	//Olhar CidadeDTO para mais explicações;
 	@ApiModelProperty(example = "1")

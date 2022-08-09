@@ -1,8 +1,12 @@
 package com.vinips.algafood.api.model.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class CidadeResumoDTO {
+@Relation(collectionRelation = "cidades")
+public class CidadeResumoDTO extends RepresentationModel<CidadeResumoDTO>{
 	
 	@ApiModelProperty(example = "1")
 	private Long id;
