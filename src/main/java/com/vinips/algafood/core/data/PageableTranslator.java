@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+//Explicado mais ou menos na aula 13.11
 public class PageableTranslator {
 
 	public static Pageable translate(Pageable pageable, Map<String, String> fieldsMapping) {
