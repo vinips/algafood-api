@@ -33,10 +33,11 @@
 		</dependency>
 
 		<!-- Restarta a aplicação automaticamente toda vez que salva um arquivo -->
-		<dependency>
+		<!-- Desativei pois estava dando erro -->
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Dependencia que ajuda na annotation @ConfigurationProperties. Qualquer 
 			dúvida olhar aula 2.26 -->
