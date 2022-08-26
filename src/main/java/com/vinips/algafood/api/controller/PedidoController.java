@@ -26,6 +26,7 @@ import com.vinips.algafood.api.model.dto.PedidoDTO;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
 import com.vinips.algafood.api.model.input.PedidoInput;
 import com.vinips.algafood.api.openapi.controller.PedidoControllerOpenApi;
+import com.vinips.algafood.core.data.PageWrapper;
 import com.vinips.algafood.core.data.PageableTranslator;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
@@ -60,9 +61,11 @@ public class PedidoController implements PedidoControllerOpenApi{
 	
 	@GetMapping
 	public PagedModel<PedidoResumoDTO> pesquisar(PedidoFilter filtro, Pageable pageable){
-		pageable = traduzirPageable(pageable);
+		Pageable pageableTraduzido = traduzirPageable(pageable);
 		
-		Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+		Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+		
+		pedidosPage = new PageWrapper<>(pedidosPage, pageable);
 		
 		PagedModel<PedidoResumoDTO> pedidosResumoPagedDTO = pagedResourcesAssembler
 				.toModel(pedidosPage, pedidoResumoAssembler);
