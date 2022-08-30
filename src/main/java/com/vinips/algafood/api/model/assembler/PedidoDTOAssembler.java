@@ -2,21 +2,11 @@ package com.vinips.algafood.api.model.assembler;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.TemplateVariable;
-import org.springframework.hateoas.TemplateVariable.VariableType;
-import org.springframework.hateoas.TemplateVariables;
-import org.springframework.hateoas.UriTemplate;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
-import com.vinips.algafood.api.controller.CidadeController;
-import com.vinips.algafood.api.controller.FormaPagamentoController;
+import com.vinips.algafood.api.AlgaLinks;
 import com.vinips.algafood.api.controller.PedidoController;
-import com.vinips.algafood.api.controller.RestauranteController;
-import com.vinips.algafood.api.controller.RestauranteProdutoController;
-import com.vinips.algafood.api.controller.UsuarioController;
 import com.vinips.algafood.api.model.dto.PedidoDTO;
 import com.vinips.algafood.domain.model.Pedido;
 
@@ -25,6 +15,9 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
 	
 	public PedidoDTOAssembler() {
 		super(PedidoController.class, PedidoDTO.class);
@@ -35,38 +28,20 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 
 		modelMapper.map(pedido, pedidoDTO);
 		
-		TemplateVariables pageVariables = new TemplateVariables(
-				new TemplateVariable("page", VariableType.REQUEST_PARAM),
-				new TemplateVariable("size", VariableType.REQUEST_PARAM),
-				new TemplateVariable("sort", VariableType.REQUEST_PARAM));
+		//Adiciona os linksParams, para modelo Hateoas
+		pedidoDTO.add(algaLinks.linkToPedidos());
 		
-		String pedidosURL = WebMvcLinkBuilder.linkTo(PedidoController.class).toUri().toString();
+		pedidoDTO.getRestaurante().add(algaLinks.linkToRestaurante(pedidoDTO.getRestaurante().getId()));
 		
-		pedidoDTO.add(new Link(UriTemplate.of(pedidosURL, pageVariables), "pedidos"));
-		
-		//pedidoDTO.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
-		
-		pedidoDTO.getRestaurante().add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(RestauranteController.class).buscar(pedidoDTO.getRestaurante().getId()))
-				.withSelfRel());
-		
-		pedidoDTO.getCliente()
-				.add(WebMvcLinkBuilder.linkTo(
-						WebMvcLinkBuilder.methodOn(UsuarioController.class).buscar(pedidoDTO.getCliente().getId()))
-						.withSelfRel());
+		pedidoDTO.getCliente().add(algaLinks.linkToUsuario(pedidoDTO.getCliente().getId()));
 
-		pedidoDTO.getFormaPagamento()
-				.add(WebMvcLinkBuilder.linkTo(
-						WebMvcLinkBuilder.methodOn(FormaPagamentoController.class).buscar(pedidoDTO.getFormaPagamento().getId()))
-						.withSelfRel());
+		pedidoDTO.getFormaPagamento().add(algaLinks.linkToFormaPagamento(pedidoDTO.getFormaPagamento().getId()));
 		
 		pedidoDTO.getEnderecoEntrega().getCidade()
-				.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-						.buscar(pedidoDTO.getEnderecoEntrega().getCidade().getId())).withSelfRel());
+				.add(algaLinks.linkToCidade(pedidoDTO.getEnderecoEntrega().getCidade().getId()));
 		
 		pedidoDTO.getItens().forEach(item -> {
-			item.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteProdutoController.class)
-					.buscar(pedidoDTO.getRestaurante().getId(), item.getProdutoId())).withRel("produto"));
+			item.add(algaLinks.linkToProduto(pedidoDTO.getRestaurante().getId(), item.getProdutoId(), "produto"));
 		});
 		
 		return pedidoDTO;

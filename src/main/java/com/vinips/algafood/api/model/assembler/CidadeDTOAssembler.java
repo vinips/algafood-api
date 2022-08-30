@@ -4,11 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import com.vinips.algafood.api.AlgaLinks;
 import com.vinips.algafood.api.controller.CidadeController;
-import com.vinips.algafood.api.controller.EstadoController;
 import com.vinips.algafood.api.model.dto.CidadeDTO;
 import com.vinips.algafood.domain.model.Cidade;
 
@@ -17,6 +16,9 @@ public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cida
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
 
 	public CidadeDTOAssembler() {
 		super(CidadeController.class, CidadeDTO.class);
@@ -34,13 +36,9 @@ public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cida
 //		cidadeDTO.add(WebMvcLinkBuilder
 //				.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
 
-		cidadeDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).listar())
-				.withRel("cidades"));
+		cidadeDTO.add(algaLinks.linkToCidades("cidades"));
 
-		cidadeDTO.getEstado()
-				.add(WebMvcLinkBuilder.linkTo(
-						WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(cidadeDTO.getEstado().getId()))
-						.withSelfRel());
+		cidadeDTO.getEstado().add(algaLinks.linkToEstado(cidadeDTO.getEstado().getId()));
 		
 		return cidadeDTO;
 	}
@@ -48,8 +46,7 @@ public class CidadeDTOAssembler extends RepresentationModelAssemblerSupport<Cida
 	//Sobrescrevemos o método apenas para colocar o .add(link) ali no final, que é o link de toda coleção de cidades
 	@Override
 	public CollectionModel<CidadeDTO> toCollectionModel(Iterable<? extends Cidade> entities) {
-		return super.toCollectionModel(entities)
-				.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
+		return super.toCollectionModel(entities).add(algaLinks.linkToCidades());
 	}
 	
 //	public List<CidadeDTO> toCollectionDTO(List<Cidade> cidadeList) {

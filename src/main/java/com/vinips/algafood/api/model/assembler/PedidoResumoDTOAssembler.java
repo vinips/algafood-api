@@ -3,12 +3,10 @@ package com.vinips.algafood.api.model.assembler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import com.vinips.algafood.api.AlgaLinks;
 import com.vinips.algafood.api.controller.PedidoController;
-import com.vinips.algafood.api.controller.RestauranteController;
-import com.vinips.algafood.api.controller.UsuarioController;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
 import com.vinips.algafood.domain.model.Pedido;
 
@@ -17,6 +15,9 @@ public class PedidoResumoDTOAssembler extends RepresentationModelAssemblerSuppor
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
 
 	public PedidoResumoDTOAssembler() {
 		super(PedidoController.class, PedidoResumoDTO.class);
@@ -28,16 +29,12 @@ public class PedidoResumoDTOAssembler extends RepresentationModelAssemblerSuppor
 		
 		modelMapper.map(pedido, resumoDTO);
 		
-		resumoDTO.add(WebMvcLinkBuilder.linkTo(PedidoController.class).withRel("pedidos"));
+		resumoDTO.add(algaLinks.linkToPedidos());
 		
-		resumoDTO.getRestaurante().add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(RestauranteController.class).buscar(resumoDTO.getRestaurante().getId()))
-				.withSelfRel());
+		resumoDTO.getRestaurante().add(algaLinks.linkToRestaurante(resumoDTO.getRestaurante().getId()));
 		
 		resumoDTO.getCliente()
-				.add(WebMvcLinkBuilder.linkTo(
-						WebMvcLinkBuilder.methodOn(UsuarioController.class).buscar(resumoDTO.getCliente().getId()))
-						.withSelfRel());
+				.add(algaLinks.linkToUsuario(resumoDTO.getCliente().getId()));
 		
 		return resumoDTO;
 	}

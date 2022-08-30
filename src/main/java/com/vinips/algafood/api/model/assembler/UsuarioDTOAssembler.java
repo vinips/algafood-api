@@ -4,11 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import com.vinips.algafood.api.AlgaLinks;
 import com.vinips.algafood.api.controller.UsuarioController;
-import com.vinips.algafood.api.controller.UsuarioGrupoController;
 import com.vinips.algafood.api.model.dto.UsuarioDTO;
 import com.vinips.algafood.domain.model.Usuario;
 
@@ -17,6 +16,9 @@ public class UsuarioDTOAssembler extends RepresentationModelAssemblerSupport<Usu
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
 	
 	public UsuarioDTOAssembler() {
 		super(UsuarioController.class, UsuarioDTO.class);
@@ -28,20 +30,16 @@ public class UsuarioDTOAssembler extends RepresentationModelAssemblerSupport<Usu
 		
 		modelMapper.map(usuario, usuarioDTO);
 		
-		usuarioDTO.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioController.class).listar())
-				.withRel("usuarios"));
+		usuarioDTO.add(algaLinks.linkToUsuarios("usuarios"));
 
-		usuarioDTO.add(WebMvcLinkBuilder.linkTo(
-				WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listar(usuarioDTO.getId()))
-				.withRel("grupos-usuario"));
+		usuarioDTO.add(algaLinks.linkToUsuarioGrupo(usuarioDTO.getId(), "grupos-usuario"));
 		
 		return usuarioDTO;
 	}
 	
 	@Override
 	public CollectionModel<UsuarioDTO> toCollectionModel(Iterable<? extends Usuario> entities) {
-		return super.toCollectionModel(entities)
-				.add(WebMvcLinkBuilder.linkTo(UsuarioController.class).withSelfRel());
+		return super.toCollectionModel(entities).add(algaLinks.linkToUsuarios());
 	}
 
 	
