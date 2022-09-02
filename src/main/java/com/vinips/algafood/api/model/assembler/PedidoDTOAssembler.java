@@ -31,6 +31,18 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 		//Adiciona os linksParams, para modelo Hateoas
 		pedidoDTO.add(algaLinks.linkToPedidos());
 		
+		if(pedido.podeSerConfirmado()) {
+			pedidoDTO.add(algaLinks.linkToConfirmacaoPedido(pedidoDTO.getCodigo(), "confirmar"));
+		}
+		
+		if(pedido.podeSerEntregue()) {
+			pedidoDTO.add(algaLinks.linkToEntregaPedido(pedidoDTO.getCodigo(), "entregar"));
+		}
+		
+		if(pedido.podeSerCancelado()) {
+			pedidoDTO.add(algaLinks.linkToCancelamentoPedido(pedidoDTO.getCodigo(), "cancelar"));
+		}
+		
 		pedidoDTO.getRestaurante().add(algaLinks.linkToRestaurante(pedidoDTO.getRestaurante().getId()));
 		
 		pedidoDTO.getCliente().add(algaLinks.linkToUsuario(pedidoDTO.getCliente().getId()));

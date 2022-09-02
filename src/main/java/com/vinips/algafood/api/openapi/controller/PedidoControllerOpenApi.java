@@ -2,6 +2,7 @@ package com.vinips.algafood.api.openapi.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.ResponseEntity;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.PedidoDTO;
@@ -50,21 +51,21 @@ public interface PedidoControllerOpenApi {
 		@ApiResponse(responseCode = "204", description = "Pedido confirmado"),
 		@ApiResponse(responseCode = "404", description = "Pedido não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void confirmar(@ApiParam(value = "Código de um Pedido", example = "f55a5397-abba-11ec-9203-b42e99ed2795") String codigoPedido);
+	public ResponseEntity<Void> confirmar(@ApiParam(value = "Código de um Pedido", example = "f55a5397-abba-11ec-9203-b42e99ed2795") String codigoPedido);
 	
 	@ApiOperation("Entrega um Pedido confirmado")
 	@ApiResponses({
 		@ApiResponse(responseCode = "204", description = "Pedido entregue"),
 		@ApiResponse(responseCode = "404", description = "Pedido não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void entregar(@ApiParam(value = "Código de um Pedido", example = "f55a5397-abba-11ec-9203-b42e99ed2795") String codigoPedido);
+	public ResponseEntity<Void> entregar(@ApiParam(value = "Código de um Pedido", example = "f55a5397-abba-11ec-9203-b42e99ed2795") String codigoPedido);
 	
 	@ApiOperation("Cancela um Pedido criado")
 	@ApiResponses({
 		@ApiResponse(responseCode = "204", description = "Pedido cancelado"),
 		@ApiResponse(responseCode = "404", description = "Pedido não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void cancelar(@ApiParam(value = "Código de um Pedido", example = "f55a5397-abba-11ec-9203-b42e99ed2795") String codigoPedido);
+	public ResponseEntity<Void> cancelar(@ApiParam(value = "Código de um Pedido", example = "f55a5397-abba-11ec-9203-b42e99ed2795") String codigoPedido);
 	
 	
 

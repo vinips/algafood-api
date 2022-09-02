@@ -4,6 +4,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -32,6 +33,8 @@ public class SmtpEnvioEmailService implements EnvioEmailService	{
 			MimeMessage mimeMessage = criarMimeMessage(mensagem);
 			
 			mailSender.send(mimeMessage);
+		} catch (MailSendException mse) {
+			throw new EmailException("Não foi possível enviar e-mail. Verificar se autenticação está configurada", mse);
 		} catch (Exception e) {
 			throw new EmailException("Não foi possível enviar e-mail", e);
 		}

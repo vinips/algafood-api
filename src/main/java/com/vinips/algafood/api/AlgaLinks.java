@@ -1,5 +1,6 @@
 package com.vinips.algafood.api;
 
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.TemplateVariable;
 import org.springframework.hateoas.TemplateVariable.VariableType;
@@ -45,7 +46,7 @@ public class AlgaLinks {
 	}
 	
 	public Link linkToCidades() {
-		return WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel();
+		return this.linkToCidades(IanaLinkRelations.SELF.value());
 	}
 
 	public Link linkToCidades(String rel) {
@@ -65,7 +66,7 @@ public class AlgaLinks {
 	}
 	
 	public Link linkToEstados() {
-		return WebMvcLinkBuilder.linkTo(EstadoController.class).withSelfRel();
+		return this.linkToEstados(IanaLinkRelations.SELF.value());
 	}
 	
 	public Link linkToEstados(String rel) {
@@ -91,7 +92,7 @@ public class AlgaLinks {
 	}
 	
 	public Link linkToUsuarios() {
-		return WebMvcLinkBuilder.linkTo(UsuarioController.class).withSelfRel();
+		return this.linkToUsuarios(IanaLinkRelations.SELF.value());
 	}
 	
 	public Link linkToFormaPagamento(Long formaPagamentoId) {
@@ -102,5 +103,18 @@ public class AlgaLinks {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UsuarioGrupoController.class).listar(usuarioId))
 				.withRel(rel);
 	}
+	
+	public Link linkToConfirmacaoPedido(String codigoPedido, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PedidoController.class).confirmar(codigoPedido)).withRel(rel);
+	}
+	
+	public Link linkToEntregaPedido(String codigoPedido, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PedidoController.class).entregar(codigoPedido)).withRel(rel);
+	}
+	
+	public Link linkToCancelamentoPedido(String codigoPedido, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PedidoController.class).cancelar(codigoPedido)).withRel(rel);
+	}
+	
 	
 }
