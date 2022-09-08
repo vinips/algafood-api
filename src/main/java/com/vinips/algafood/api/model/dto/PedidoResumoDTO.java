@@ -29,7 +29,7 @@ public class PedidoResumoDTO extends RepresentationModel<PedidoResumoDTO> {
 	@ApiModelProperty(example = "2022-07-15T04:38:55Z")
 	private OffsetDateTime dataCriacao;
 	
-	private RestauranteResumoDTO restaurante;
+	private RestauranteApenasNomeDTO restaurante;
 	private UsuarioDTO cliente;
 
 	public String getCodigo() {
@@ -89,11 +89,11 @@ public class PedidoResumoDTO extends RepresentationModel<PedidoResumoDTO> {
 		this.cliente = cliente;
 	}
 
-	public RestauranteResumoDTO getRestaurante() {
+	public RestauranteApenasNomeDTO getRestaurante() {
 		return restaurante;
 	}
 
-	public void setRestaurante(RestauranteResumoDTO restaurante) {
+	public void setRestaurante(RestauranteApenasNomeDTO restaurante) {
 		this.restaurante = restaurante;
 	}
 	

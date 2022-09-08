@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class PagedDTOOpenApi<T> {
 	
-private List<T> content;
+	private List<T> content;
 	
 	@ApiModelProperty(example = "10" , value = "Quantidade de registros por página")
 	private Long size;

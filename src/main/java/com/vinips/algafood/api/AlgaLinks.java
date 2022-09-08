@@ -15,6 +15,7 @@ import com.vinips.algafood.api.controller.EstadoController;
 import com.vinips.algafood.api.controller.FormaPagamentoController;
 import com.vinips.algafood.api.controller.PedidoController;
 import com.vinips.algafood.api.controller.RestauranteController;
+import com.vinips.algafood.api.controller.RestauranteFormaPagamentoController;
 import com.vinips.algafood.api.controller.RestauranteProdutoController;
 import com.vinips.algafood.api.controller.RestauranteUsuarioResponsavelController;
 import com.vinips.algafood.api.controller.UsuarioController;
@@ -41,10 +42,6 @@ public class AlgaLinks {
 		return new Link(UriTemplate.of(pedidosURL, PAGINACAO_VARIABLES.concat(fieldVariables)), "pedidos");
 	}
 	
-	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId) {
-		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).listar(restauranteId)).withSelfRel();
-	}
-	
 	public Link linkToCidades() {
 		return this.linkToCidades(IanaLinkRelations.SELF.value());
 	}
@@ -60,6 +57,10 @@ public class AlgaLinks {
 	public Link linkToCozinhas(String rel) {
 		return WebMvcLinkBuilder.linkTo(CozinhaController.class).withRel(rel);
 	}
+	
+	public Link linkToCozinha(Long cozinhaId) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CozinhaController.class).buscar(cozinhaId)).withSelfRel();
+	}
 
 	public Link linkToEstado(Long estadoId) {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class).buscar(estadoId)).withSelfRel();
@@ -71,10 +72,6 @@ public class AlgaLinks {
 	
 	public Link linkToEstados(String rel) {
 		return WebMvcLinkBuilder.linkTo(EstadoController.class).withRel(rel);
-	}
-	
-	public Link linkToRestaurante(Long restauranteId) {
-		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class).buscar(restauranteId)).withSelfRel();
 	}
 	
 	public Link linkToProduto(Long restauranteId, Long produtoId, String rel) {
@@ -114,6 +111,30 @@ public class AlgaLinks {
 	
 	public Link linkToCancelamentoPedido(String codigoPedido, String rel) {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PedidoController.class).cancelar(codigoPedido)).withRel(rel);
+	}
+	
+	public Link linkToRestaurante(Long restauranteId) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class).buscar(restauranteId)).withSelfRel();
+	}
+	
+	public Link linkToRestaurantes(String rel) {
+		return WebMvcLinkBuilder.linkTo(RestauranteController.class).withRel(rel);
+	}
+	
+	public Link linkToRestaurantes() {
+		return this.linkToRestaurantes(IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToRestauranteFormasPagamento(Long restauranteId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteFormaPagamentoController.class).listar(restauranteId)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).listar(restauranteId)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId) {
+		return this.linkToRestauranteUsuarioResponsavel(restauranteId, IanaLinkRelations.SELF.value());
 	}
 	
 	

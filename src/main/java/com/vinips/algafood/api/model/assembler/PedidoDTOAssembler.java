@@ -24,7 +24,7 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 	}
 
 	public PedidoDTO toModel(Pedido pedido) {
-		PedidoDTO pedidoDTO = createModelWithId(pedido.getId(), pedido);
+		PedidoDTO pedidoDTO = createModelWithId(pedido.getCodigo(), pedido);
 
 		modelMapper.map(pedido, pedidoDTO);
 		
@@ -58,10 +58,5 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 		
 		return pedidoDTO;
 	}
-	
-	
-//	public List<PedidoDTO> toCollectionDTO(Collection<Pedido> pedidoList) {
-//		return pedidoList.stream().map(pedido -> toDTO(pedido)).collect(Collectors.toList());
-//	}
 	
 }

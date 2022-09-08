@@ -37,7 +37,7 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 		return usuarioAssembler.toCollectionModel(restaurante.getResponsaveis())
-				//.removeLinks()
+				.removeLinks()
 				.add(algaLinks.linkToRestauranteUsuarioResponsavel(restauranteId));
 	}
 

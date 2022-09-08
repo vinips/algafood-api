@@ -5,19 +5,19 @@ import org.springframework.hateoas.server.core.Relation;
 
 import io.swagger.annotations.ApiModelProperty;
 
-@Relation(collectionRelation = "cozinhas")
-public class CozinhaDTO extends RepresentationModel<CozinhaDTO>{
-
+@Relation(collectionRelation = "restaurantes")
+public class RestauranteApenasNomeDTO extends RepresentationModel<RestauranteApenasNomeDTO>{
+	
 	@ApiModelProperty(example = "1")
 	private Long id;
 	
-	@ApiModelProperty(example = "Japonesa")
+	@ApiModelProperty(example = "Sabor da Tainha")
 	private String nome;
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}

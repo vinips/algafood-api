@@ -1,24 +1,48 @@
 package com.vinips.algafood.api.model.assembler;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.vinips.algafood.api.AlgaLinks;
+import com.vinips.algafood.api.controller.RestauranteController;
 import com.vinips.algafood.api.model.dto.RestauranteDTO;
 import com.vinips.algafood.domain.model.Restaurante;
 
 @Component
-public class RestauranteDTOAssembler {
-	
+public class RestauranteDTOAssembler extends RepresentationModelAssemblerSupport<Restaurante, RestauranteDTO>{
+
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public RestauranteDTO toDTO(Restaurante restaurante) {
-		return modelMapper.map(restaurante, RestauranteDTO.class);
+	@Autowired
+	private AlgaLinks algaLinks;
+	
+	public RestauranteDTOAssembler() {
+		super(RestauranteController.class, RestauranteDTO.class);
+	}
+	
+	public RestauranteDTO toModel(Restaurante restaurante) {
+		RestauranteDTO restauranteDTO = createModelWithId(restaurante.getId(), restaurante);
 		
+		modelMapper.map(restaurante, restauranteDTO);
+		
+		restauranteDTO.add(algaLinks.linkToRestaurantes("restaurantes"));
+		
+		restauranteDTO.add(algaLinks.linkToRestauranteFormasPagamento(restauranteDTO.getId(), "formas-pagamento"));
+		
+		restauranteDTO.add(algaLinks.linkToRestauranteUsuarioResponsavel(restauranteDTO.getId(), "responsaveis"));
+		
+		restauranteDTO.getCozinha().add(algaLinks.linkToCozinha(restauranteDTO.getCozinha().getId()));
+		
+		if (restauranteDTO.getEndereco() != null) {
+			if (restauranteDTO.getEndereco().getCidade() != null) {
+				restauranteDTO.getEndereco().getCidade().add(algaLinks.linkToCidade(restauranteDTO.getEndereco().getCidade().getId()));
+			}
+		}
+		
+		return restauranteDTO;
 		
 		//Jeito Antigo sem o ModelMapper
 //		CozinhaDTO cozinhaDTO = new CozinhaDTO();
@@ -31,10 +55,6 @@ public class RestauranteDTOAssembler {
 //		restauranteDTO.setTaxaFrete(restaurante.getTaxaFrete());
 //		restauranteDTO.setCozinha(cozinhaDTO);
 //		return restauranteDTO;
-	}
-	
-	public List<RestauranteDTO> toCollectionDTO(List<Restaurante> restauranteList) {
-		return restauranteList.stream().map(restaurante -> toDTO(restaurante)).collect(Collectors.toList());
 	}
 	
 }

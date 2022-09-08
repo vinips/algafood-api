@@ -1,5 +1,7 @@
 package com.vinips.algafood.api.model.dto;
 
+import java.math.BigDecimal;
+
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
@@ -11,9 +13,14 @@ public class RestauranteResumoDTO extends RepresentationModel<RestauranteResumoD
 	@ApiModelProperty(example = "1")
 	private Long id;
 	
-	@ApiModelProperty(example = "Sabor da Tainha")
+	@ApiModelProperty(example = "Comida da Mama")
 	private String nome;
-
+	
+	@ApiModelProperty(example = "2.99")
+	private BigDecimal taxaFrete;
+	
+	private CozinhaDTO cozinha;
+	
 	public Long getId() {
 		return id;
 	}
@@ -29,5 +36,21 @@ public class RestauranteResumoDTO extends RepresentationModel<RestauranteResumoD
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+	public BigDecimal getTaxaFrete() {
+		return taxaFrete;
+	}
+
+	public void setTaxaFrete(BigDecimal taxaFrete) {
+		this.taxaFrete = taxaFrete;
+	}
+
+	public CozinhaDTO getCozinha() {
+		return cozinha;
+	}
+
+	public void setCozinha(CozinhaDTO cozinha) {
+		this.cozinha = cozinha;
+	}
+
 }
