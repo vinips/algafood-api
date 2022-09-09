@@ -30,6 +30,18 @@ public class RestauranteDTOAssembler extends RepresentationModelAssemblerSupport
 		
 		restauranteDTO.add(algaLinks.linkToRestaurantes("restaurantes"));
 		
+		if (restauranteDTO.isAtivo()) {
+			restauranteDTO.add(algaLinks.linkToRestauranteInativacao(restauranteDTO.getId(), "inativar"));
+		} else {
+			restauranteDTO.add(algaLinks.linkToRestauranteAtivacao(restauranteDTO.getId(), "ativar"));
+		}
+		
+		if (restauranteDTO.isAberto()) {
+			restauranteDTO.add(algaLinks.linkToRestauranteFechamento(restauranteDTO.getId(), "fechar"));
+		} else {
+			restauranteDTO.add(algaLinks.linkToRestauranteAbertura(restauranteDTO.getId(), "abrir"));
+		}
+		
 		restauranteDTO.add(algaLinks.linkToRestauranteFormasPagamento(restauranteDTO.getId(), "formas-pagamento"));
 		
 		restauranteDTO.add(algaLinks.linkToRestauranteUsuarioResponsavel(restauranteDTO.getId(), "responsaveis"));
