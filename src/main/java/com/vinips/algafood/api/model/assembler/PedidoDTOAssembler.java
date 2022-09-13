@@ -29,7 +29,7 @@ public class PedidoDTOAssembler extends RepresentationModelAssemblerSupport<Pedi
 		modelMapper.map(pedido, pedidoDTO);
 		
 		//Adiciona os linksParams, para modelo Hateoas
-		pedidoDTO.add(algaLinks.linkToPedidos());
+		pedidoDTO.add(algaLinks.linkToPedidos("pedidos"));
 		
 		if(pedido.podeSerConfirmado()) {
 			pedidoDTO.add(algaLinks.linkToConfirmacaoPedido(pedidoDTO.getCodigo(), "confirmar"));
