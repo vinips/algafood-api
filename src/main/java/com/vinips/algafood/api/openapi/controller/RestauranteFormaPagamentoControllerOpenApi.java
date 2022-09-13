@@ -1,8 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.CollectionModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.FormaPagamentoDTO;
@@ -29,7 +27,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 		@ApiResponse(responseCode = "400", description = "ID do Restaurante inválido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "404", description = "Restaurante não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public ResponseEntity<List<FormaPagamentoDTO>> listar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId);
+	public CollectionModel<FormaPagamentoDTO> listar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId);
 
 	@ApiOperation("Associa uma Forma de Pagamento a um Restaurante")
 	@ApiResponses({

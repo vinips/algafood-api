@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +51,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
 	//Esse código é um exemplo de como colocar cache com etag.
 	@GetMapping
-	public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest request) {
+	public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(ServletWebRequest request) {
 		//Desabilitamos o shallowEtag para implementar o DeepEtag.
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		
@@ -74,7 +75,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 					//Seta um cache de 10 segundos na requisição.
 					.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
 					.eTag(eTag)
-					.body(formaPagamentoAssembler.toCollectionDTO(formasPagamento));
+					.body(formaPagamentoAssembler.toCollectionModel(formasPagamento));
 		}
 
 		return ResponseEntity.noContent().build();
@@ -85,13 +86,12 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable Long formaPagamentoId) {
 		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
 		
-		FormaPagamentoDTO formaPagamentoDTO = formaPagamentoAssembler.toDTO(formaPagamento);
+		FormaPagamentoDTO formaPagamentoDTO = formaPagamentoAssembler.toModel(formaPagamento);
 		
 		return ResponseEntity.ok()
 				//Seta um cache de 10 segundos na requisição.
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
 				.body(formaPagamentoDTO);
-
 	}
 
 	@PostMapping
@@ -99,7 +99,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	public FormaPagamentoDTO adicionar(@Valid @RequestBody FormaPagamentoInput formaPagamentoInput) {
 		FormaPagamento formaPagamento = formaPagamentoDisassembler.toDomainModel(formaPagamentoInput);
 
-		return formaPagamentoAssembler.toDTO(cadastroFormaPagamento.salvar(formaPagamento));
+		return formaPagamentoAssembler.toModel(cadastroFormaPagamento.salvar(formaPagamento));
 	}
 
 	@PutMapping("/{formaPagamentoId}")
@@ -109,7 +109,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
 		formaPagamentoDisassembler.copyToDomainObject(formaPagamentoInput, formaPagamentoAtual);
 
-		return formaPagamentoAssembler.toDTO(cadastroFormaPagamento.salvar(formaPagamentoAtual));
+		return formaPagamentoAssembler.toModel(cadastroFormaPagamento.salvar(formaPagamentoAtual));
 	}
 
 	@DeleteMapping("/{formaPagamentoId}")

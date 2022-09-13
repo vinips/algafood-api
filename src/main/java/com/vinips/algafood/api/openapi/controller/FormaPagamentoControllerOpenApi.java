@@ -1,7 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -28,7 +27,7 @@ public interface FormaPagamentoControllerOpenApi {
 
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
 	@ApiOperation("Lista as Formas de Pagamento")
-	public ResponseEntity<List<FormaPagamentoDTO>> listar(ServletWebRequest request);
+	public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(ServletWebRequest request);
 	
 	@ApiOperation("Busca uma  Forma de Pagamento por ID")
 	@ApiResponses({
