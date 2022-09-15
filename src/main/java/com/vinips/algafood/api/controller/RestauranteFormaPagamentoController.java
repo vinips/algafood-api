@@ -38,7 +38,8 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 		Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
 		CollectionModel<FormaPagamentoDTO> formasPagamentoDTO = formaPagamentoAssembler
-				.toCollectionModel(restaurante.getFormasPagamento()).removeLinks()
+				.toCollectionModel(restaurante.getFormasPagamento())
+				.removeLinks()
 				.add(algaLinks.linkToRestauranteFormasPagamento(restauranteId))
 				.add(algaLinks.linkToRestauranteFormaPagamentoAssociacao(restauranteId, "associar"));
 		

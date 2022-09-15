@@ -1,6 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.ProdutoDTO;
@@ -29,8 +29,8 @@ public interface RestauranteProdutoControllerOpenApi {
 		@ApiResponse(responseCode = "400", description = "ID do Restaurante inválido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "404", description = "Restaurante não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public List<ProdutoDTO> listar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
-			@ApiParam(value = "Indica se deve ou não incluir produtos inativos no resultado da listagem", example = "false", defaultValue = "false") boolean incluirInativos);
+	public CollectionModel<ProdutoDTO> listar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
+			@ApiParam(value = "Indica se deve ou não incluir produtos inativos no resultado da listagem", example = "false", defaultValue = "false") Boolean incluirInativos);
 	
 	@ApiOperation("Busca um Produto vinculado a um Restaurante")
 	@ApiResponses({

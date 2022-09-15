@@ -2,9 +2,13 @@ package com.vinips.algafood.api.model.dto;
 
 import java.math.BigDecimal;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class ProdutoDTO {
+@Relation(collectionRelation = "produtos")
+public class ProdutoDTO extends RepresentationModel<ProdutoDTO> {
 	
 	@ApiModelProperty(example = "1")
 	private Long id;

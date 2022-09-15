@@ -48,11 +48,11 @@ public class RestauranteDTOAssembler extends RepresentationModelAssemblerSupport
 		
 		restauranteDTO.getCozinha().add(algaLinks.linkToCozinha(restauranteDTO.getCozinha().getId()));
 		
-		if (restauranteDTO.getEndereco() != null) {
-			if (restauranteDTO.getEndereco().getCidade() != null) {
-				restauranteDTO.getEndereco().getCidade().add(algaLinks.linkToCidade(restauranteDTO.getEndereco().getCidade().getId()));
-			}
+		if (restauranteDTO.getEndereco() != null && restauranteDTO.getEndereco().getCidade() != null) {
+			restauranteDTO.getEndereco().getCidade().add(algaLinks.linkToCidade(restauranteDTO.getEndereco().getCidade().getId()));
 		}
+		
+		restauranteDTO.add(algaLinks.linkToProdutos(restauranteDTO.getId(), "produtos"));
 		
 		return restauranteDTO;
 		

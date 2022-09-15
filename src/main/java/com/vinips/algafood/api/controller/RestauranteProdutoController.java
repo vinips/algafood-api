@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinips.algafood.api.AlgaLinks;
 import com.vinips.algafood.api.model.assembler.ProdutoDTOAssembler;
 import com.vinips.algafood.api.model.disassembler.ProdutoInputDisassembler;
 import com.vinips.algafood.api.model.dto.ProdutoDTO;
@@ -47,9 +49,12 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	@Autowired
 	private ProdutoInputDisassembler produtoDisssembler;
 	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
 	@GetMapping
-	public List<ProdutoDTO> listar(@PathVariable Long restauranteId,
-			@RequestParam(required = false) boolean incluirInativos) {
+	public CollectionModel<ProdutoDTO> listar(@PathVariable Long restauranteId,
+			@RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
 		Restaurante restaurante = verifyRestaurante(restauranteId);
 
 		List<Produto> produtos = null;
@@ -60,7 +65,10 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 			produtos = produtoRepository.findAtivosByRestaurante(restaurante);
 		}
 			
-		return produtoAssembler.toCollectionDTO(produtos);
+		CollectionModel<ProdutoDTO> produtosDTO =  produtoAssembler.toCollectionModel(produtos)
+				.add(algaLinks.linkToProdutos(restauranteId));
+		
+		return produtosDTO;
 	}
 
 	@GetMapping("/{produtoId}")
@@ -68,7 +76,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		verifyRestaurante(restauranteId);
 		Produto produto = cadastroProduto.buscarOuFalhar(produtoId, restauranteId);
 
-		return produtoAssembler.toDTO(produto);
+		return produtoAssembler.toModel(produto);
 	}
 
 	@PostMapping
@@ -78,7 +86,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		Produto produto = produtoDisssembler.toDomainModel(produtoInput);
 		produto.setRestaurante(restaurante);
 
-		return produtoAssembler.toDTO(cadastroProduto.salvar(produto));
+		return produtoAssembler.toModel(cadastroProduto.salvar(produto));
 	}
 
 	@PutMapping("/{produtoId}")
@@ -90,7 +98,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 
 		produtoDisssembler.copyToDomainObject(produtoInput, produto);
 
-		return produtoAssembler.toDTO(cadastroProduto.salvar(produto));
+		return produtoAssembler.toModel(cadastroProduto.salvar(produto));
 	}
 
 	private Restaurante verifyRestaurante(Long restauranteId) {
