@@ -138,14 +138,6 @@ public class AlgaLinks {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class).buscar(restauranteId)).withSelfRel();
 	}
 	
-	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId, String rel) {
-		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).listar(restauranteId)).withRel(rel);
-	}
-	
-	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId) {
-		return this.linkToRestauranteUsuarioResponsavel(restauranteId, IanaLinkRelations.SELF.value());
-	}
-	
 	public Link linkToRestauranteAtivacao(Long restauranteId, String rel) {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteController.class).ativar(restauranteId)).withRel(rel);
 	}
@@ -176,6 +168,22 @@ public class AlgaLinks {
 	
 	public Link linkToRestauranteFormaPagamentoAssociacao(Long restauranteId, String rel) {
 		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteFormaPagamentoController.class).associar(restauranteId, null)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).listar(restauranteId)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteUsuarioResponsavel(Long restauranteId) {
+		return this.linkToRestauranteUsuarioResponsavel(restauranteId, IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToRestauranteUsuarioResponsavelDesassociacao(Long restauranteId, Long usuarioId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).desassociar(restauranteId, usuarioId)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteUsuarioResponsavelAssociacao(Long restauranteId, String rel) {
+		return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestauranteUsuarioResponsavelController.class).associar(restauranteId, null)).withRel(rel);
 	}
 	
 	

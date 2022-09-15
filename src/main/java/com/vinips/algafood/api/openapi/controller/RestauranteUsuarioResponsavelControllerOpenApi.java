@@ -1,6 +1,7 @@
 package com.vinips.algafood.api.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.UsuarioDTO;
@@ -34,7 +35,7 @@ public interface RestauranteUsuarioResponsavelControllerOpenApi {
 		@ApiResponse(responseCode = "204", description = "Responsável vinculado ao Restaurante"),
 		@ApiResponse(responseCode = "404", description = "Restaurante ou Responsável não encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void associar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
+	public ResponseEntity<Void> associar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
 			@ApiParam(value = "ID de um Responsável", example = "1") Long usuarioId);
 	
 	@ApiOperation("Desassocia um Responsável de um Restaurante")
@@ -42,7 +43,7 @@ public interface RestauranteUsuarioResponsavelControllerOpenApi {
 		@ApiResponse(responseCode = "204", description = "Responsável desvinculado do Restaurante"),
 		@ApiResponse(responseCode = "404", description = "Restaurante ou Responsável não encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void desassociar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
+	public ResponseEntity<Void> desassociar(@ApiParam(value = "ID de um Restaurante", example = "1") Long restauranteId,
 			@ApiParam(value = "ID de um Responsável", example = "1") Long usuarioId);
 
 	
