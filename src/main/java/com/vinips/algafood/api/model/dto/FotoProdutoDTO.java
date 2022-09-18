@@ -1,8 +1,10 @@
 package com.vinips.algafood.api.model.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import io.swagger.annotations.ApiModelProperty;
 
-public class FotoProdutoDTO {
+public class FotoProdutoDTO extends RepresentationModel<FotoProdutoDTO>{
 
 	@ApiModelProperty(example = "temaki.png")
 	private String nomeArquivo;

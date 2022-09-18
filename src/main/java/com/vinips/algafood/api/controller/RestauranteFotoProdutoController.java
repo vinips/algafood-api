@@ -69,7 +69,7 @@ public class RestauranteFotoProdutoController implements RestauranteFotoProdutoC
 		
 		FotoProduto fotoSalva = catalogoFotoProduto.salvar(fotoProduto, arquivo.getInputStream());
 		
-		return fotoProdutoAssembler.toDTO(fotoSalva);
+		return fotoProdutoAssembler.toModel(fotoSalva);
 		
 //		var nomeArquivo = UUID.randomUUID().toString() + "_" + fotoProdutoInput.getArquivo().getOriginalFilename();
 //		
@@ -90,7 +90,7 @@ public class RestauranteFotoProdutoController implements RestauranteFotoProdutoC
 	public FotoProdutoDTO buscarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
 		FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
 		
-		return fotoProdutoAssembler.toDTO(fotoProduto);
+		return fotoProdutoAssembler.toModel(fotoProduto);
 	}
 	
 	@GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
