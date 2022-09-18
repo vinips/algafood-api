@@ -1,8 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.CollectionModel;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.GrupoDTO;
@@ -29,7 +27,7 @@ public interface UsuarioGrupoControllerOpenApi {
 		@ApiResponse(responseCode = "400", description = "ID do Usuário inválido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public ResponseEntity<List<GrupoDTO>> listar(@ApiParam(value = "ID de um Usuário", example = "1") Long usuarioId);
+	public CollectionModel<GrupoDTO> listar(@ApiParam(value = "ID de um Usuário", example = "1") Long usuarioId);
 
 	@ApiOperation("Associa um Usuário a um Grupo")
 	@ApiResponses({

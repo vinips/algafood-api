@@ -12,6 +12,8 @@ import com.vinips.algafood.api.controller.CidadeController;
 import com.vinips.algafood.api.controller.CozinhaController;
 import com.vinips.algafood.api.controller.EstadoController;
 import com.vinips.algafood.api.controller.FormaPagamentoController;
+import com.vinips.algafood.api.controller.GrupoController;
+import com.vinips.algafood.api.controller.GrupoPermissaoController;
 import com.vinips.algafood.api.controller.PedidoController;
 import com.vinips.algafood.api.controller.RestauranteController;
 import com.vinips.algafood.api.controller.RestauranteFormaPagamentoController;
@@ -200,5 +202,16 @@ public class AlgaLinks {
 		return linkTo(methodOn(RestauranteFotoProdutoController.class).buscarFoto(restauranteId, produtoId)).withRel(rel);
 	}
 	
+	public Link linkToGrupos(String rel) {
+		return linkTo(GrupoController.class).withRel(rel);
+	}
+	
+	public Link linkToGrupos() {
+		return this.linkToGrupos(IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToGrupoPermissoes(Long grupoId, String rel) {
+		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
+	}
 	
 }
