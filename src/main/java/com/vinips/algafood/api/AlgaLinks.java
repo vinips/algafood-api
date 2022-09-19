@@ -1,5 +1,8 @@
 package com.vinips.algafood.api;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.TemplateVariable;
@@ -23,9 +26,6 @@ import com.vinips.algafood.api.controller.RestauranteProdutoController;
 import com.vinips.algafood.api.controller.RestauranteUsuarioResponsavelController;
 import com.vinips.algafood.api.controller.UsuarioController;
 import com.vinips.algafood.api.controller.UsuarioGrupoController;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class AlgaLinks {
@@ -106,6 +106,22 @@ public class AlgaLinks {
 	
 	public Link linkToUsuarioGrupo(Long usuarioId, String rel) {
 		return linkTo(methodOn(UsuarioGrupoController.class).listar(usuarioId))
+				.withRel(rel);
+	}
+	
+	public Link linkToUsuarioGrupo(Long usuarioId) {
+		return this.linkToUsuarioGrupo(usuarioId, IanaLinkRelations.SELF.value());
+	}
+	
+	// O HATEOAS é inteligente o suficiente para saber que quando o parametro é null, 
+	// ele coloca o nome do parametro entre {} na URL, exemplo {grupoId}
+	public Link linkToUsuarioGrupoAssociacao(Long usuarioId, String rel) {
+		return linkTo(methodOn(UsuarioGrupoController.class).associar(usuarioId, null))
+				.withRel(rel);
+	}
+	
+	public Link linkToUsuarioGrupoDesasociacao(Long usuarioId, Long grupoId, String rel) {
+		return linkTo(methodOn(UsuarioGrupoController.class).associar(usuarioId, grupoId))
 				.withRel(rel);
 	}
 	
