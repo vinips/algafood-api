@@ -15,6 +15,7 @@ import com.vinips.algafood.api.controller.FormaPagamentoController;
 import com.vinips.algafood.api.controller.GrupoController;
 import com.vinips.algafood.api.controller.GrupoPermissaoController;
 import com.vinips.algafood.api.controller.PedidoController;
+import com.vinips.algafood.api.controller.PermissaoController;
 import com.vinips.algafood.api.controller.RestauranteController;
 import com.vinips.algafood.api.controller.RestauranteFormaPagamentoController;
 import com.vinips.algafood.api.controller.RestauranteFotoProdutoController;
@@ -212,6 +213,26 @@ public class AlgaLinks {
 	
 	public Link linkToGrupoPermissoes(Long grupoId, String rel) {
 		return linkTo(methodOn(GrupoPermissaoController.class).listar(grupoId)).withRel(rel);
+	}
+	
+	public Link linkToGrupoPermissoes(Long grupoId) {
+		return this.linkToGrupoPermissoes(grupoId, IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToGrupoPermissaoAssociacao(Long grupoId, String rel) {
+		return linkTo(methodOn(GrupoPermissaoController.class).associar(grupoId, null)).withRel(rel);
+	}
+	
+	public Link linkToGrupoPermissaoDesassociacao(Long grupoId, Long permissaoId, String rel) {
+		return linkTo(methodOn(GrupoPermissaoController.class).desassociar(grupoId, permissaoId)).withRel(rel);
+	}
+	
+	public Link linkToPermissoes(String rel) {
+		return linkTo(PermissaoController.class).withRel(rel);
+	}
+	
+	public Link linkToPermissoes() {
+		return this.linkToPermissoes(IanaLinkRelations.SELF.value());
 	}
 	
 }

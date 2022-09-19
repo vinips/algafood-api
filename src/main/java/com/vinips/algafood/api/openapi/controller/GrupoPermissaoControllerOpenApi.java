@@ -1,7 +1,6 @@
 package com.vinips.algafood.api.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import com.vinips.algafood.api.exceptionhandler.Problem;
@@ -29,14 +28,14 @@ public interface GrupoPermissaoControllerOpenApi {
 		@ApiResponse(responseCode = "400", description = "ID do Grupo inválido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "404", description = "Grupo não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public ResponseEntity<List<PermissaoDTO>> listar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId);
+	public CollectionModel<PermissaoDTO> listar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId);
 
 	@ApiOperation("Associa uma Permissão a um Grupo")
 	@ApiResponses({
 		@ApiResponse(responseCode = "204", description = "Permissão vinculada ao Grupo"),
 		@ApiResponse(responseCode = "404", description = "Grupo ou Permissão não encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void associar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId,
+	public ResponseEntity<Void> associar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId,
 			@ApiParam(value = "ID de uma Permissão", example = "1") Long permissaoId);
 	
 	@ApiOperation("Desassocia uma Permissão de um Grupo")
@@ -44,7 +43,7 @@ public interface GrupoPermissaoControllerOpenApi {
 		@ApiResponse(responseCode = "204", description = "Permissão desvinculada do Grupo"),
 		@ApiResponse(responseCode = "404", description = "Grupo ou Permissão não encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public void desassociar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId,
+	public ResponseEntity<Void> desassociar(@ApiParam(value = "ID de um Grupo", example = "1") Long grupoId,
 			@ApiParam(value = "ID de uma Permissão", example = "1") Long permissaoId);
 
 	

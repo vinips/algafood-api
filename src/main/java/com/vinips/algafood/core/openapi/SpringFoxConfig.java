@@ -87,7 +87,8 @@ public class SpringFoxConfig {
 						new Tag("Estados", "Gerencia os estados"),
 						new Tag("Produtos", "Gerencia os produtos"),
 						new Tag("Usuários", "Gerencia os usuarios"),
-						new Tag("Estatísticas", "Gerencia as estatísticas"));
+						new Tag("Estatísticas", "Gerencia as estatísticas"),
+						new Tag("Permissões", "Gerencia as permissões"));
 				//Usamos o Squiggly para adicionar campos de pesquisa nas requisições. No PedidoControler por exemplo temos o parametro "campos" que falamos os campos que queremos receber na pesquisa.
 				//Essa configuração faz com que isso seja mapeado pelo SpringFox. Sem essa configuração, ele não aparece na documentação. Aula 18.25
 				//Na aula 18.26 nós fazemos essa configuração apenas nos locais que iremos utilizar, pois se deixarmos aqui ele irá aparecer até mesmo para os endpoints que não usam Squiggly.

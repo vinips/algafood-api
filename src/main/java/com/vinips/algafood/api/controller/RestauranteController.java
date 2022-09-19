@@ -38,7 +38,7 @@ import com.vinips.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping(path = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestauranteController  implements RestauranteControllerOpenApi{
+public class RestauranteController implements RestauranteControllerOpenApi{
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
