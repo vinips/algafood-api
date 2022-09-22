@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vinips.algafood.api.AlgaLinks;
+import com.vinips.algafood.api.model.dto.EstatisticasDTO;
 import com.vinips.algafood.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.vinips.algafood.domain.filter.VendaDiariaFilter;
 import com.vinips.algafood.domain.model.dto.VendaDiaria;
@@ -26,6 +28,18 @@ public class EstatisticasController implements EstatisticasControllerOpenApi{
 	
 	@Autowired
 	private VendaReportService vendaReportService;
+	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
+	@GetMapping
+	public EstatisticasDTO estatisticas() {
+		var estatisticasDTO = new EstatisticasDTO();
+		
+		estatisticasDTO.add(algaLinks.linkToEstatisticasVendasDiarias("vendas-diarias"));
+		
+		return estatisticasDTO;
+	}
 
 	@GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filter,

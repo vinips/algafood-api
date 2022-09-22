@@ -29,6 +29,7 @@ public class RootEntryPointController {
 		rootDTO.add(algaLinks.linkToFormasPagamento("formas-pagamento"));
 		rootDTO.add(algaLinks.linkToEstados("estados"));
 		rootDTO.add(algaLinks.linkToCidades("cidades"));
+		rootDTO.add(algaLinks.linkToEstatisticas("estatisticas"));
 		
 		return rootDTO;
 	}

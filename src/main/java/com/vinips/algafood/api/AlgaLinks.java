@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.vinips.algafood.api.controller.CidadeController;
 import com.vinips.algafood.api.controller.CozinhaController;
 import com.vinips.algafood.api.controller.EstadoController;
+import com.vinips.algafood.api.controller.EstatisticasController;
 import com.vinips.algafood.api.controller.FormaPagamentoController;
 import com.vinips.algafood.api.controller.GrupoController;
 import com.vinips.algafood.api.controller.GrupoPermissaoController;
@@ -250,5 +251,23 @@ public class AlgaLinks {
 	public Link linkToPermissoes() {
 		return this.linkToPermissoes(IanaLinkRelations.SELF.value());
 	}
+	
+	public Link linkToEstatisticas(String rel) {
+		return linkTo(EstatisticasController.class).withRel(rel);
+	}
+	
+	public Link linkToEstatisticasVendasDiarias(String rel) {
+		TemplateVariables fieldVariables = new TemplateVariables(
+				new TemplateVariable("restauranteId", VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCriacaoInicio", VariableType.REQUEST_PARAM),
+				new TemplateVariable("dataCriacaoFim", VariableType.REQUEST_PARAM),
+				new TemplateVariable("timeOffSet", VariableType.REQUEST_PARAM));
+
+		String vendasDiariasURL = linkTo(methodOn(EstatisticasController.class).consultarVendasDiarias(null, null))
+				.toUri().toString();
+
+		return new Link(UriTemplate.of(vendasDiariasURL, fieldVariables), rel);
+	}
+	
 	
 }

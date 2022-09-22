@@ -2,6 +2,7 @@ package com.vinips.algafood.api.openapi.controller;
 
 import java.util.List;
 
+import com.vinips.algafood.api.model.dto.EstatisticasDTO;
 import com.vinips.algafood.domain.filter.VendaDiariaFilter;
 import com.vinips.algafood.domain.model.dto.VendaDiaria;
 
@@ -11,6 +12,9 @@ import io.swagger.annotations.ApiParam;
 
 @Api(tags = "Estatísticas")
 public interface EstatisticasControllerOpenApi {
+	
+	@ApiOperation(value = "Estatísticas", hidden = true)
+	public EstatisticasDTO estatisticas();
 
 	@ApiOperation("Relatório das vendas diárias")
 	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filter,
