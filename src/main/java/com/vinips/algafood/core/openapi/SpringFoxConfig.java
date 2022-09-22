@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vinips.algafood.api.exceptionhandler.Problem;
+import com.vinips.algafood.api.model.dto.CidadeDTO;
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
+import com.vinips.algafood.api.openapi.dto.CidadesDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.CozinhasDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.LinksDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.PageableDTOOpenApi;
@@ -81,6 +84,10 @@ public class SpringFoxConfig {
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(Page.class, PedidoResumoDTO.class), 
 						PedidosResumoDTOOpenApi.class))
+				//Aula 19.40
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CidadeDTO.class), 
+						CidadesDTOOpenApi.class))
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
