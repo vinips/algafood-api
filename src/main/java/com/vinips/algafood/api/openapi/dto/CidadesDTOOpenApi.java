@@ -3,13 +3,12 @@ package com.vinips.algafood.api.openapi.dto;
 import java.util.List;
 
 import com.vinips.algafood.api.model.dto.CidadeDTO;
+import com.vinips.algafood.api.openapi.dto.CidadesDTOOpenApi.CidadeEmbeddedDTOOpenApi;
 
 import io.swagger.annotations.ApiModel;
 
 @ApiModel("CidadesDTO")
-public class CidadesDTOOpenApi extends CollectionModelOpenApi {
-
-	private CidadeEmbeddedDTOOpenApi _embedded;
+public class CidadesDTOOpenApi extends CollectionModelOpenApi<CidadeEmbeddedDTOOpenApi> {
 
 	@ApiModel("CidadesEmbeddedDTO")
 	protected class CidadeEmbeddedDTOOpenApi {
@@ -24,14 +23,6 @@ public class CidadesDTOOpenApi extends CollectionModelOpenApi {
 			this.cidades = cidades;
 		}
 
-	}
-
-	public CidadeEmbeddedDTOOpenApi get_embedded() {
-		return _embedded;
-	}
-
-	public void set_embedded(CidadeEmbeddedDTOOpenApi _embedded) {
-		this._embedded = _embedded;
 	}
 
 }

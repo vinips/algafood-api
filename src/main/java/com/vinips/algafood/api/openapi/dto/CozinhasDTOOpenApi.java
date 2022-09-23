@@ -3,13 +3,12 @@ package com.vinips.algafood.api.openapi.dto;
 import java.util.List;
 
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
+import com.vinips.algafood.api.openapi.dto.CozinhasDTOOpenApi.CozinhaEmbeddedDTOOpenApi;
 
 import io.swagger.annotations.ApiModel;
 
 @ApiModel("CozinhasDTO")
-public class CozinhasDTOOpenApi extends CollectionModelOpenApi {
-
-	private CozinhaEmbeddedDTOOpenApi _embedded;
+public class CozinhasDTOOpenApi extends CollectionModelOpenApi<CozinhaEmbeddedDTOOpenApi> {
 
 	private PagedModelOpenApi page;
 
@@ -26,14 +25,6 @@ public class CozinhasDTOOpenApi extends CollectionModelOpenApi {
 			this.cozinhas = cozinhas;
 		}
 
-	}
-
-	public CozinhaEmbeddedDTOOpenApi get_embedded() {
-		return _embedded;
-	}
-
-	public void set_embedded(CozinhaEmbeddedDTOOpenApi _embedded) {
-		this._embedded = _embedded;
 	}
 
 	public PagedModelOpenApi getPage() {

@@ -3,13 +3,12 @@ package com.vinips.algafood.api.openapi.dto;
 import java.util.List;
 
 import com.vinips.algafood.api.model.dto.FormaPagamentoDTO;
+import com.vinips.algafood.api.openapi.dto.FormasPagamentoDTOOpenApi.FormaPagamentoEmbeddedDTOOpenApi;
 
 import io.swagger.annotations.ApiModel;
 
 @ApiModel("FormasPagamentoDTO")
-public class FormasPagamentoDTOOpenApi extends CollectionModelOpenApi {
-
-	private FormaPagamentoEmbeddedDTOOpenApi _embedded;
+public class FormasPagamentoDTOOpenApi extends CollectionModelOpenApi<FormaPagamentoEmbeddedDTOOpenApi> {
 
 	@ApiModel("FormasPagamentoEmbeddedDTO")
 	protected class FormaPagamentoEmbeddedDTOOpenApi {
@@ -24,14 +23,6 @@ public class FormasPagamentoDTOOpenApi extends CollectionModelOpenApi {
 			this.formasPagamento = formasPagamento;
 		}
 
-	}
-
-	public FormaPagamentoEmbeddedDTOOpenApi get_embedded() {
-		return _embedded;
-	}
-
-	public void set_embedded(FormaPagamentoEmbeddedDTOOpenApi _embedded) {
-		this._embedded = _embedded;
 	}
 
 }

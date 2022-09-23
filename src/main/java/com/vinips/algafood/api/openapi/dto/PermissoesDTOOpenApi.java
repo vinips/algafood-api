@@ -3,13 +3,12 @@ package com.vinips.algafood.api.openapi.dto;
 import java.util.List;
 
 import com.vinips.algafood.api.model.dto.PermissaoDTO;
+import com.vinips.algafood.api.openapi.dto.PermissoesDTOOpenApi.PermissaoEmbeddedDTOOpenApi;
 
 import io.swagger.annotations.ApiModel;
 
 @ApiModel("PermissoesDTO")
-public class PermissoesDTOOpenApi extends CollectionModelOpenApi {
-
-	private PermissaoEmbeddedDTOOpenApi _embedded;
+public class PermissoesDTOOpenApi extends CollectionModelOpenApi<PermissaoEmbeddedDTOOpenApi> {
 
 	@ApiModel("PermissoesEmbeddedDTO")
 	protected class PermissaoEmbeddedDTOOpenApi {
@@ -24,14 +23,6 @@ public class PermissoesDTOOpenApi extends CollectionModelOpenApi {
 			this.permissoes = permissoes;
 		}
 
-	}
-
-	public PermissaoEmbeddedDTOOpenApi get_embedded() {
-		return _embedded;
-	}
-
-	public void set_embedded(PermissaoEmbeddedDTOOpenApi _embedded) {
-		this._embedded = _embedded;
 	}
 
 }
