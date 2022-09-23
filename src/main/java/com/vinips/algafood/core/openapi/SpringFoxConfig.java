@@ -22,14 +22,18 @@ import com.vinips.algafood.api.model.dto.CidadeDTO;
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
 import com.vinips.algafood.api.model.dto.EstadoDTO;
 import com.vinips.algafood.api.model.dto.FormaPagamentoDTO;
+import com.vinips.algafood.api.model.dto.GrupoDTO;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
+import com.vinips.algafood.api.model.dto.PermissaoDTO;
 import com.vinips.algafood.api.openapi.dto.CidadesDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.CozinhasDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.EstadosDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.FormasPagamentoDTOOpenApi;
+import com.vinips.algafood.api.openapi.dto.GruposDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.LinksDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.PageableDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.PedidosResumoDTOOpenApi;
+import com.vinips.algafood.api.openapi.dto.PermissoesDTOOpenApi;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RepresentationBuilder;
@@ -102,6 +106,15 @@ public class SpringFoxConfig {
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, FormaPagamentoDTO.class), 
 						FormasPagamentoDTOOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, GrupoDTO.class), 
+						GruposDTOOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, PermissaoDTO.class), 
+						PermissoesDTOOpenApi.class))
+				
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
