@@ -6,10 +6,10 @@ import java.util.function.Consumer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -79,10 +79,10 @@ public class SpringFoxConfig {
 				.directModelSubstitute(Links.class, LinksDTOOpenApi.class)
 				//Aqui nós substituimos um Page<CozinhaDTO> por um CozinhasDtoOpenApi que dentro tem uma lista de CozinhaDTO e outros valores do Page (size, totalElements, totalPages, number). Aula 18.21
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, CozinhaDTO.class), 
+						typeResolver.resolve(PagedModel.class, CozinhaDTO.class), 
 						CozinhasDTOOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, PedidoResumoDTO.class), 
+						typeResolver.resolve(PagedModel.class, PedidoResumoDTO.class), 
 						PedidosResumoDTOOpenApi.class))
 				//Aula 19.40
 				.alternateTypeRules(AlternateTypeRules.newRule(

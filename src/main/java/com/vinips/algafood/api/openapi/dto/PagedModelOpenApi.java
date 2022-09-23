@@ -1,12 +1,10 @@
 package com.vinips.algafood.api.openapi.dto;
 
-import java.util.List;
-
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-public class PagedDTOOpenApi<T> {
-	
-	private List<T> content;
+@ApiModel("PagedModel")
+public class PagedModelOpenApi {
 	
 	@ApiModelProperty(example = "10" , value = "Quantidade de registros por página")
 	private Long size;
@@ -19,14 +17,6 @@ public class PagedDTOOpenApi<T> {
 	
 	@ApiModelProperty(example = "0" , value = "Número da página (começa em 0)")
 	private Long number;
-
-	public List<T> getContent() {
-		return content;
-	}
-
-	public void setContent(List<T> content) {
-		this.content = content;
-	}
 
 	public Long getSize() {
 		return size;
