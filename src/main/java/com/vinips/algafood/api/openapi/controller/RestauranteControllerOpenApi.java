@@ -10,7 +10,6 @@ import com.vinips.algafood.api.model.dto.RestauranteApenasNomeDTO;
 import com.vinips.algafood.api.model.dto.RestauranteDTO;
 import com.vinips.algafood.api.model.dto.RestauranteResumoDTO;
 import com.vinips.algafood.api.model.input.RestauranteInput;
-import com.vinips.algafood.api.openapi.dto.RestauranteBasicoDTOOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,6 +20,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Essa Classe serve para colocarmos as anotações de documentação (Swagger) do controlador.
@@ -34,12 +34,13 @@ public interface RestauranteControllerOpenApi {
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
 	//o response diz que na documentação o SpringFox deve usar na resposta a classe dita ali, e não o retorno declarado no método. Só fazemos assim pois estamos utilizando JsonView nesse método.
 	//Vou deixar a fim de documentação, porém o SpringFox 3.0 já faz certinho e não precisa desse response.
-	@ApiOperation(value = "Lista Restaurantes", response = RestauranteBasicoDTOOpenApi.class)
+	@ApiOperation(value = "Lista Restaurantes")
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nome da projeção de Restaurantes", name = "projecao", allowableValues = "apenas-nome", paramType = "query", type = "string")
 	})
 	public CollectionModel<RestauranteResumoDTO> listar();
 	
+	@ApiIgnore
 	@ApiOperation(value = "Lista Restaurantes", hidden = true)
 	public CollectionModel<RestauranteApenasNomeDTO> listarApenasNome();
 	

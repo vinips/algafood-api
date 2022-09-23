@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vinips.algafood.api.AlgaLinks;
 import com.vinips.algafood.api.model.dto.RootEntryPointDTO;
 
+import springfox.documentation.annotations.ApiIgnore;
+
+@ApiIgnore
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class RootEntryPointController {
