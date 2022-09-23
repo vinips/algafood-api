@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("EstadosDTO")
 public class EstadosDTOOpenApi extends CollectionModelOpenApi<EstadoEmbeddedDTOOpenApi> {
 
-
 	@ApiModel("EstadosEmbeddedDTO")
 	protected class EstadoEmbeddedDTOOpenApi {
 
