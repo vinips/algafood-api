@@ -7,6 +7,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.FormaPagamentoDTO;
 import com.vinips.algafood.api.model.input.FormaPagamentoInput;
+import com.vinips.algafood.api.openapi.dto.FormasPagamentoDTOOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,9 +25,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 //Marca esse controlador como um recurso do Swagger, que faz automaticamente a documentação da nossa API.  Módulo 18
 @Api(tags = "Formas de Pagamento") //Essa tags é o mesmo que especificamos no apiDocket da classe SpringFoxConfig
 public interface FormaPagamentoControllerOpenApi {
-
+	
 	//Essa anotação faz com que em vez de aparecer o nome do método, criado automaticamente pelo Swagger, na documentação, apareça o que determinarmos nessa anotação.
-	@ApiOperation("Lista as Formas de Pagamento")
+	//Precisa do response aqui pois estamos retornando um ResponseEntity<CollectionModel<FormaPagamentoDTO>>. Se não tivesse o ResponseEntity então não precisava do response. A principio é um bug
+	@ApiOperation(value = "Lista as Formas de Pagamento")
+	@io.swagger.annotations.ApiResponses(value = {
+			@io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = FormasPagamentoDTOOpenApi.class) })
 	public ResponseEntity<CollectionModel<FormaPagamentoDTO>> listar(ServletWebRequest request);
 	
 	@ApiOperation("Busca uma  Forma de Pagamento por ID")

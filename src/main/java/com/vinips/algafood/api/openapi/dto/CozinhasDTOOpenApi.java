@@ -14,7 +14,7 @@ public class CozinhasDTOOpenApi extends CollectionModelOpenApi {
 	private PagedModelOpenApi page;
 
 	@ApiModel("CozinhasEmbeddedDTO")
-	public class CozinhaEmbeddedDTOOpenApi {
+	protected class CozinhaEmbeddedDTOOpenApi {
 
 		private List<CozinhaDTO> cozinhas;
 

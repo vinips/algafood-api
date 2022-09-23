@@ -20,9 +20,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.vinips.algafood.api.exceptionhandler.Problem;
 import com.vinips.algafood.api.model.dto.CidadeDTO;
 import com.vinips.algafood.api.model.dto.CozinhaDTO;
+import com.vinips.algafood.api.model.dto.EstadoDTO;
+import com.vinips.algafood.api.model.dto.FormaPagamentoDTO;
 import com.vinips.algafood.api.model.dto.PedidoResumoDTO;
 import com.vinips.algafood.api.openapi.dto.CidadesDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.CozinhasDTOOpenApi;
+import com.vinips.algafood.api.openapi.dto.EstadosDTOOpenApi;
+import com.vinips.algafood.api.openapi.dto.FormasPagamentoDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.LinksDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.PageableDTOOpenApi;
 import com.vinips.algafood.api.openapi.dto.PedidosResumoDTOOpenApi;
@@ -81,13 +85,23 @@ public class SpringFoxConfig {
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(PagedModel.class, CozinhaDTO.class), 
 						CozinhasDTOOpenApi.class))
+				
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(PagedModel.class, PedidoResumoDTO.class), 
 						PedidosResumoDTOOpenApi.class))
+				
 				//Aula 19.40
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, CidadeDTO.class), 
 						CidadesDTOOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, EstadoDTO.class), 
+						EstadosDTOOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, FormaPagamentoDTO.class), 
+						FormasPagamentoDTOOpenApi.class))
 				.apiInfo(apiInfo())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
 						new Tag("Cozinhas", "Gerencia as cozinhas"),

@@ -12,7 +12,7 @@ public class CidadesDTOOpenApi extends CollectionModelOpenApi {
 	private CidadeEmbeddedDTOOpenApi _embedded;
 
 	@ApiModel("CidadesEmbeddedDTO")
-	public class CidadeEmbeddedDTOOpenApi {
+	protected class CidadeEmbeddedDTOOpenApi {
 
 		private List<CidadeDTO> cidades;
 

@@ -8,7 +8,7 @@ public class LinksDTOOpenApi {
 	private LinkDTO rel;
 	
 	@ApiModel("Link")
-	private class LinkDTO {
+	protected class LinkDTO {
 		
 		private String href;
 		
