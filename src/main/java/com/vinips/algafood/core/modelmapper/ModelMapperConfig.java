@@ -4,9 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.vinips.algafood.api.model.dto.EnderecoDTO;
-import com.vinips.algafood.api.model.dto.ItemPedidoDTO;
-import com.vinips.algafood.api.model.input.ItemPedidoInput;
+import com.vinips.algafood.api.v1.model.dto.EnderecoDTO;
+import com.vinips.algafood.api.v1.model.dto.ItemPedidoDTO;
+import com.vinips.algafood.api.v1.model.input.ItemPedidoInput;
 import com.vinips.algafood.domain.model.Endereco;
 import com.vinips.algafood.domain.model.ItemPedido;
 
