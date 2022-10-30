@@ -26,16 +26,10 @@ public class CidadeDTOAssemblerV2 extends RepresentationModelAssemblerSupport<Ci
 
 	@Override
 	public CidadeDTOV2 toModel(Cidade cidade) {
-		
-		//Fazendo assim, não precisamos utilizar o withSelfRel que comentamos logo abaixo.
 		CidadeDTOV2 cidadeDTO = createModelWithId(cidade.getId(), cidade);
 				
 		modelMapper.map(cidade, cidadeDTO);
 		
-		//Link por Método
-//		cidadeDTO.add(WebMvcLinkBuilder
-//				.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class).buscar(cidadeDTO.getId())).withSelfRel());
-
 		cidadeDTO.add(algaLinks.linkToCidades("cidades"));
 
 		return cidadeDTO;
