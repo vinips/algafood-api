@@ -30,10 +30,4 @@ public class WebConfig implements WebMvcConfigurer{
 		return new ShallowEtagHeaderFilter();
 	}
 	
-	//Configura qual versão da API estamos usando como padrão no projeto. Aula 20.12
-	@Override
-	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		configurer.defaultContentType(AlgaMediaTypes.V1_APPLICATION_JSON);
-	}
-	
 }
