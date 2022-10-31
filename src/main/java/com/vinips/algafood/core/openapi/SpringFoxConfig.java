@@ -42,6 +42,7 @@ import com.vinips.algafood.api.v1.openapi.dto.RestaurantesResumoDTOOpenApi;
 import com.vinips.algafood.api.v1.openapi.dto.UsuariosDTOOpenApi;
 
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RepresentationBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
@@ -69,14 +70,16 @@ public class SpringFoxConfig {
 	}
 	
 	@Bean
-	public Docket apiDocket() {
+	public Docket apiDocketV1() {
 		TypeResolver typeResolver = new TypeResolver();
 		
 		return new Docket(DocumentationType.OAS_30)
+				.groupName("V1")
 				.select()
 					//Seleciona todos os Controladores
 					//.apis(RequestHandlerSelectors.any())
 					.apis(RequestHandlerSelectors.basePackage("com.vinips.algafood.api"))
+					.paths(PathSelectors.ant("/v1/**"))
 					.build()
 				.useDefaultResponseMessages(false)//Desabilita os codigos de Status que por padrão o SpringFox coloca na documentação
 				.globalResponses(HttpMethod.GET, globalGetResponseMessages())
@@ -133,7 +136,7 @@ public class SpringFoxConfig {
 						typeResolver.resolve(CollectionModel.class, UsuarioDTO.class), 
 						UsuariosDTOOpenApi.class))
 				
-				.apiInfo(apiInfo())
+				.apiInfo(apiInfoV1())
 				.tags(new Tag("Cidades", "Gerencia as cidades"), 
 						new Tag("Cozinhas", "Gerencia as cozinhas"),
 						new Tag("Grupos", "Gerencia os grupos"),
@@ -157,6 +160,37 @@ public class SpringFoxConfig {
 //			                    .query(q -> q.model(m -> m.scalarModel(ScalarType.STRING)))
 //			                    .build())
 //			    )
+	}
+	
+	@Bean
+	public Docket apiDocketV2() {
+		TypeResolver typeResolver = new TypeResolver();
+		
+		return new Docket(DocumentationType.OAS_30)
+				.groupName("V2")
+				.select()
+					//Seleciona todos os Controladores
+					//.apis(RequestHandlerSelectors.any())
+					.apis(RequestHandlerSelectors.basePackage("com.vinips.algafood.api"))
+					.paths(PathSelectors.ant("/v2/**"))
+					.build()
+				.useDefaultResponseMessages(false)//Desabilita os codigos de Status que por padrão o SpringFox coloca na documentação
+				.globalResponses(HttpMethod.GET, globalGetResponseMessages())
+				.globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
+				.globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
+				.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+				//Aqui eu ignoro os parametros que não quero que a documentação apresente, como por exemplo esse ServletWebRequest que usamos no método listar do FormaPagamentoController
+				.ignoredParameterTypes(ServletWebRequest.class)
+				//Com isso nós adicionamos um modelo extra que é o Problem para ser listado no SpringFox
+				.additionalModels(typeResolver.resolve(Problem.class))
+				//Para fins de documentação, nós fazemos a substituição da interface Pageable do org.springframework.data.domain pela nossa customizada. Aula 18.20
+				.directModelSubstitute(Pageable.class, PageableDTOOpenApi.class)
+				//Aula 19.39
+				.directModelSubstitute(Links.class, LinksDTOOpenApi.class)
+				
+				.apiInfo(apiInfoV2())
+				.tags(new Tag("Cidades", "Gerencia as cidades"), 
+						new Tag("Cozinhas", "Gerencia as cozinhas"));
 	}
 	
 	private List<Response> globalGetResponseMessages(){
@@ -223,11 +257,20 @@ public class SpringFoxConfig {
 			);
 	}
 	
-	private ApiInfo apiInfo() {
+	private ApiInfo apiInfoV1() {
 		return new ApiInfoBuilder()
 				.title("AlgaFood API")
 				.description("API aberta para clientes e restaurante")
 				.version("1.0.0")
+				.contact(new Contact("Vinips", "https://github.com/vinips", "contato@vinips.com"))
+				.build();
+	}
+	
+	private ApiInfo apiInfoV2() {
+		return new ApiInfoBuilder()
+				.title("AlgaFood API")
+				.description("API aberta para clientes e restaurante")
+				.version("2.0.0")
 				.contact(new Contact("Vinips", "https://github.com/vinips", "contato@vinips.com"))
 				.build();
 	}
