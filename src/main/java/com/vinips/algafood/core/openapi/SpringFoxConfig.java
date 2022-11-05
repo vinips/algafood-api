@@ -40,6 +40,10 @@ import com.vinips.algafood.api.v1.openapi.dto.PermissoesDTOOpenApi;
 import com.vinips.algafood.api.v1.openapi.dto.ProdutosDTOOpenApi;
 import com.vinips.algafood.api.v1.openapi.dto.RestaurantesResumoDTOOpenApi;
 import com.vinips.algafood.api.v1.openapi.dto.UsuariosDTOOpenApi;
+import com.vinips.algafood.api.v2.model.dto.CidadeDTOV2;
+import com.vinips.algafood.api.v2.model.dto.CozinhaDTOV2;
+import com.vinips.algafood.api.v2.openapi.dto.CidadesDTOOpenApiV2;
+import com.vinips.algafood.api.v2.openapi.dto.CozinhasDTOOpenApiV2;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -185,11 +189,19 @@ public class SpringFoxConfig {
 				.additionalModels(typeResolver.resolve(Problem.class))
 				//Para fins de documentação, nós fazemos a substituição da interface Pageable do org.springframework.data.domain pela nossa customizada. Aula 18.20
 				.directModelSubstitute(Pageable.class, PageableDTOOpenApi.class)
-				//Aula 19.39
 				.directModelSubstitute(Links.class, LinksDTOOpenApi.class)
 				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(PagedModel.class, CozinhaDTOV2.class),
+						CozinhasDTOOpenApiV2.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CidadeDTOV2.class),
+						CidadesDTOOpenApiV2.class))
+				
 				.apiInfo(apiInfoV2())
-				.tags(new Tag("Cidades", "Gerencia as cidades"), 
+						
+				.tags(new Tag("Cidades", "Gerencia as cidades"),
 						new Tag("Cozinhas", "Gerencia as cozinhas"));
 	}
 	

@@ -3,8 +3,10 @@ package com.vinips.algafood.api.v2.model.dto;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel("CozinhaModel")
 @Relation(collectionRelation = "cozinhas")
 public class CozinhaDTOV2 extends RepresentationModel<CozinhaDTOV2>{
 

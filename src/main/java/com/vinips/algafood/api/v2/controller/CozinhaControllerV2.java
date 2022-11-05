@@ -23,13 +23,14 @@ import com.vinips.algafood.api.v2.model.assembler.CozinhaDTOAssemblerV2;
 import com.vinips.algafood.api.v2.model.disassembler.CozinhaInputDisassemblerV2;
 import com.vinips.algafood.api.v2.model.dto.CozinhaDTOV2;
 import com.vinips.algafood.api.v2.model.input.CozinhaInputV2;
+import com.vinips.algafood.api.v2.openapi.controller.CozinhaControllerOpenApiV2;
 import com.vinips.algafood.domain.model.Cozinha;
 import com.vinips.algafood.domain.repository.CozinhaRepository;
 import com.vinips.algafood.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping(path = "/v2/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CozinhaControllerV2 {
+public class CozinhaControllerV2 implements CozinhaControllerOpenApiV2 {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;

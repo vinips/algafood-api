@@ -3,9 +3,11 @@ package com.vinips.algafood.api.v2.model.dto;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 //Nome que aparece no embedded do CollectionModel quando retornamos um Json
+@ApiModel("CidadeModel")
 @Relation(collectionRelation = "cidades")
 public class CidadeDTOV2 extends RepresentationModel<CidadeDTOV2>{
 	
@@ -16,8 +18,10 @@ public class CidadeDTOV2 extends RepresentationModel<CidadeDTOV2>{
 	@ApiModelProperty(example = "Uberlândia")
 	private String nomeCidade;
 	
+	@ApiModelProperty(example = "1")
 	private Long idEstado;
 	
+	@ApiModelProperty(example = "Minas Gerais")
 	private String nomeEstado;
 
 	public Long getIdEstado() {
