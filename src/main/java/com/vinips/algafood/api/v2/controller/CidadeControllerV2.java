@@ -46,6 +46,7 @@ public class CidadeControllerV2 implements CidadeControllerOpenApiV2 {
 	@Autowired
 	private CidadeInputDisassemblerV2 cidadeDisassembler;
 	
+	@Deprecated
 	//Aqui usamos CollectionModel pois dentro dele tem uma Lista de Representation Model(DTO) que é o que iremos usar para os links do HATEOAS também.
 	@GetMapping
 	public CollectionModel<CidadeDTOV2> listar(){
@@ -57,6 +58,7 @@ public class CidadeControllerV2 implements CidadeControllerOpenApiV2 {
 		//cidadesCollectionDTO.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withSelfRel());
 	}
 	
+	@Deprecated
 	@GetMapping("/{cidadeId}")
 	public CidadeDTOV2 buscar(@PathVariable Long cidadeId) {
 		// Jeito Simplificado
@@ -67,6 +69,7 @@ public class CidadeControllerV2 implements CidadeControllerOpenApiV2 {
 		
 	}
 	
+	@Deprecated
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeDTOV2 adicionar(@Valid @RequestBody CidadeInputV2 cidadeInput) {
@@ -84,6 +87,7 @@ public class CidadeControllerV2 implements CidadeControllerOpenApiV2 {
 		}
 	}
 	
+	@Deprecated
 	@PutMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.OK)
 	public CidadeDTOV2 atualizar(@PathVariable Long cidadeId, @Valid @RequestBody CidadeInputV2 cidadeInput) {

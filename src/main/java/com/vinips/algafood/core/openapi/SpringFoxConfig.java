@@ -280,8 +280,9 @@ public class SpringFoxConfig {
 	
 	private ApiInfo apiInfoV2() {
 		return new ApiInfoBuilder()
-				.title("AlgaFood API")
-				.description("API aberta para clientes e restaurante")
+				.title("AlgaFood API (Depreciada)")
+				.description("API aberta para clientes e restaurante <br>"
+						+ "<strong>Essa versão da API foi feita para fins de estudo e não deve ser utilizada. Utilize a versão 1")
 				.version("2.0.0")
 				.contact(new Contact("Vinips", "https://github.com/vinips", "contato@vinips.com"))
 				.build();

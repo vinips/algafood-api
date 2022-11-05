@@ -47,6 +47,7 @@ public class CozinhaControllerV2 implements CozinhaControllerOpenApiV2 {
 	@Autowired
 	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
+	@Deprecated
 	//Pageable é para a paginação.
 	//Usamos o parametro size e um valor int na requisição http para determinar quantos elementos por página.
 	//Usamos o parametro page e um valor int na requisição http para escolher qual página queremos.
@@ -67,6 +68,7 @@ public class CozinhaControllerV2 implements CozinhaControllerOpenApiV2 {
 		return cozinhasPagedDTO;
 	}
 
+	@Deprecated
 	@GetMapping("/{cozinhaId}")
 	public CozinhaDTOV2 buscar(@PathVariable Long cozinhaId) {
 
@@ -83,6 +85,7 @@ public class CozinhaControllerV2 implements CozinhaControllerOpenApiV2 {
 //		return ResponseEntity.notFound().build();
 	}
 
+	@Deprecated
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaDTOV2 adicionar(@Valid @RequestBody CozinhaInputV2 cozinhaInput) {
@@ -91,6 +94,7 @@ public class CozinhaControllerV2 implements CozinhaControllerOpenApiV2 {
 		return cozinhaAssembler.toModel(cadastroCozinha.salvar(cozinha));
 	}
 
+	@Deprecated
 	@PutMapping("/{cozinhaId}")
 	@ResponseStatus(HttpStatus.OK)
 	public CozinhaDTOV2 atualizar(@PathVariable Long cozinhaId, @Valid @RequestBody CozinhaInputV2 cozinhaInput) {
@@ -120,6 +124,7 @@ public class CozinhaControllerV2 implements CozinhaControllerOpenApiV2 {
 
 	}
 
+	@Deprecated
 	@DeleteMapping("/{cozinhaId}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cozinhaId) {
