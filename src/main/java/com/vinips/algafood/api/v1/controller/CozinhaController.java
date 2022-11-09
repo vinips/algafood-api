@@ -2,8 +2,6 @@ package com.vinips.algafood.api.v1.controller;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +32,6 @@ import com.vinips.algafood.domain.service.CadastroCozinhaService;
 @RequestMapping(path = "/v1/cozinhas", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CozinhaController implements CozinhaControllerOpenApi{
 	
-	private static final Logger log = LoggerFactory.getLogger(CozinhaController.class);
-
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 
@@ -57,8 +53,6 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 	//Usamos o parametro page e um valor String na requisição http para ordenar por coluna.
 	@GetMapping
 	public PagedModel<CozinhaDTO> listar(Pageable pageable) {
-		log.info("Testando Log");
-		
 		Page<Cozinha> cozinhasPage = this.cozinhaRepository.findAll(pageable);
 
 		//O PagedResourcesAssembler faz com que converta uma Cozinha em uma CozinhaDTO pelo cozinhaAssembler e depois converte o Paged para PagedModel
