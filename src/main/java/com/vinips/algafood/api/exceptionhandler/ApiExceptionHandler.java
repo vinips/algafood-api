@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -34,6 +36,7 @@ import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.vinips.algafood.api.v1.controller.CozinhaController;
 import com.vinips.algafood.domain.exception.EntidadeEmUsoException;
 import com.vinips.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.vinips.algafood.domain.exception.NegocioException;
@@ -42,6 +45,8 @@ import com.vinips.algafood.infrastructure.exception.StorageException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+	
+	private static final Logger log = LoggerFactory.getLogger(CozinhaController.class);
 
 	private static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
 			+ "Tente novamente e se o problema persistir, entre em contato com o administrador do sistema";
@@ -52,7 +57,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	// Bem genérica, para pegar o que as outras específicas não pegam
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaught(Exception ex, WebRequest request) {
-
+		
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
 		Problem problem = createProblemBuilder(status, ProblemType.ERRO_DE_SISTEMA, MSG_ERRO_GENERICA_USUARIO_FINAL,
@@ -60,6 +65,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		// Temporário
 		ex.printStackTrace();
+		
+		log.error(ex.getMessage(), ex);
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}

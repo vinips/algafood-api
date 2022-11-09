@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Aula 21.4 -->
+	
+	<!-- Aqui nós incluimos para que o logback do console continue atuando junto. Se não colocarmos o Spring entende que queremos usar apenas o novo do Loggly -->
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	
+	<!-- Só vai usar esse appender se eu tiver usando springProfile de Produção -->
+	<springProfile name="production">
+		<!-- Criamos essa propriedade para colocar no endpointUrl do Appender e assim não deixar exposto nosso Token. -->
+		<springProperty name="logglyToken" source="logging.loggly.token"/>
+		
+		<!-- Appender do Loggly -->
+		<appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
+			<endpointUrl>https://logs-01.loggly.com/bulk/${logglyToken}/tag/logback</endpointUrl>
+			<pattern>%d{"ISO8601", UTC} %p %t %c %M - %m%n</pattern>
+		</appender>
+	
+		<!-- Criamos um Appender intermediário para que o Appender do Loggly seja assíncrono e não segure a aplicação quando estiver logando -->
+		<appender name="logglyAsync" class="ch.qos.logback.classic.AsyncAppender">
+			<appender-ref ref="loggly"/>
+		</appender>
+			
+		
+		<root level="info">
+			<appender-ref ref="logglyAsync" />
+		</root>
+	
+	</springProfile>
+	
+	
+</configuration>

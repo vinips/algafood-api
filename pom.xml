@@ -175,6 +175,13 @@
 		    <groupId>com.fasterxml.jackson.datatype</groupId>
 		    <artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
+	
+		<!-- Dependência do Appender do Loggly no Logback para gravarmos log do sistema na nuvem. Estamos utilizando o Loggly aqui. Aula 21.4 -->
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-loggly</artifactId>
+			<version>0.1.5</version>
+		</dependency>
 				
 		<!-- Com isso o Springfox consegue identificar os Beans Validators das classes e marcar eles automaticamente na documentação do Swagger -->
 		<!-- Utilizando o SpringFox 3.0.0 parece que já vem automaticamente configurado o Bean Validators para o Springfox. Deixei comentado -->
