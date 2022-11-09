@@ -20,3 +20,4 @@ Repositório da API algofood, app que desenvolvi com o Curso de Especialista Spr
 - Spring Freemarker 
 - SpringFox
 - Swagger UI 
+- Logback com Loggly
